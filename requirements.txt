@@ -6,3 +6,7 @@ mplcursors
 bs4
 urllib
 matplotlib
+sys
+re
+sklearn
+numpynumpy
