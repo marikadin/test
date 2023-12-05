@@ -5,6 +5,5 @@ tensorflow
 mplcursors
 bs4
 matplotlib
-re
 sklearn
 numpynumpy
