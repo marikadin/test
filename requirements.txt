@@ -1,2 +1,8 @@
 streamlit
 selenium
+yfinance
+tensorflow
+mplcursors
+bs4
+urllib
+matplotlib
