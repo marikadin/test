@@ -35,6 +35,7 @@ stock_name = st.text_input("Enter Stock Name")
 
 # Function to get search results URL
 # Function to get search results URL
+# Function to get search results URL
 def get_search_results_url(url, keyword):
     print("Fetching...")
     options = webdriver.ChromeOptions()
@@ -46,10 +47,12 @@ def get_search_results_url(url, keyword):
         try:
             driver.get(url)
 
+            # Find the search bar
             search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
-            search_bar.clear()
-            search_bar.send_keys(keyword)
-            search_bar.send_keys(Keys.RETURN)
+            # Enter text using JavaScript as an alternative
+            driver.execute_script("arguments[0].value = arguments[1];", search_bar, keyword)
+            # Trigger the search using JavaScript as an alternative
+            driver.execute_script("arguments[0].click();", search_bar)
 
             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
             time.sleep(3)
@@ -60,6 +63,7 @@ def get_search_results_url(url, keyword):
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
+
 
 
 
