@@ -34,28 +34,33 @@ selected_date = st.date_input("Select a date", min_value=min_date, max_value=max
 stock_name = st.text_input("Enter Stock Name")
 
 # Function to get search results URL
+# Function to get search results URL
 def get_search_results_url(url, keyword):
     print("Fetching...")
-    driver = webdriver.Chrome(options=chrome_options)
-    try:
-        driver.get(url)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-software-rasterizer')
+    
+    with webdriver.Chrome(options=options) as driver:
+        try:
+            driver.get(url)
 
-        search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
-        search_bar.clear()
-        search_bar.send_keys(keyword)
-        search_bar.send_keys(Keys.RETURN)
+            search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
+            search_bar.clear()
+            search_bar.send_keys(keyword)
+            search_bar.send_keys(Keys.RETURN)
 
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
-        time.sleep(3)
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+            time.sleep(3)
 
-        search_results_url = driver.current_url
-        return search_results_url
+            search_results_url = driver.current_url
+            return search_results_url
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
-    finally:
-        driver.quit()
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
+
 
 
 
