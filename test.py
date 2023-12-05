@@ -35,25 +35,27 @@ stock_name = st.text_input("Enter Stock Name")
 
 # Function to get search results URL
 def get_search_results_url(url, keyword):
-    st.write("Fetching...")
+    print("Fetching...")
     driver = webdriver.Chrome(options=chrome_options)
-    
+    driver.get(url)
+
     try:
-        driver.get(url)
         search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
+
         search_bar.clear()
+
         search_bar.send_keys(keyword)
+
         search_bar.send_keys(Keys.RETURN)
-        
+
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+
         time.sleep(3)
 
         search_results_url = driver.current_url
 
         return search_results_url
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
-        return None
+
     finally:
         driver.quit()
 
@@ -121,9 +123,8 @@ if st.button("Proceed"):
         # Rest of your code
         website_url = 'https://finance.yahoo.com/'  
         try:
-            # Combine the date and stock name for a more meaningful search
             formatted_date = selected_date.strftime("%Y-%m-%d")
-            search_results_url = get_search_results_url(website_url, f"{stock_name} stock {formatted_date}")
+            search_results_url = get_search_results_url(website_url, stock_name)
         except:
             st.write("Thanks for trying. See you soon(:")
             sys.exit()
