@@ -42,20 +42,19 @@ def get_search_results_url(url, keyword):
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-software-rasterizer')
-    
+
     with webdriver.Chrome(options=options) as driver:
         try:
             driver.get(url)
 
-            # Find the search bar
             search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
-            # Enter text using JavaScript as an alternative
-            driver.execute_script("arguments[0].value = arguments[1];", search_bar, keyword)
-            # Trigger the search using JavaScript as an alternative
-            driver.execute_script("arguments[0].click();", search_bar)
+            search_bar.clear()
+            search_bar.send_keys(keyword)
+            search_bar.send_keys(Keys.RETURN)
 
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
-            time.sleep(3)
+            print("Waiting for search results page...")
+            WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+            print("Search results page loaded.")
 
             search_results_url = driver.current_url
             return search_results_url
@@ -63,6 +62,7 @@ def get_search_results_url(url, keyword):
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
+
 
 
 
