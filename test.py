@@ -123,7 +123,6 @@ if st.button("Proceed"):
         # Rest of your code
         website_url = 'https://finance.yahoo.com/'  
         try:
-            formatted_date = selected_date.strftime("%Y-%m-%d")
             search_results_url = get_search_results_url(website_url, stock_name)
         except:
             st.write("Thanks for trying. See you soon(:")
