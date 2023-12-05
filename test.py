@@ -64,6 +64,7 @@ if st.button("Proceed"):
             # Combine the date and stock name for a more meaningful search
             formatted_date = selected_date.strftime("%Y-%m-%d")
             search_results_url = get_search_results_url(website_url, f"{stock_name} stock {formatted_date}")
+            st.write(search_results_url)
         except:
             st.write("Thanks for trying. See you soon(:")
             sys.exit()
@@ -93,4 +94,3 @@ if st.button("Proceed"):
 
 # Function to get the search results URL
 
-print(str(search_results_url))
