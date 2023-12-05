@@ -93,4 +93,4 @@ if st.button("Proceed"):
 
 # Function to get the search results URL
 
-st.write(str(search_results_url))
+print(str(search_results_url))
