@@ -6,4 +6,4 @@ mplcursors
 bs4
 matplotlib
 scikit-learn
-numpynumpy
+numpy
