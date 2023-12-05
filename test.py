@@ -13,9 +13,7 @@ import yfinance as yf
 import numpy as np
 import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
-import requests
 from bs4 import BeautifulSoup
-import re
 import matplotlib.pyplot as plt
 
 chrome_options = Options()
