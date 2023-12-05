@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-from extract_ddata import process_fin_streamers
+#from extract_ddata import process_fin_streamers
 import sys
 
 chrome_options = Options()
@@ -84,7 +84,7 @@ if st.button("Proceed"):
         elif "/company/" in search_results_url:
             st.warning("A private company: " + search_results_url)
             sys.exit()
-        else:
+        #else:
             if search_results_url:
                 st.success(f"URL of the search results page for {stock_name}: {search_results_url}")
                 # Call the second script's functionality with the obtained URL
