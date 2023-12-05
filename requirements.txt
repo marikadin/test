@@ -5,5 +5,5 @@ tensorflow
 mplcursors
 bs4
 matplotlib
-sklearn
+scikit-learn
 numpynumpy
