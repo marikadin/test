@@ -12,7 +12,7 @@ import sys
 #from datetime import datetime, timedelta
 #from PIL import Image, ImageTk
 import streamlit as st
-
+x=""
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
@@ -40,7 +40,7 @@ if st.button("Submit"):
         time.sleep(3)
 
         search_results_url = driver.current_url
-
+        x=search_results_url
         # Process the obtained URL as needed
         if search_results_url:
             st.write(f"URL of the search results page for {keyword}: {search_results_url}")
@@ -53,25 +53,24 @@ if st.button("Submit"):
 
 
 
-
-if search_results_url == "https://www.yahoo.com/?err=404&err_url=https%3A%2F%2Ffinance.yahoo.com%2Fresearch%2Freports%2FMS_0P0000061X_AnalystReport_1699903723000%3F.tsrc%3Dfin-srch":
+if x == "https://www.yahoo.com/?err=404&err_url=https%3A%2F%2Ffinance.yahoo.com%2Fresearch%2Freports%2FMS_0P0000061X_AnalystReport_1699903723000%3F.tsrc%3Dfin-srch":
     print("Stock is not in Yahoo database.")
     sys.exit(1)
-elif "https://finance.yahoo.com" not in search_results_url:
+elif "https://finance.yahoo.com" not in x:
     print("Stock is not in Yahoo database.")
     sys.exit(1)
-elif "news" in search_results_url:
-    print("Not a stock but news: ", search_results_url)
+elif "news" in x:
+    print("Not a stock but news: ", x)
     sys.exit(1)
-elif "/m/" in search_results_url:
+elif "/m/" in x:
     print("Stock is not in Yahoo database.")
     sys.exit(1)
-elif "/company/" in search_results_url:
-    print("A private company: ", search_results_url)
+elif "/company/" in x:
+    print("A private company: ", x)
     sys.exit(1)
 else:
-    if search_results_url:
-        print(f"URL of the search results page for {keyword}: {search_results_url}")
+    if x:
+        print(f"URL of the search results page for {keyword}: {x}")
         # Call the second script's functionality with the obtained URL
         #from extract_ddata import process_fin_streamers
         #process_fin_streamers(keyword, search_results_url)
