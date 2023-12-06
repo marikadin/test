@@ -54,7 +54,7 @@ if st.button("Submit"):
 
 
 
-if search_results_url == r"https://www.yahoo.com/?err=404&err_url=https%3A%2F%2Ffinance.yahoo.com%2Fresearch%2Freports%2FMS_0P0000061X_AnalystReport_1699903723000%3F.tsrc%3Dfin-srch":
+if search_results_url == "https://www.yahoo.com/?err=404&err_url=https%3A%2F%2Ffinance.yahoo.com%2Fresearch%2Freports%2FMS_0P0000061X_AnalystReport_1699903723000%3F.tsrc%3Dfin-srch":
     print("Stock is not in Yahoo database.")
     sys.exit(1)
 elif "https://finance.yahoo.com" not in search_results_url:
