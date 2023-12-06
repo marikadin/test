@@ -15,13 +15,22 @@ chrome_options.add_argument('--disable-software-rasterizer')
 chrome_options.binary_location = 'C:\Program Files\Google\Chrome\Application\chrome.exe'  
 chrome_driver_path = 'C:\Program Files\Google\Chrome\Application'  
 
+def get_chromedriver_version(chrome_driver_path):
+    try:
+        # Run ChromeDriver with the --version flag
+        import subprocess
+        result = subprocess.run([chrome_driver_path, '--version'], capture_output=True, text=True)
+        chromedriver_version = result.stdout.strip()
+        return chromedriver_version
+    except Exception as e:
+        return f"Error getting ChromeDriver version: {e}"
+
 def get_search_results_url(url, keyword):
     st.write("Fetching...")
     
     # Print ChromeDriver version for debugging
-    print("ChromeDriver version:")
-    with open(chrome_driver_path, 'rb') as f:
-        print(f.read())
+    chrome_driver_version = get_chromedriver_version(chrome_driver_path)
+    st.write(f"ChromeDriver version: {chrome_driver_version}")
 
     driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_options)
     
