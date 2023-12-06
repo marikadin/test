@@ -43,7 +43,8 @@ def get_search_results_url(url, keyword):
         search_results_url = driver.current_url
 
         return search_results_url
-
+    except:
+        st.write("failed fetching")
     finally:
         driver.quit()
 
@@ -51,30 +52,30 @@ website_url = 'https://finance.yahoo.com/'
 try:
     search_results_url = get_search_results_url(website_url, keyword)
 except:
-    print("Thanks for trying. \nSee u soon(:")
+    st.write("Thanks for trying. \nSee u soon(:")
     sys.exit()
 if search_results_url == "https://www.yahoo.com/?err=404&err_url=https%3A%2F%2Ffinance.yahoo.com%2Fresearch%2Freports%2FMS_0P0000061X_AnalystReport_1699903723000%3F.tsrc%3Dfin-srch":
-    print("Stock is not in Yahoo database.")
+    st.write("Stock is not in Yahoo database.")
     sys.exit(1)
 elif "https://finance.yahoo.com" not in search_results_url:
-    print("Stock is not in Yahoo database.")
+    st.write("Stock is not in Yahoo database.")
     sys.exit(1)
 elif "news" in search_results_url:
-    print("Not a stock but news: ", search_results_url)
+    st.write("Not a stock but news: ", search_results_url)
     sys.exit(1)
 elif "/m/" in search_results_url:
-    print("Stock is not in Yahoo database.")
+    st.write("Stock is not in Yahoo database.")
     sys.exit(1)
 elif "/company/" in search_results_url:
-    print("A private company: ", search_results_url)
+    st.write("A private company: ", search_results_url)
     sys.exit(1)
 else:
     if search_results_url:
-        print(f"URL of the search results page for {keyword}: {search_results_url}")
+        st.write(f"URL of the search results page for {keyword}: {search_results_url}")
         # Call the second script's functionality with the obtained URL
         #from extract_ddata import process_fin_streamers
         #process_fin_streamers(keyword, search_results_url)
     else:
-        print(f"No search results found for {keyword}.\n")
+        st.write(f"No search results found for {keyword}.\n")
 
 
