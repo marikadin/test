@@ -23,7 +23,7 @@ st.write("You entered:", keyword)
 
 
 def get_search_results_url(url, keyword):
-    print("Fetching...")
+    st.write("Fetching...")
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
 
