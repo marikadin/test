@@ -7,7 +7,7 @@ chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--disable-software-rasterizer')
 chrome_options.binary_location = 'C:\Program Files\Google\Chrome\Application\chrome.exe'  # Adjust this path
-chrome_driver_path = 'C:\path\to\chromedriver.exe'  # Adjust this path
+chrome_driver_path = 'C:\Program Files\Google\Chrome'  # Adjust this path
 
 def get_chromedriver_version(chrome_driver_path):
     try:
