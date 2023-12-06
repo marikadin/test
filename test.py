@@ -12,6 +12,12 @@ chrome_options = Options()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--disable-software-rasterizer')
+chrome_options.binary_location = 'C:\Program Files\Google\Chrome'
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-software-rasterizer')
+chrome_options.binary_location = 'C:\Program Files\Google\Chrome' 
 def get_search_results_url(url, keyword):
     st.write("Fetching...")
     driver = webdriver.Chrome(options=chrome_options)
@@ -19,15 +25,11 @@ def get_search_results_url(url, keyword):
 
     try:
         search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
-
         search_bar.clear()
-
         search_bar.send_keys(keyword)
-
         search_bar.send_keys(Keys.RETURN)
 
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
-
         time.sleep(3)
 
         search_results_url = driver.current_url
