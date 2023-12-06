@@ -19,6 +19,7 @@ chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--disable-software-rasterizer')
 
 keyword = st.text_input("Enter a string:", "Default value")
+st.write("You entered:", keyword)
 
 
 def get_search_results_url(url, keyword):
