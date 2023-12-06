@@ -68,6 +68,6 @@ if st.button("Search"):
             #process_fin_streamers(keyword, search_results_url)
         else:
             st.warning(f"No search results found for {keyword}.")
-st.write(search_results_url)
+print(search_results_url)
 if st.button("Close"):
     st.stop()  # Stops the Streamlit app
