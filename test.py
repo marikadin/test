@@ -17,10 +17,16 @@ chrome_driver_path = 'C:\Program Files\Google\Chrome\Application'
 
 def get_search_results_url(url, keyword):
     st.write("Fetching...")
+    
+    # Print ChromeDriver version for debugging
+    print("ChromeDriver version:")
+    with open(chrome_driver_path, 'rb') as f:
+        print(f.read())
+
     driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_options)
     
     try:
-        search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
+        search_bar = driver.find_element_by_id('yfin-usr-qry')  # Using find_element_by_id directly
         search_bar.clear()
         search_bar.send_keys(keyword)
         search_bar.send_keys(Keys.RETURN)
@@ -34,6 +40,7 @@ def get_search_results_url(url, keyword):
 
     finally:
         driver.quit()
+
 
 # Set up Streamlit page
 st.set_page_config(page_title="Stocks", page_icon=None, layout='wide')
