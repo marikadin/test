@@ -44,8 +44,6 @@ keyword = st.text_input("Enter the stock name:", key="stock_name")  # Assign a u
 
 
 
-website_url = 'https://finance.yahoo.com/'  
-keyword = st.text_input("Enter the stock name:")
 if st.button("Enter"):
     try:
         search_results_url = get_search_results_url(website_url, keyword)
