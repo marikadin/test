@@ -49,11 +49,9 @@ def get_search_results_url(url, keyword):
         driver.quit()
 
 website_url = 'https://finance.yahoo.com/'  
-try:
-    search_results_url = get_search_results_url(website_url, keyword)
-except:
-    st.write("Thanks for trying. \nSee u soon(:")
-    sys.exit()
+
+search_results_url = get_search_results_url(website_url, keyword)
+
 if search_results_url == "https://www.yahoo.com/?err=404&err_url=https%3A%2F%2Ffinance.yahoo.com%2Fresearch%2Freports%2FMS_0P0000061X_AnalystReport_1699903723000%3F.tsrc%3Dfin-srch":
     st.write("Stock is not in Yahoo database.")
     sys.exit(1)
