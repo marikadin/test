@@ -34,7 +34,13 @@ def get_search_results_url(url, keyword):
         return None
 
 website_url = 'https://finance.yahoo.com/'  
-keyword = st.text_input("Enter the stock name:")
+keyword = st.text_input("Enter the stock name:", key="stock_name")  # Assign a unique key
+
+
+
+
+
+
 
 
 
