@@ -18,8 +18,13 @@ chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--disable-software-rasterizer')
 
-keyword = st.text_input()
-st.write("You entered:", keyword)
+keyword = st.text_input("Enter a string:")
+
+# Button to trigger action
+if st.button("Submit"):
+    # Display the entered string only when the button is pressed
+    st.write("You entered:", keyword)
+
 
 
 def get_search_results_url(url, keyword):
