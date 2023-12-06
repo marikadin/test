@@ -57,12 +57,12 @@ if st.button("Search"):
 
         # Your logic for processing the data, use keyword and selected_date as needed
         website_url = 'https://finance.yahoo.com/'
-        try:
-            search_results_url = get_search_results_url(website_url, keyword)
-            print(search_results_url)
-        except:
-            st.error("An error occurred while fetching data.")
-            st.stop()
+        #try:
+        search_results_url = get_search_results_url(website_url, keyword)
+        print(search_results_url)
+        #except:
+            #st.error("An error occurred while fetching data.")
+            #st.stop()
 
         if search_results_url:
             st.write(f"URL of the search results page for {keyword}: {search_results_url}")
