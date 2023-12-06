@@ -58,6 +58,7 @@ if st.button("Search"):
         website_url = 'https://finance.yahoo.com/'
         try:
             search_results_url = get_search_results_url(website_url, keyword)
+            print(search_results_url)
         except:
             st.error("An error occurred while fetching data.")
             st.stop()
@@ -68,6 +69,6 @@ if st.button("Search"):
             #process_fin_streamers(keyword, search_results_url)
         else:
             st.warning(f"No search results found for {keyword}.")
-print(search_results_url)
+
 if st.button("Close"):
     st.stop()  # Stops the Streamlit app
