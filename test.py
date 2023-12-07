@@ -94,14 +94,22 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 # Function to display information about LSTM
 def display_lstm_info():
     st.markdown("""
-        **Long Short-Term Memory (LSTM) Overview:**
-        
-        LSTM is a type of recurrent neural network (RNN) architecture designed to overcome the limitations of traditional RNNs 
-        in capturing long-term dependencies in sequential data.
-        
-        ... (Your LSTM information)
+        Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture that is designed to overcome the limitations of traditional RNNs in capturing long-term dependencies in sequential data. RNNs, in theory, can learn from past information to make predictions on future data points, but in practice, they often struggle to learn and remember information from distant past time steps due to the vanishing gradient problem.
 
-        *Source: [Your Source]*
+LSTM was introduced to address the vanishing gradient problem by incorporating memory cells and gating mechanisms. The key components of an LSTM cell include:
+
+1. **Cell State (Ct):** This is the memory of the cell. It can retain information over long sequences, allowing the model to capture long-term dependencies.
+
+2. **Hidden State (ht):** This is the output of the cell and is used for making predictions. It can selectively expose parts of the cell state.
+
+3. **Three Gates:**
+   - **Forget Gate (ft):** Decides what information to throw away from the cell state.
+   - **Input Gate (it):** Updates the cell state with new information.
+   - **Output Gate (ot):** Controls what parts of the cell state should be output.
+
+LSTM's ability to selectively learn, forget, and store information makes it particularly effective for tasks involving sequences, such as time series forecasting, natural language processing, and speech recognition.
+
+In the context of time series prediction, like predicting stock prices, LSTM models are well-suited to capture patterns and dependencies in historical data and make predictions for future values based on that learned context.
     """)
 
 # Streamlit app
