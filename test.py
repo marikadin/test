@@ -136,6 +136,11 @@ if st.button("Get Stock Symbol"):
 # Light bulb icon
 lightbulb_icon = "💡"
 
+# Display the prediction value
+if 'predicted_value_lr' in locals() and 'predicted_value_lstm' in locals():
+    st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+    st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+
 # Sidebar with light bulb icon
 with st.sidebar:
     st.markdown(f"## {lightbulb_icon} LSTM Info")
