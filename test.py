@@ -106,8 +106,7 @@ lightbulb_icon = "💡"
 st.set_page_config(page_title="Stock Prediction App")
 
 # Sidebar with light bulb icon
-sidebar = st.sidebar.beta_container()
-with sidebar:
+with st.sidebar:
     st.markdown(f"## {lightbulb_icon} LSTM Info")
 
     if st.button("Learn More"):
