@@ -19,6 +19,9 @@ st.title("Stocks")
 keyword = st.text_input("Enter the stock name:")
 selected_date = st.date_input("Select Date", min_value=datetime(2022, 1, 1), max_value=datetime.now())
 
+# Initialize search_results_url to handle all scenarios
+search_results_url = None
+
 # Streamlit button to trigger the search
 if st.button("Search"):
     st.write("Fetching...")
@@ -48,7 +51,9 @@ if st.button("Search"):
         st.write("Thanks for trying. See you soon(:")
         st.stop()
     finally:
-        if "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
+        if search_results_url is None:
+            st.write("Error retrieving search results.")
+        elif "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
             st.write("Stock is not in Yahoo database.")
         elif "https://finance.yahoo.com" not in search_results_url:
             st.write("Stock is not in Yahoo database.")
