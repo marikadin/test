@@ -91,11 +91,30 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
 
 
+def display_lstm_info():
+    st.markdown("""
+        **Long Short-Term Memory (LSTM) Overview:**
+        
+        LSTM is a type of recurrent neural network (RNN) architecture designed to overcome the limitations of traditional RNNs 
+        in capturing long-term dependencies in sequential data.
+        
+        ... (Your LSTM information)
+
+        *Source: [Your Source]*
+    """)
+
+# Streamlit app
 st.title("Stock Symbol Lookup and Prediction")
 
+# Input for company name
 company_name = st.text_input("Enter company name or item:")
 
+# Placeholder for LSTM information
+info_placeholder = st.empty()
+
+# Button to trigger the stock symbol lookup
 if st.button("Get Stock Symbol"):
+    # Replace 'YOUR_API_KEY' with the actual API key you obtained from Alpha Vantage
     api_key = 'QJFF49AEUN6NX884'
 
     if api_key == 'YOUR_API_KEY':
@@ -103,6 +122,7 @@ if st.button("Get Stock Symbol"):
     elif not company_name:
         st.warning("Please enter a company name or item.")
     else:
+        # Show spinner while fetching data
         with st.spinner("Fetching data and making predictions..."):
             stock_symbol = get_stock_symbol(api_key, company_name)
             if stock_symbol:
@@ -122,17 +142,15 @@ if st.button("Get Stock Symbol"):
                         st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
                         st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
+                        # Button to show/hide LSTM information
                         if st.button("💡 Show LSTM Information"):
-                            st.write("""
-                                    **Long Short-Term Memory (LSTM) Overview:**
-                                    
-                                    LSTM is a type of recurrent neural network (RNN) architecture designed to overcome the limitations of traditional RNNs 
-                                    in capturing long-term dependencies in sequential data.
-                                    
-                                    ... (Your LSTM information)
+                            # Clear the placeholder and show LSTM information
+                            info_placeholder.empty()
+                            display_lstm_info()
 
-                                    *Source: [Your Source]* """)
+                            # Button to minimize LSTM information
                             if st.button("Minimize"):
-                                st.text("")  
-                        
+                                # Clear the placeholder to minimize the section
+                                info_placeholder.empty()
+
                         
