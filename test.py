@@ -122,14 +122,14 @@ Linear regression is a statistical method used for modeling the relationship bet
 
 The linear regression equation has the form:
 
-\[ Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \ldots + \beta_nX_n + \varepsilon \]
+Y =  β(0)+ β(1)X(1) + β(2)X(2) + ... + β(n)x(n) +  ε
 
 Here:
-- \( Y \) is the dependent variable.
-- \( X_1, X_2, \ldots, X_n \) are independent variables.
-- \( \beta_0 \) is the intercept.
-- \( \beta_1, \beta_2, \ldots, \beta_n \) are the coefficients representing the relationship between the independent variables and the dependent variable.
-- \( \varepsilon \) is the error term, representing the unobserved factors that affect the dependent variable.
+- Y  is the dependent variable.
+- X(1), X(2), ..., X(n) are independent variables.
+- β(0) is the intercept.
+- β(1), β(2)...,β(N) are the coefficients representing the relationship between the independent variables and the dependent variable.
+- ε is the error term, representing the unobserved factors that affect the dependent variable.
 
 The goal of linear regression is to find the values of the coefficients that minimize the sum of the squared differences between the observed and predicted values. Once the model is trained, it can be used to make predictions for new data.
 
