@@ -1,14 +1,12 @@
 import streamlit as st
-import webbrowser
 
-def open_website(url):
-    webbrowser.open(url, new=2)
-    iframe_code = f'<iframe src="{url}" width="100%" height="600" frameborder="0" scrolling="yes"></iframe>'
-    st.markdown(iframe_code, unsafe_allow_html=True)
+def main():
+    st.title("Streamlit Web Browser")
 
-st.title("Website Viewer")
+    # Button to open the website
+    if st.button("Open Yahoo"):
+        # Display the website in an iframe
+        st.components.v1.html('<iframe src="https://www.yahoo.com/" width="1000" height="600"></iframe>', height=600)
 
-url_to_open = "https://finance.yahoo.com/"
-
-if st.button("Open Website"):
-    open_website(url_to_open)
+if __name__ == "__main__":
+    main()
