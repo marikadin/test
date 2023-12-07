@@ -111,8 +111,39 @@ LSTM's ability to selectively learn, forget, and store information makes it part
 
 In the context of time series prediction, like predicting stock prices, LSTM models are well-suited to capture patterns and dependencies in historical data and make predictions for future values based on that learned context.
     """)
+    
 
-# Streamlit app
+
+
+
+def linear_Regression():
+    st.markdown("""
+Linear regression is a statistical method used for modeling the relationship between a dependent variable and one or more independent variables by fitting a linear equation to the observed data. The most common form is simple linear regression, which deals with the relationship between two variables, while multiple linear regression deals with two or more predictors.
+
+The linear regression equation has the form:
+
+\[ Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \ldots + \beta_nX_n + \varepsilon \]
+
+Here:
+- \( Y \) is the dependent variable.
+- \( X_1, X_2, \ldots, X_n \) are independent variables.
+- \( \beta_0 \) is the intercept.
+- \( \beta_1, \beta_2, \ldots, \beta_n \) are the coefficients representing the relationship between the independent variables and the dependent variable.
+- \( \varepsilon \) is the error term, representing the unobserved factors that affect the dependent variable.
+
+The goal of linear regression is to find the values of the coefficients that minimize the sum of the squared differences between the observed and predicted values. Once the model is trained, it can be used to make predictions for new data.
+
+Linear regression is widely used in various fields for tasks such as predicting stock prices, housing prices, sales forecasting, and many other applications where understanding the relationship between variables is crucial.  
+                """)
+    
+    
+    
+    
+    
+    
+    
+    
+    
 st.title("Stock Symbol Lookup and Prediction")
 
 # Input for company name
@@ -149,5 +180,7 @@ if st.button("Get Stock Symbol"):
                         st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
                         # Expander for LSTM information
-                        with st.expander("💡 Show LSTM Information"):
+                        with st.expander("💡 What is LSTM?"):
                             display_lstm_info()
+                        with st.expander("💡 What is Linear Regression?"):
+                            linear_Regression()
