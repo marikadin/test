@@ -47,7 +47,19 @@ def get_stock_symbol(api_key, company_name):
         st.error(f"Error: {e}")
         return None
 
+def predict_tomorrows_stock_value_linear_regression(stock_data):
+    # Assuming a simple linear regression model for demonstration
+    X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
+    y = stock_data['Close']
 
+    model = LinearRegression()
+    model.fit(X, y)
+
+    # Predict tomorrow's stock value
+    tomorrow = X.iloc[[-1]]['Days'].values[0] + 1
+    predicted_value = model.predict([[tomorrow]])[0]
+
+    return predicted_value
 
 def predict_tomorrows_stock_value_lstm(stock_data):
     # Normalize the data
@@ -103,17 +115,26 @@ if st.button("Get Stock Symbol"):
     elif not company_name:
         st.warning("Please enter a company name or item.")
     else:
-        stock_symbol = get_stock_symbol(api_key, company_name)
-        if stock_symbol:
-            st.title("Stock Price Visualization App")
-
+        # Show spinner while fetching data
+        with st.spinner("Fetching data and making predictions..."):
+            stock_symbol = get_stock_symbol(api_key, company_name)
             if stock_symbol:
-                st.write(f"Displaying stock data for {stock_symbol}")
+                st.title("Stock Price Visualization App")
 
-                stock_data = get_stock_data(stock_symbol)
-                if stock_data is not None:
-                    plot_stock_data(stock_data)
-                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-                    st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
-        else:
-            st.warning(f"Could not find the stock symbol for {company_name}")
+                if stock_symbol:
+                    st.write(f"Displaying stock data for {stock_symbol}")
+
+                    stock_data = get_stock_data(stock_symbol)
+                    if stock_data is not None:
+                        plot_stock_data(stock_data)
+
+                        # Predict tomorrow's stock value using Linear Regression
+                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+
+                        # Predict tomorrow's stock value using LSTM
+                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+
+                        st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                        st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+            else:
+                st.warning(f"Could not find the stock symbol for {company_name}")
