@@ -46,26 +46,26 @@ if st.button("Search"):
             driver.quit()
 
     website_url = 'https://finance.yahoo.com/'
-    # ...
-
-try:
-    search_results_url = get_search_results_url(website_url, keyword)
-except:
-    st.write("Thanks for trying. See you soon(:")
-    st.stop()
-finally:
-    if search_results_url and "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
-        st.write("Stock is not in Yahoo database.")
-    elif search_results_url and "https://finance.yahoo.com" not in search_results_url:
-        st.write("Stock is not in Yahoo database.")
-    elif search_results_url and "news" in search_results_url:
-        st.write("Not a stock but news:", search_results_url)
-    elif search_results_url and "/m/" in search_results_url:
-        st.write("Stock is not in Yahoo database.")
-    elif search_results_url and "/company/" in search_results_url:
-        st.write("A private company:", search_results_url)
-    else:
-        st.write(f"URL of the search results page for {keyword}: {search_results_url}")
-        # Call the second script's functionality with the obtained URL
-        # from extract_ddata import process_fin_streamers
-        # process_fin_streamers(keyword, search_results_url)
+    try:
+        search_results_url = get_search_results_url(website_url, keyword)
+    except:
+        st.write("Thanks for trying. See you soon(:")
+        st.stop()
+    finally:
+        if not search_results_url:
+            st.write("No search results found.")
+        elif "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
+            st.write("Stock is not in Yahoo database.")
+        elif "https://finance.yahoo.com" not in search_results_url:
+            st.write("Stock is not in Yahoo database.")
+        elif "news" in search_results_url:
+            st.write("Not a stock but news:", search_results_url)
+        elif "/m/" in search_results_url:
+            st.write("Stock is not in Yahoo database.")
+        elif "/company/" in search_results_url:
+            st.write("A private company:", search_results_url)
+        else:
+            st.write(f"URL of the search results page for {keyword}: {search_results_url}")
+            # Call the second script's functionality with the obtained URL
+            # from extract_ddata import process_fin_streamers
+            # process_fin_streamers(keyword, search_results_url)
