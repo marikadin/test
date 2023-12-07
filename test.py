@@ -2,16 +2,14 @@ import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from datetime import datetime
 
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-chrome_options.add_argument('--disable-software-rasterizer')
+firefox_options = FirefoxOptions()
+firefox_options.add_argument('--headless')
 
 st.title("Stocks")
 
@@ -27,10 +25,10 @@ if st.button("Search"):
     st.write("Fetching...")
     
     def get_search_results_url(url, keyword):
-        driver = webdriver.Chrome(options=chrome_options)
-        driver.get(url)
-
+        driver = webdriver.Firefox(options=firefox_options, executable_path='/path/to/geckodriver')
+        
         try:
+            driver.get(url)
             search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
             search_bar.clear()
             search_bar.send_keys(keyword)
@@ -51,7 +49,6 @@ if st.button("Search"):
         st.write(f"Error: {e}")
         st.write("Thanks for trying. See you soon(:")
         st.stop()
-
     finally:
         if search_results_url is None:
             st.write("Error retrieving search results.")
