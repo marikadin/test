@@ -153,7 +153,7 @@ if st.button("Get Stock Symbol"):
                         # Light bulb icon for LSTM information
                         if st.button("💡 Show LSTM Information"):
                             display_lstm_info()
-
-                        # Minimize button to close LSTM information
-                        if st.button("Minimize"):
-                            st.text("")  
+                            if st.button("Minimize"):
+                                st.text("")  
+                        
+                        
