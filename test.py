@@ -1,9 +1,8 @@
 import streamlit as st
-from streamlit.components.v1 import html
+import webbrowser
 
 def open_website(url):
-    iframe_code = f'<iframe src="{url}" width="100%" height="600" frameborder="0" scrolling="yes"></iframe>'
-    html(iframe_code, height=600)
+    webbrowser.open(url, new=2)
 
 st.title("Website Viewer")
 
