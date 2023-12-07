@@ -89,6 +89,8 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
     return predicted_value
 
+
+
 # Function to display information about LSTM
 def display_lstm_info():
     st.markdown("""
@@ -109,26 +111,39 @@ LSTM's ability to selectively learn, forget, and store information makes it part
 
 In the context of time series prediction, like predicting stock prices, LSTM models are well-suited to capture patterns and dependencies in historical data and make predictions for future values based on that learned context.
     """)
+    
 
-def linear_Regression(stock_data):
-    # Simulate Linear Regression
-    X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
-    y = stock_data['Close']
 
-    model = LinearRegression()
-    model.fit(X, y)
 
-    # Predictions for the entire range
-    predictions = model.predict(X)
 
-    # Plot the actual and predicted values
-    fig_lr = px.line(X, x='Days', y=y, title='Actual vs Predicted (Linear Regression)')
-    fig_lr.add_scatter(x=X['Days'], y=predictions, mode='lines', name='Predicted')
-    fig_lr.update_xaxes(title_text='Days')
-    fig_lr.update_yaxes(title_text='Stock Price (USD)')
+def linear_Regression():
+    st.markdown("""
+Linear regression is a statistical method used for modeling the relationship between a dependent variable and one or more independent variables by fitting a linear equation to the observed data. The most common form is simple linear regression, which deals with the relationship between two variables, while multiple linear regression deals with two or more predictors.
 
-    st.plotly_chart(fig_lr)
+The linear regression equation has the form:
 
+Y =  β(0)+ β(1)X(1) + β(2)X(2) + ... + β(n)x(n) +  ε
+
+Here:
+- Y  is the dependent variable.
+- X(1), X(2), ..., X(n) are independent variables.
+- β(0) is the intercept.
+- β(1), β(2)...,β(N) are the coefficients representing the relationship between the independent variables and the dependent variable.
+- ε is the error term, representing the unobserved factors that affect the dependent variable.
+
+The goal of linear regression is to find the values of the coefficients that minimize the sum of the squared differences between the observed and predicted values. Once the model is trained, it can be used to make predictions for new data.
+
+Linear regression is widely used in various fields for tasks such as predicting stock prices, housing prices, sales forecasting, and many other applications where understanding the relationship between variables is crucial.  
+                """)
+    
+    
+    
+    
+    
+    
+    
+    
+    
 st.title("Stock Symbol Lookup and Prediction")
 
 # Input for company name
@@ -167,8 +182,5 @@ if st.button("Get Stock Symbol"):
                         # Expander for LSTM information
                         with st.expander("💡 What is LSTM?"):
                             display_lstm_info()
-
-                        # Expander for Linear Regression information and graph
                         with st.expander("💡 What is Linear Regression?"):
-                            st.write("Linear Regression Simulation:")
-                            linear_Regression(stock_data)
+                            linear_Regression()
