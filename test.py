@@ -26,7 +26,6 @@ def get_stock_symbol(api_key, company_name):
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 
-    # Make the API request
     params = {
         "function": function,
         "keywords": company_name,
@@ -37,7 +36,6 @@ def get_stock_symbol(api_key, company_name):
         response = requests.get(base_url, params=params)
         data = response.json()
 
-        # Extract the stock symbol from the API response
         if "bestMatches" in data and data["bestMatches"]:
             stock_symbol = data["bestMatches"][0]["1. symbol"]
             return stock_symbol
@@ -48,25 +46,21 @@ def get_stock_symbol(api_key, company_name):
         return None
 
 def predict_tomorrows_stock_value_linear_regression(stock_data):
-    # Assuming a simple linear regression model for demonstration
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
 
     model = LinearRegression()
     model.fit(X, y)
 
-    # Predict tomorrow's stock value
     tomorrow = X.iloc[[-1]]['Days'].values[0] + 1
     predicted_value = model.predict([[tomorrow]])[0]
 
     return predicted_value
 
 def predict_tomorrows_stock_value_lstm(stock_data):
-    # Normalize the data
     scaler = MinMaxScaler()
     data_normalized = scaler.fit_transform(stock_data['Close'].values.reshape(-1, 1))
 
-    # Create sequences for LSTM
     seq_length = 10
     sequences, labels = [], []
     for i in range(len(data_normalized) - seq_length):
@@ -78,7 +72,6 @@ def predict_tomorrows_stock_value_lstm(stock_data):
     X_train, y_train = np.array(sequences), np.array(labels)
     X_train = X_train.reshape((X_train.shape[0], X_train.shape[1], 1))
 
-    # Build LSTM model
     model = tf.keras.models.Sequential([
         tf.keras.layers.LSTM(50, activation='relu', input_shape=(seq_length, 1)),
         tf.keras.layers.Dense(1)
@@ -86,41 +79,23 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
     model.compile(optimizer='adam', loss='mse')
 
-    # Train the model
     model.fit(X_train, y_train, epochs=50, batch_size=32)
 
-    # Generate a new sequence for prediction
     last_sequence = data_normalized[-seq_length:]
     last_sequence = last_sequence.reshape((1, seq_length, 1))
 
-    # Predict tomorrow's stock value using LSTM
     predicted_value = model.predict(last_sequence)
     predicted_value = scaler.inverse_transform(predicted_value.reshape(1, -1))[0, 0]
 
     return predicted_value
 
-# Streamlit app
-def display_lstm_info():
-    st.write("""
-        **Long Short-Term Memory (LSTM) Overview:**
-        
-        LSTM is a type of recurrent neural network (RNN) architecture designed to overcome the limitations of traditional RNNs 
-        in capturing long-term dependencies in sequential data.
-        
-        ... (Your LSTM information)
 
-        *Source: [Your Source]*
-    """)
 
-# Streamlit app
 st.title("Stock Symbol Lookup and Prediction")
 
-# Input for company name
 company_name = st.text_input("Enter company name or item:")
 
-# Button to trigger the stock symbol lookup
 if st.button("Get Stock Symbol"):
-    # Replace 'YOUR_API_KEY' with the actual API key you obtained from Alpha Vantage
     api_key = 'QJFF49AEUN6NX884'
 
     if api_key == 'YOUR_API_KEY':
@@ -128,7 +103,6 @@ if st.button("Get Stock Symbol"):
     elif not company_name:
         st.warning("Please enter a company name or item.")
     else:
-        # Show spinner while fetching data
         with st.spinner("Fetching data and making predictions..."):
             stock_symbol = get_stock_symbol(api_key, company_name)
             if stock_symbol:
@@ -141,18 +115,23 @@ if st.button("Get Stock Symbol"):
                     if stock_data is not None:
                         plot_stock_data(stock_data)
 
-                        # Predict tomorrow's stock value using Linear Regression
                         predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
 
-                        # Predict tomorrow's stock value using LSTM
                         predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
 
                         st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
                         st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
-                        # Light bulb icon for LSTM information
                         if st.button("💡 Show LSTM Information"):
-                            display_lstm_info()
+                            st.write("""
+                                    **Long Short-Term Memory (LSTM) Overview:**
+                                    
+                                    LSTM is a type of recurrent neural network (RNN) architecture designed to overcome the limitations of traditional RNNs 
+                                    in capturing long-term dependencies in sequential data.
+                                    
+                                    ... (Your LSTM information)
+
+                                    *Source: [Your Source]* """)
                             if st.button("Minimize"):
                                 st.text("")  
                         
