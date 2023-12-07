@@ -1,69 +1,51 @@
 import streamlit as st
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
-from datetime import datetime
+from other_dates import stock_symbol, date_list
+from extract_ddata import values
+import sys
+from markanditay import keyword
 
-# Specify the path to your Chrome executable
-chrome_path = "C:\Program Files\Google\Chrome\Application\chrome.exe"  
-
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-chrome_options.add_argument('--disable-software-rasterizer')
-chrome_options.binary_location = chrome_path
 
 st.title("Stocks")
 
-# Streamlit widgets for user input
-keyword = st.text_input("Enter the stock name:")
-selected_date = st.date_input("Select Date", min_value=datetime(2022, 1, 1), max_value=datetime.now())
 
-# Streamlit button to trigger the search
-if st.button("Search"):
-    st.write("Fetching...")
-    
-    def get_search_results_url(url, keyword):
-        driver = webdriver.Chrome(executable_path="path/to/chromedriver", options=chrome_options)
-        driver.get(url)
+y = stock_symbol
+x = date_list
+percent_change = 0
 
-        try:
-            search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
-            search_bar.clear()
-            search_bar.send_keys(keyword)
-            search_bar.send_keys(Keys.RETURN)
-
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
-            time.sleep(3)
-            search_results_url = driver.current_url
-            return search_results_url
-
-        finally:
-            driver.quit()
-
-    website_url = 'https://finance.yahoo.com/'
+try:
+    last_price = values
+    if y[-1] != y[-2]:
+        percent_change = (y[-1] - y[-2]) / y[-2] * 100
+        percent_text = f"The percent of change is: {percent_change:.2f}%"
+    else:
+        percent_text = "The percent of change is: 0.00%"
+except:
     try:
-        search_results_url = get_search_results_url(website_url, keyword)
+        if y[-1] != y[-2]:
+            percent_change = (y[-1] - y[-2]) / y[-2] * 100
+            percent_text = f"{percent_change:.2f}%"
     except:
-        st.write("Thanks for trying. See you soon(:")
-        st.stop()
-    finally:
-        if not search_results_url:
-            st.write("No search results found.")
-        elif "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
-            st.write("Stock is not in Yahoo database.")
-        elif "https://finance.yahoo.com" not in search_results_url:
-            st.write("Stock is not in Yahoo database.")
-        elif "news" in search_results_url:
-            st.write("Not a stock but news:", search_results_url)
-        elif "/m/" in search_results_url:
-            st.write("Stock is not in Yahoo database.")
-        elif "/company/" in search_results_url:
-            st.write("A private company:", search_results_url)
-        else:
-            st.write(f"URL of the search results page for {keyword}: {search_results_url}")
-            print(f"Value of search_results_url: {search_results_url}")  
+        st.error("An error occurred, try another date.")
+        sys.exit()
+    else:
+        percent_text = "0.00%"
+
+try:
+    last_price = f"Today the open value is: ${y[-1]:,.2f}"
+except:
+    last_price = f"Today the open value is: ${values}"
+
+text_color = "black"
+if percent_change > 0:
+    text_color = "green"
+elif percent_change < 0:
+    text_color = "red"
+
+
+st.text(last_price)
+st.text(percent_text)
+
+
+st.line_chart(y)
+
+
