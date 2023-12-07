@@ -101,7 +101,7 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
 # Streamlit app
 def display_lstm_info():
-    st.markdown("""
+    st.write("""
         **Long Short-Term Memory (LSTM) Overview:**
         
         LSTM is a type of recurrent neural network (RNN) architecture designed to overcome the limitations of traditional RNNs 
@@ -156,5 +156,4 @@ if st.button("Get Stock Symbol"):
 
                         # Minimize button to close LSTM information
                         if st.button("Minimize"):
-                            st.text("")  # Add an empty text to minimize the section
-
+                            st.text("")  
