@@ -7,12 +7,14 @@ import plotly.express as px
 def get_stock_symbol(company_name):
     try:
         response = yq.search(company_name)
+        print("Response:", response)  # Add this line to see the response
         if 'quotes' in response and response['quotes']:
             return response['quotes'][0]['symbol']
         else:
             st.error(f"Could not find stock symbol for {company_name}")
             return None
     except Exception as e:
+        print("Error:", e)  # Add this line to see the error message
         st.error(f"Error retrieving stock symbol: {e}")
         return None
 
