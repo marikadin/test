@@ -6,7 +6,7 @@ def open_website(url):
 
 st.title("Website Viewer")
 
-url_to_open = "https://www.example.com"
+url_to_open = "https://www.youtube.com/"
 
 if st.button("Open Website"):
     open_website(url_to_open)
