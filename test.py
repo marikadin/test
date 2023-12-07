@@ -47,9 +47,11 @@ if st.button("Search"):
     website_url = 'https://finance.yahoo.com/'
     try:
         search_results_url = get_search_results_url(website_url, keyword)
-    except:
+    except Exception as e:
+        st.write(f"Error: {e}")
         st.write("Thanks for trying. See you soon(:")
         st.stop()
+
     finally:
         if search_results_url is None:
             st.write("Error retrieving search results.")
