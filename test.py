@@ -163,8 +163,8 @@ if st.button("Get Stock Symbol"):
             st.warning(f"Could not find the stock symbol for {company_name}")
 
 # Display the app
-st.beta_set_page_config(
-    page_title="Stock Prediction App",
-    page_icon="💹",
-    layout="wide",
-)
+#st.beta_set_page_config(
+#    page_title="Stock Prediction App",
+#    page_icon="💹",
+#    layout="wide",
+#)
