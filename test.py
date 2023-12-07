@@ -2,14 +2,20 @@ import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from datetime import datetime
 
-firefox_options = FirefoxOptions()
-firefox_options.add_argument('--headless')
+# Specify the path to your Chrome executable
+chrome_path = "C:\Program Files\Google\Chrome\Application\chrome.exe"  
+
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-software-rasterizer')
+chrome_options.binary_location = chrome_path
 
 st.title("Stocks")
 
@@ -17,19 +23,15 @@ st.title("Stocks")
 keyword = st.text_input("Enter the stock name:")
 selected_date = st.date_input("Select Date", min_value=datetime(2022, 1, 1), max_value=datetime.now())
 
-# Initialize search_results_url to handle all scenarios
-search_results_url = None
-
 # Streamlit button to trigger the search
 if st.button("Search"):
     st.write("Fetching...")
     
     def get_search_results_url(url, keyword):
-        # Set the PATH variable to include the directory of GeckoDriver
-        driver = webdriver.Firefox(options=firefox_options)
-        
+        driver = webdriver.Chrome(executable_path="path/to/chromedriver", options=chrome_options)
+        driver.get(url)
+
         try:
-            driver.get(url)
             search_bar = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'yfin-usr-qry')))
             search_bar.clear()
             search_bar.send_keys(keyword)
@@ -46,14 +48,11 @@ if st.button("Search"):
     website_url = 'https://finance.yahoo.com/'
     try:
         search_results_url = get_search_results_url(website_url, keyword)
-    except Exception as e:
-        st.write(f"Error: {e}")
+    except:
         st.write("Thanks for trying. See you soon(:")
         st.stop()
     finally:
-        if search_results_url is None:
-            st.write("Error retrieving search results.")
-        elif "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
+        if "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
             st.write("Stock is not in Yahoo database.")
         elif "https://finance.yahoo.com" not in search_results_url:
             st.write("Stock is not in Yahoo database.")
