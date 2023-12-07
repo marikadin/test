@@ -1,11 +1,11 @@
 import streamlit as st
-import webbrowser
 
-def open_website():
-    url = "https://www.youtube.com/"
-    webbrowser.open(url)
+def open_website(url):
+    st.components.iframe(url, height=600, scrolling=True)
 
-st.title("Website Opener")
+st.title("Website Viewer")
+
+url_to_open = "https://www.example.com"
 
 if st.button("Open Website"):
-    open_website()
+    open_website(url_to_open)
