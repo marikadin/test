@@ -1,4 +1,10 @@
 import streamlit as st
+import os
+
+# Set proxy environment variables if needed
+# Uncomment and replace with actual proxy addresses if required
+
+os.environ['HTTPS_PROXY'] = 'https://inance.yahoo.com/'
 
 def open_website(url):
     iframe_code = f'<iframe src="{url}" width="100%" height="600" frameborder="0" scrolling="yes"></iframe>'
