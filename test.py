@@ -9,14 +9,12 @@ import time
 from datetime import datetime
 
 # Specify the path to your Chrome executable
-chrome_path = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+chrome_path = "C:\Program Files\Google\Chrome\Application\chrome.exe"  
 
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--disable-software-rasterizer')
-chrome_options.add_argument('--no-sandbox')  # Add this line
-chrome_options.add_argument('--disable-dev-shm-usage')  # Add this line
 chrome_options.binary_location = chrome_path
 
 st.title("Stocks")
@@ -28,9 +26,9 @@ selected_date = st.date_input("Select Date", min_value=datetime(2022, 1, 1), max
 # Streamlit button to trigger the search
 if st.button("Search"):
     st.write("Fetching...")
-
+    
     def get_search_results_url(url, keyword):
-        driver = webdriver.Chrome(executable_path="path/to/chromedriver", options=chrome_options)  # Replace with the actual path
+        driver = webdriver.Chrome(executable_path="path/to/chromedriver", options=chrome_options)
         driver.get(url)
 
         try:
@@ -54,6 +52,8 @@ if st.button("Search"):
         st.write("Thanks for trying. See you soon(:")
         st.stop()
     finally:
+        print(f"Value of search_results_url: {search_results_url}")  # Debugging statement
+
         if not search_results_url:
             st.write("No search results found.")
         elif "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
