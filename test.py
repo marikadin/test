@@ -100,7 +100,6 @@ def predict_tomorrows_stock_value_lstm(stock_data):
     return predicted_value
 
 # Streamlit app
-st.title("Stock Symbol Lookup and Prediction")
 def display_lstm_info():
     st.markdown("""
         **Long Short-Term Memory (LSTM) Overview:**
@@ -111,8 +110,11 @@ def display_lstm_info():
         ... (Your LSTM information)
 
         *Source: [Your Source]*
+    """)
 
-        """)
+# Streamlit app
+st.title("Stock Symbol Lookup and Prediction")
+
 # Input for company name
 company_name = st.text_input("Enter company name or item:")
 
@@ -149,9 +151,10 @@ if st.button("Get Stock Symbol"):
                         st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
                         # Light bulb icon for LSTM information
-                        if st.button("ℹ️ LSTM Information"):
+                        if st.button("💡 Show LSTM Information"):
                             display_lstm_info()
 
                         # Minimize button to close LSTM information
                         if st.button("Minimize"):
-                            st.text("")
+                            st.text("")  # Add an empty text to minimize the section
+
