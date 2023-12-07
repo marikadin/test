@@ -7,7 +7,7 @@ import plotly.express as px
 def get_stock_symbol(company_name):
     try:
         response = yq.search(company_name)
-        print("Response:", response)  # Print the entire response
+        st.warning("Response:", response)  # Print the entire response
         if response and 'quotes' in response and response['quotes']:
             return response['quotes'][0]['symbol']
         else:
