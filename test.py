@@ -58,16 +58,15 @@ if st.button("Get Stock Symbol"):
     else:
         stock_symbol = get_stock_symbol(api_key, company_name)
         if stock_symbol:
-            def main():
-                st.title("Stock Price Visualization App")
-                global stock_symbol
-                if stock_symbol:
-                    st.write(f"Displaying stock data for {stock_symbol}")
+            st.title("Stock Price Visualization App")
 
-                    stock_data = get_stock_data(stock_symbol)
-                    if stock_data is not None:
-                        plot_stock_data(stock_data)
+
+            if stock_symbol:
+                st.write(f"Displaying stock data for {stock_symbol}")
+
+                stock_data = get_stock_data(stock_symbol)
+                if stock_data is not None:
+                    plot_stock_data(stock_data)
+
         else:
             st.warning(f"Could not find the stock symbol for {company_name}")
-if __name__ == "__main__":
-    main()
