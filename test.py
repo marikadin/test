@@ -91,6 +91,7 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
 
 
+# Function to display information about LSTM
 def display_lstm_info():
     st.markdown("""
         **Long Short-Term Memory (LSTM) Overview:**
@@ -108,9 +109,6 @@ st.title("Stock Symbol Lookup and Prediction")
 
 # Input for company name
 company_name = st.text_input("Enter company name or item:")
-
-# Placeholder for LSTM information
-info_placeholder = st.empty()
 
 # Button to trigger the stock symbol lookup
 if st.button("Get Stock Symbol"):
@@ -142,15 +140,6 @@ if st.button("Get Stock Symbol"):
                         st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
                         st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
-                        # Button to show/hide LSTM information
-                        if st.button("💡 Show LSTM Information"):
-                            # Clear the placeholder and show LSTM information
-                            info_placeholder.empty()
+                        # Expander for LSTM information
+                        with st.expander("💡 Show LSTM Information"):
                             display_lstm_info()
-
-                            # Button to minimize LSTM information
-                            if st.button("Minimize"):
-                                # Clear the placeholder to minimize the section
-                                info_placeholder.empty()
-
-                        
