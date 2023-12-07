@@ -102,9 +102,6 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 # Light bulb icon
 lightbulb_icon = "💡"
 
-# Streamlit app
-st.set_page_config(page_title="Stock Prediction App")
-
 # Sidebar with light bulb icon
 with st.sidebar:
     st.markdown(f"## {lightbulb_icon} LSTM Info")
