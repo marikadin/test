@@ -25,7 +25,8 @@ if st.button("Search"):
     st.write("Fetching...")
     
     def get_search_results_url(url, keyword):
-        driver = webdriver.Firefox(options=firefox_options, executable_path='/path/to/geckodriver')
+        # Set the PATH variable to include the directory of GeckoDriver
+        driver = webdriver.Firefox(options=firefox_options)
         
         try:
             driver.get(url)
