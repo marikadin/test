@@ -52,8 +52,6 @@ if st.button("Search"):
         st.write("Thanks for trying. See you soon(:")
         st.stop()
     finally:
-        print(f"Value of search_results_url: {search_results_url}")  # Debugging statement
-
         if not search_results_url:
             st.write("No search results found.")
         elif "https://www.yahoo.com/?err=404&err_url=" in search_results_url:
@@ -68,6 +66,4 @@ if st.button("Search"):
             st.write("A private company:", search_results_url)
         else:
             st.write(f"URL of the search results page for {keyword}: {search_results_url}")
-            # Call the second script's functionality with the obtained URL
-            # from extract_ddata import process_fin_streamers
-            # process_fin_streamers(keyword, search_results_url)
+            print(f"Value of search_results_url: {search_results_url}")  
