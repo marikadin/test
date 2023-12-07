@@ -1,7 +1,20 @@
 import streamlit as st
+import yahooquery as yq
 import yfinance as yf
 import pandas as pd
 import plotly.express as px
+
+def get_stock_symbol(company_name):
+    try:
+        response = yq.search(company_name)
+        if 'quotes' in response and response['quotes']:
+            return response['quotes'][0]['symbol']
+        else:
+            st.error(f"Could not find stock symbol for {company_name}")
+            return None
+    except Exception as e:
+        st.error(f"Error retrieving stock symbol: {e}")
+        return None
 
 def get_stock_data(symbol):
     try:
@@ -20,14 +33,16 @@ def plot_stock_data(stock_data):
 def main():
     st.title("Stock Price Visualization App")
 
-    stock_name = st.text_input("Enter the stock symbol or company name (e.g., NVDA, AAPL):")
+    company_name = st.text_input("Enter the company name (e.g., Nvidia, Apple):")
 
-    if stock_name:
-        st.write(f"Displaying stock data for {stock_name}")
+    if company_name:
+        st.write(f"Displaying stock data for {company_name}")
 
-        stock_data = get_stock_data(stock_name)
-        if stock_data is not None:
-            plot_stock_data(stock_data)
+        stock_symbol = get_stock_symbol(company_name)
+        if stock_symbol:
+            stock_data = get_stock_data(stock_symbol)
+            if stock_data is not None:
+                plot_stock_data(stock_data)
 
 if __name__ == "__main__":
     main()
