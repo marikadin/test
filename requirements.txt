@@ -8,5 +8,3 @@ matplotlib
 scikit-learn
 numpy
 requests
-tkcalendar
-tkinter
