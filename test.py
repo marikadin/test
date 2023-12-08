@@ -7,8 +7,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import tensorflow as tf
-
-# List of API keys
+import time  
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
@@ -166,19 +165,7 @@ st.set_page_config(
     layout="wide",
 
 )
-background_image = r"C:\Users\user\Documents\test\background.jpg"  # Replace with the actual path or URL
 
-# Apply background image using custom CSS
-background_code = f"""
-    <style>
-        body {{
-            background-image: url('{background_image}');
-            background-size: cover;
-            background-repeat: no-repeat;
-        }}
-    </style>
-"""
-st.markdown(background_code, unsafe_allow_html=True)
 
 
 
@@ -190,31 +177,34 @@ if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
     else:
-        stock_symbol = get_stock_symbol(company_name)
+        with st.spinner("Fetching stock symbol..."):
+            stock_symbol = get_stock_symbol(company_name)
 
     if stock_symbol:
         st.title("Stock Price Visualization App")
         st.write(f"Displaying stock data for {stock_symbol}")
 
-        stock_data = get_stock_data(stock_symbol)
+        with st.spinner("Fetching stock data..."):
+            stock_data = get_stock_data(stock_symbol)
+
         if stock_data is not None:
             plot_stock_data(stock_data)
             try:
-                predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                with st.spinner("Performing predictions..."):
+                    predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                    time.sleep(1)  
 
                 st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
                 st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
-                # Expander for LSTM information
                 with st.expander("💡 What is LSTM?"):
                     display_lstm_info()
 
-                # Expander for Linear Regression information and graph
                 with st.expander("💡 What is Linear Regression?"):
                     st.write("Linear Regression Simulation:")
                     linear_Regression(stock_data)
             except:
-                st.warning("Not enough info for an AI aproximation")
+                st.warning("Not enough info for an AI approximation")
     else:
-        st.warning("Stock dosent exit.")
+        st.warning("Stock doesn't exist.")
