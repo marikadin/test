@@ -162,6 +162,15 @@ st.set_page_config(
     page_icon=r"icons8-stock-48.png",
     layout="wide",
 )
+background_code = """
+<style>
+    body {
+        background-image: url('background.jpg');
+        background-size: cover;
+    }
+</style>
+"""
+st.markdown(background_code, unsafe_allow_html=True)
 
 st.title("Stock Analyzer")
 
