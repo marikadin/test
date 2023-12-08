@@ -7,7 +7,34 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import tensorflow as tf
+video_html = """
+		<style>
 
+		#myVideo {
+		  position: fixed;
+		  right: 0;
+		  bottom: 0;
+		  min-width: 100%; 
+		  min-height: 100%;
+		}
+
+		.content {
+		  position: fixed;
+		  bottom: 0;
+		  background: rgba(0, 0, 0, 0.5);
+		  color: #f1f1f1;
+		  width: 100%;
+		  padding: 20px;
+		}
+
+		</style>	
+		<video autoplay muted loop id="myVideo">
+		  <source src="https://youtu.be/jnLSYfObARA?si=UswoPdyR6-2J91t5")>
+		  Your browser does not support HTML5 video.
+		</video>
+        """
+
+st.markdown(video_html, unsafe_allow_html=True)
 def get_stock_data(symbol):
     try:
         stock_data = yf.download(symbol, start="2022-01-01", end="2023-01-01")
