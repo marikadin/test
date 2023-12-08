@@ -47,6 +47,7 @@ def get_stock_symbol(api_key, company_name):
         return None
 
 
+
 def predict_tomorrows_stock_value_linear_regression(stock_data):
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
