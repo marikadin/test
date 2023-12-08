@@ -152,6 +152,31 @@ st.set_page_config(
 )
 st.title("Stock Analyzer")
 # Input for company name
+st.markdown("""
+    <style>
+        video {
+            object-fit: cover;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+    <video autoplay loop muted playsinline id="bgVideo">
+        <source src="video.mp4" type="video/mp4">
+    </video>
+
+    <script>
+        // JavaScript to handle video loop
+        const video = document.getElementById('bgVideo');
+        video.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+    </script>
+""", unsafe_allow_html=True)
 company_name = st.text_input("Enter company name or item:")
 
 # Button to trigger the stock symbol lookup
