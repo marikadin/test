@@ -162,16 +162,7 @@ st.set_page_config(
     page_icon=r"icons8-stock-48.png",
     layout="wide",
 )
-st.markdown(
-    """
-    <style>
-    .reportview-container {
-        background: url("background.jpg");
-    }
-   </style>
-    """,
-    unsafe_allow_html=True
-)
+backgroundColor = "#F0F0F0"
 st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
