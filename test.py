@@ -161,7 +161,7 @@ st.set_page_config(
     page_title="Stocks analyzer",
     page_icon=r"icons8-stock-48.png",
     layout="wide",
-    
+    page_background = r"background.jpg",
 )
 
 
