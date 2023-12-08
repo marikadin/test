@@ -163,7 +163,23 @@ st.set_page_config(
     layout="wide",
 
 )
-st.image("background.jpg")
+background_image = "background.jpg"
+st.image(background_image, use_container_width=True)
+
+# Apply additional styling with st.markdown and custom CSS
+background_code = f"""
+    <style>
+        body {{
+            background-color: transparent;
+        }}
+        .stImage {{
+            filter: brightness(60%);
+        }}
+    </style>
+"""
+st.markdown(background_code, unsafe_allow_html=True)
+
+
 
 st.title("Stock Analyzer")
 
