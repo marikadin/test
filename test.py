@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import tensorflow as tf
-import os
+
 def get_stock_data(symbol):
     try:
         stock_data = yf.download(symbol, start="2022-01-01", end="2023-01-01")
@@ -156,18 +156,16 @@ st.set_page_config(
     layout="wide",
 
 )
-background_image_style = f"""
+background_image_style = """
 <style>
-body {{
-    background-image: url('{os.path.abspath("background.jpg")}');
+body {
+    background-image: url('C:\Users\user\Documents\test\background.jpg');  /* Set the path to your background image */
     background-size: cover;
-}}
+}
 </style>
 """
 
 st.markdown(background_image_style, unsafe_allow_html=True)
-print("Background style applied successfully!")  # Add this line
-
 
 st.title("Stock Analyzer")
 
