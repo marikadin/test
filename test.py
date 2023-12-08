@@ -52,6 +52,7 @@ def get_stock_data(symbol, start_date, end_date):
         return None
 
 
+
 def plot_stock_data(stock_data):
     fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
     fig.update_xaxes(title_text='Date')
@@ -176,9 +177,12 @@ st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
 
+# Calculate the maximum date as one week from the current live date
+max_date = min(datetime.date.today() + datetime.timedelta(days=7), datetime.date(2023, 12, 8))
+
 # Add date input for selecting date range
 start_date = st.date_input("Select start date:", datetime.date(2022, 1, 1))
-end_date = st.date_input("Select end date:", datetime.date.today())
+end_date = st.date_input("Select end date:", max_date)
 
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
@@ -194,6 +198,7 @@ if st.button("Get Stock Symbol"):
         with st.spinner("Fetching stock data..."):
             # Use selected date range
             stock_data = get_stock_data(stock_symbol, start_date, end_date)
+
 
         if stock_data is not None:
             plot_stock_data(stock_data)
