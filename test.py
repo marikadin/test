@@ -166,8 +166,15 @@ st.set_page_config(
 
 primaryColor = "#0000FF"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F0F0F0"
-textColor = "#000000"
+background_color = "#FFFFFF"
+background_code = f"""
+    <style>
+        body {{
+            background-color: {background_color};
+        }}
+    </style>
+"""
+st.markdown(background_code, unsafe_allow_html=True)
 st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
