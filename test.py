@@ -163,10 +163,10 @@ st.set_page_config(
     layout="wide",
 )
 st.markdown(
-    r"""
+    """
     <style>
     .reportview-container {
-        background: url("C:\Users\user\Documents\test\background.jpg");
+        background: url("background.jpg");
     }
    </style>
     """,
