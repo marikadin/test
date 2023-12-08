@@ -36,8 +36,6 @@ def get_stock_symbol(api_key, company_name):
         response = requests.get(base_url, params=params)
         data = response.json()
 
-        print("API Response:", data)  # Debug print
-
         if "bestMatches" in data and data["bestMatches"]:
             # Convert the symbol to uppercase before returning
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
@@ -47,6 +45,7 @@ def get_stock_symbol(api_key, company_name):
     except Exception as e:
         st.error(f"Error: {e}")
         return None
+
 
 
 
@@ -169,7 +168,10 @@ if st.button("Get Stock Symbol"):
         st.warning("Please enter a company name or item.")
     else:
         with st.spinner("Fetching data and making predictions..."):
-            stock_symbol = get_stock_symbol(api_key, company_name)
+            if company_name.upper() == "APPLE":
+                stock_symbol = "AAPL"
+            else:
+                stock_symbol = get_stock_symbol(api_key, company_name)
             if stock_symbol:
                 st.title("Stock Price Visualization App")
 
