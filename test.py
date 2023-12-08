@@ -149,10 +149,10 @@ Linear regression is widely used in various fields for tasks such as predicting 
 st.set_page_config(
     page_title="Stocks analayzer",
     page_icon=r"icons8-stock-48.png",
+    layout="wide",
 )
 st.title("Stock Analyzer")
 # Input for company name
-st.set_page_config(layout="wide")
 video_html = """
 		<style>
 
