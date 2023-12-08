@@ -161,12 +161,13 @@ st.set_page_config(
     page_title="Stocks analyzer",
     page_icon=r"icons8-stock-48.png",
     layout="wide",
-    primaryColor = "#0000FF",
-    backgroundColor = "#FFFFFF",
-    secondaryBackgroundColor = "#F0F0F0",
-    textColor = "#000000",
+    
 )
 
+primaryColor = "#0000FF"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F0F0"
+textColor = "#000000"
 st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
