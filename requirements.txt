@@ -9,3 +9,4 @@ tensorflow
 time
 datetime
 opencv-python
+cv2
