@@ -3,6 +3,6 @@ requests
 yfinance
 pandas
 plotly
-sklearn
+scikit-learn
 numpy
 tensorflow
