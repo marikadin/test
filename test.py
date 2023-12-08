@@ -36,8 +36,6 @@ def get_stock_symbol(api_key, company_name):
         response = requests.get(base_url, params=params)
         data = response.json()
 
-        st.write(f"API Response: {data}")
-
         if "bestMatches" in data and data["bestMatches"]:
             # Convert the symbol to uppercase before returning
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
@@ -47,7 +45,6 @@ def get_stock_symbol(api_key, company_name):
     except Exception as e:
         st.error(f"Error: {e}")
         return None
-
 
 
 
@@ -157,6 +154,7 @@ st.set_page_config(
     page_title="Stocks analayzer",
     page_icon=r"icons8-stock-48.png",
     layout="wide",
+
 )
 
 st.title("Stock Analyzer")
@@ -172,33 +170,32 @@ if st.button("Get Stock Symbol"):
         st.warning("Please enter a company name or item.")
     else:
         with st.spinner("Fetching data and making predictions..."):
-            if company_name.upper() == "APPLE" or company_name.upper() == "APLE" or company_name.upper() == "AAPL":
+            if company_name.upper() == "APPLE":
                 stock_symbol = "AAPL"
             else:
-                try:
-                    stock_symbol = get_stock_symbol(api_key, company_name)
-                    st.write(f"Obtained Stock Symbol: {stock_symbol}")
-                    if stock_symbol:
-                        st.title("Stock Price Visualization App")
-                        st.write(f"Displaying stock data for {stock_symbol}")
+                stock_symbol = get_stock_symbol(api_key, company_name)
+            if stock_symbol:
+                st.title("Stock Price Visualization App")
 
-                        stock_data = get_stock_data(stock_symbol)
-                        if stock_data is not None:
-                            plot_stock_data(stock_data)
+                if stock_symbol:
+                    st.write(f"Displaying stock data for {stock_symbol}")
 
-                            predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                            predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                    stock_data = get_stock_data(stock_symbol)
+                    if stock_data is not None:
+                        plot_stock_data(stock_data)
 
-                            st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                            st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
 
-                            # Expander for LSTM information
-                            with st.expander("💡 What is LSTM?"):
-                                display_lstm_info()
+                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
 
-                            # Expander for Linear Regression information and graph
-                            with st.expander("💡 What is Linear Regression?"):
-                                st.write("Linear Regression Simulation:")
-                                linear_Regression(stock_data)
-                except Exception as e:
-                    st.warning(f"Error fetching data: {e}")
+                        st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                        st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+
+                        # Expander for LSTM information
+                        with st.expander("💡 What is LSTM?"):
+                            display_lstm_info()
+
+                        # Expander for Linear Regression information and graph
+                        with st.expander("💡 What is Linear Regression?"):
+                            st.write("Linear Regression Simulation:")
+                            linear_Regression(stock_data)
