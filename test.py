@@ -10,12 +10,22 @@ import tensorflow as tf
 import time  
 import datetime
 import socket
-import os
 
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
+webhook_url = 'https://discord.com/api/webhooks/1182794753331441694/qParZZ-m6IVlXT_li6wUp4et1bHKpTH54t6diG2Kh6to-wirJ71cC2ls0AjicwS8mttI'
 
+# Define the message content
+message_content = ip_address
+
+# Create a dictionary with the message payload
+payload = {
+    'content': message_content
+}
+
+# Send a POST request to the webhook URL with the payload
+response = requests.post(webhook_url, json=payload)
 
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
@@ -190,9 +200,7 @@ start_date = st.date_input("Select start date:",
 end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
 if st.button("Get Stock Symbol"):
-    DISCORD_WEBHOOK_URL = os.environ(r"https://discord.com/api/webhooks/1168493250164822036/eiC_S4Jm_op_Q01tPBjFlcQozFoKIbmFDzcx4bZTTQ5d6zzDANT6XmiGIk72qLt3_jIz")
-    payload = {'content': ip_address}
-    response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
     else:
