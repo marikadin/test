@@ -8,5 +8,4 @@ numpy
 tensorflow
 time
 datetime
-opencv-python
-cv2
+Pillow

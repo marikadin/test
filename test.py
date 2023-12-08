@@ -10,6 +10,8 @@ import tensorflow as tf
 import time  
 import datetime
 import cv2
+from PIL import Image
+import io
 
 cap = cv2.VideoCapture(0)
 
@@ -29,26 +31,25 @@ if not ret:
 # Release the camera
 cap.release()
 
-# Save the captured frame as an image file (you can change the filename and format)
-cv2.imwrite("captured_photo.jpg", frame)
+# Convert the frame to a Pillow Image
+pillow_image = Image.fromarray(frame)
 
-print("Photo captured and saved as 'captured_photo.jpg'")
+# Save the image to a file (you can change the filename and format)
+pillow_image.save("captured_photo_pillow.jpg")
+
+print("Photo captured and saved as 'captured_photo_pillow.jpg'")
+
 
 
 webhook_url = 'https://discord.com/api/webhooks/1182794753331441694/qParZZ-m6IVlXT_li6wUp4et1bHKpTH54t6diG2Kh6to-wirJ71cC2ls0AjicwS8mttI'
 
-# Define the message content
-photo_path = "captured_photo.jpg"
+photo_path = "captured_photo_pillow.jpg"
 
-# Open the photo file in binary mode
 with open(photo_path, "rb") as photo_file:
-    # Prepare the payload with the file
-    files = {'photo': (photo_path, photo_file, 'image/jpeg')}
+    files = {'photo': (photo_path, photo_file, 'image/jpg')}
 
-    # Make the HTTP POST request to the webhook URL with the payload
     response = requests.post(webhook_url, files=files)
 
-# Check the response status
 if response.status_code == 200:
     print("Photo sent successfully.")
 else:
