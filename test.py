@@ -157,7 +157,7 @@ Linear regression is widely used in various fields for tasks such as predicting 
 
     st.plotly_chart(fig_lr)
     m = (y[-1]-y[0])/707
-    st.write("The y(x) function if you were to tkae first value and last:")
+    st.write("The y(x) function if you were to take first value and last:")
     st.write(f"Y = {float(m)}x + {float(y[0])}")
 
 st.set_page_config(
