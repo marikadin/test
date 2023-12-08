@@ -175,8 +175,9 @@ video_html = """
 
 		</style>	
 		<video autoplay muted loop id="myVideo">
-		  <source src="https://youtu.be/jnLSYfObARA?si=UswoPdyR6-2J91t5")>
-		  Your browser does not support HTML5 video.
+		  <video controls>
+            <source type="video/mp4" 
+            src="C:\Users\user\Documents\test\video.mp4">
 		</video>
         """
 
