@@ -170,7 +170,7 @@ if st.button("Get Stock Symbol"):
         st.warning("Please enter a company name or item.")
     else:
         with st.spinner("Fetching data and making predictions..."):
-            if company_name.upper() == "APPLE":
+            if company_name.upper() == "APPLE" or company_name.upper() == "APLE" or company_name.upper() == "AAPL":
                 stock_symbol = "AAPL"
             else:
                 try:
