@@ -8,6 +8,8 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import tensorflow as tf
 import time  
+import datetime
+
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
@@ -41,13 +43,14 @@ def get_stock_symbol(company_name):
 
     return None
 
-def get_stock_data(symbol):
+def get_stock_data(symbol, start_date, end_date):
     try:
-        stock_data = yf.download(symbol, start="2022-01-01", end="2023-12-08")
+        stock_data = yf.download(symbol, start=start_date, end=end_date)
         return stock_data
     except Exception as e:
         st.error(f"Error retrieving data: {e}")
         return None
+
 
 def plot_stock_data(stock_data):
     fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
@@ -173,6 +176,10 @@ st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
 
+# Add date input for selecting date range
+start_date = st.date_input("Select start date:", datetime.date(2022, 1, 1))
+end_date = st.date_input("Select end date:", datetime.date.today())
+
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
@@ -185,7 +192,8 @@ if st.button("Get Stock Symbol"):
         st.write(f"Displaying stock data for {stock_symbol}")
 
         with st.spinner("Fetching stock data..."):
-            stock_data = get_stock_data(stock_symbol)
+            # Use selected date range
+            stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
         if stock_data is not None:
             plot_stock_data(stock_data)
