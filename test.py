@@ -193,4 +193,4 @@ if st.button("Get Stock Symbol"):
                 st.write("Linear Regression Simulation:")
                 linear_Regression(stock_data)
     else:
-        st.warning("Unable to obtain Stock Symbol.")
+        st.warning("Stock dosent exit.")
