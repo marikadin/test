@@ -154,6 +154,7 @@ st.set_page_config(
     page_title="Stocks analayzer",
     page_icon=r"icons8-stock-48.png",
     layout="wide",
+    page_image = r"icons8-stock-48.png",
 )
 st.title("Stock Analyzer")
 
