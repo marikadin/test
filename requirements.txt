@@ -8,4 +8,4 @@ numpy
 tensorflow
 time
 datetime
-cv2
+opencv-python
