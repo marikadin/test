@@ -156,10 +156,10 @@ st.set_page_config(
     layout="wide",
 
 )
-background_image_style = """
+background_image_style = r"""
 <style>
 body {
-    background-image: url('C:\Users\user\Documents\test\background.jpg');  /* Set the path to your background image */
+    background-image: url(r'C:\Users\user\Documents\test\background.jpg');
     background-size: cover;
 }
 </style>
