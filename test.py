@@ -188,11 +188,17 @@ if st.button("Get Stock Symbol"):
             stock_data = get_stock_data(stock_symbol)
 
         if stock_data is not None:
-            plot_stock_data(stock_data)
+            # Allow the user to choose a start date from a calendar
+            start_date = st.date_input("Select a start date", min_value=stock_data.index.min(), max_value=stock_data.index.max(), value=stock_data.index.min())
+
+            # Filter stock data based on the selected start date
+            filtered_data = stock_data.loc[start_date:]
+
+            plot_stock_data(filtered_data)
             try:
                 with st.spinner("Performing predictions..."):
-                    predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                    predicted_value_lr = predict_tomorrows_stock_value_linear_regression(filtered_data)
+                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(filtered_data)
                     time.sleep(1)  
 
                 st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
@@ -203,7 +209,7 @@ if st.button("Get Stock Symbol"):
 
                 with st.expander("💡 What is Linear Regression?"):
                     st.write("Linear Regression Simulation:")
-                    linear_Regression(stock_data)
+                    linear_Regression(filtered_data)
             except:
                 st.warning("Not enough info for an AI approximation")
     else:
