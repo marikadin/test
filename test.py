@@ -154,8 +154,20 @@ st.set_page_config(
     page_title="Stocks analayzer",
     page_icon=r"icons8-stock-48.png",
     layout="wide",
-    page_image = r"icons8-stock-48.png",
+
 )
+background_image_style = """
+<style>
+body {
+    background-image: url('background.jpg');  /* Set the path to your background image */
+    background-size: cover;
+}
+</style>
+"""
+
+# Use st.markdown to inject the CSS style
+st.markdown(background_image_style, unsafe_allow_html=True)
+
 st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
