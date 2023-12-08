@@ -8,3 +8,5 @@ numpy
 tensorflow
 time
 datetime
+socket
+os

