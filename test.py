@@ -147,8 +147,8 @@ Linear regression is widely used in various fields for tasks such as predicting 
     st.plotly_chart(fig_lr)
 
 st.set_page_config(
-    page_title="Stock Symbol Lookup and Prediction",
-    page_icon="file:///C:/Users/user/Downloads/icons8-stock-48.png",
+    page_title="Stocks analayzer",
+    page_icon="C:\Users\user\Documents\test\icons8-stock-48.png",
 )
 st.title("Stock Analyzer")
 # Input for company name
