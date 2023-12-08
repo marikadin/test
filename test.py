@@ -184,7 +184,10 @@ st.title("Stock Analyzer")
 company_name = st.text_input("Enter company name or item:")
 
 if st.button("Get Stock Symbol"):
-    stock_symbol = get_stock_symbol(company_name)
+    if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+        stock_symbol = "AAPL"
+    else:
+        stock_symbol = get_stock_symbol(company_name)
 
     if stock_symbol:
         st.title("Stock Price Visualization App")
@@ -212,14 +215,3 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI aproximation")
     else:
         st.warning("Stock dosent exit.")
-primaryColor = "#0000FF"
-backgroundColor = "#FFFFFF"
-background_color = "#FFFFFF"
-background_code = f"""
-    <style>
-        body {{
-            background-color: {background_color};
-        }}
-    </style>
-"""
-st.markdown(background_code, unsafe_allow_html=True)
