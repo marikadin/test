@@ -36,6 +36,8 @@ def get_stock_symbol(api_key, company_name):
         response = requests.get(base_url, params=params)
         data = response.json()
 
+        print("API Response:", data)  # Debug print
+
         if "bestMatches" in data and data["bestMatches"]:
             # Convert the symbol to uppercase before returning
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
