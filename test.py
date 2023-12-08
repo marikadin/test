@@ -163,7 +163,7 @@ st.set_page_config(
     layout="wide",
     page_background = r"background.jpg",
 )
-
+st.image("background.jpg")
 
 st.title("Stock Analyzer")
 
