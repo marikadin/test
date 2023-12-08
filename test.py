@@ -173,7 +173,6 @@ st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
 
-# Use st.button for the "Get Stock Symbol" action
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
@@ -189,37 +188,23 @@ if st.button("Get Stock Symbol"):
             stock_data = get_stock_data(stock_symbol)
 
         if stock_data is not None:
-            # Set the date range for the calendar between the minimum date and today
-            start_date = st.date_input("Select a start date", min_value=stock_data.index.min(), max_value=pd.Timestamp.today().date(), value=stock_data.index.min())
+            plot_stock_data(stock_data)
+            try:
+                with st.spinner("Performing predictions..."):
+                    predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                    time.sleep(1)  
 
-            # Use Streamlit cache to store the filtered data
-            @st.cache(allow_output_mutation=True)
-            def filter_data(stock_data, start_date):
-                return stock_data.loc[start_date:].copy()
+                st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
-            # Filter stock data based on the selected start date
-            filtered_data = filter_data(stock_data, start_date)
+                with st.expander("💡 What is LSTM?"):
+                    display_lstm_info()
 
-            # Only proceed if a date is chosen
-            if st.button("Show Graph"):
-                plot_stock_data(filtered_data)
-                try:
-                    with st.spinner("Performing predictions..."):
-                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(filtered_data)
-                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(filtered_data)
-                        time.sleep(1)  
-
-                    st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                    st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
-
-                    with st.expander("💡 What is LSTM?"):
-                        display_lstm_info()
-
-                    with st.expander("💡 What is Linear Regression?"):
-                        st.write("Linear Regression Simulation:")
-                        linear_Regression(filtered_data)
-                except:
-                    st.warning("Not enough info for an AI approximation")
+                with st.expander("💡 What is Linear Regression?"):
+                    st.write("Linear Regression Simulation:")
+                    linear_Regression(stock_data)
+            except:
+                st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
-
