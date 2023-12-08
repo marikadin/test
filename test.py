@@ -173,7 +173,7 @@ company_name = st.text_input("Enter company name or item:")
 
 # Add date input widget
 min_date = datetime.date(2022, 1, 1)
-max_date = datetime.datetime.now() - datetime.timedelta(days=14)
+max_date = datetime.datetime.now() - datetime.timedelta(days=16)
 start_date = st.date_input("Select start date:", 
                            min_value=min_date, 
                            max_value=max_date, 
