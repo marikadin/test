@@ -152,45 +152,10 @@ st.set_page_config(
 )
 st.title("Stock Analyzer")
 # Input for company name
-st.markdown("""
-    <html>
-        <head>
-            <style>
-                body {
-                    margin: 0;
-                    overflow: hidden;
-                }
 
-                video {
-                    object-fit: cover;
-                    width: 100vw;
-                    height: 100vh;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    z-index: -1;
-                }
-            </style>
-        </head>
-        <body>
-            <video autoplay loop muted playsinline id="bgVideo">
-                <source src="video.mp4" type="video/mp4">
-            </video>
-            <script>
-                const video = document.getElementById('bgVideo');
-                video.addEventListener('ended', function() {
-                    this.currentTime = 0;
-                    this.play();
-                }, false);
-            </script>
-        </body>
-    </html>
-""", unsafe_allow_html=True)
 company_name = st.text_input("Enter company name or item:")
 
-# Button to trigger the stock symbol lookup
 if st.button("Get Stock Symbol"):
-    # Replace 'YOUR_API_KEY' with the actual API key you obtained from Alpha Vantage
     api_key = 'QJFF49AEUN6NX884'
 
     if api_key == 'YOUR_API_KEY':
@@ -198,7 +163,6 @@ if st.button("Get Stock Symbol"):
     elif not company_name:
         st.warning("Please enter a company name or item.")
     else:
-        # Show spinner while fetching data
         with st.spinner("Fetching data and making predictions..."):
             stock_symbol = get_stock_symbol(api_key, company_name)
             if stock_symbol:
