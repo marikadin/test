@@ -169,8 +169,6 @@ st.set_page_config(
 
 
 
-# ... (Your existing code)
-
 st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
@@ -195,9 +193,9 @@ if st.button("Get Stock Symbol"):
             start_date = st.date_input("Select a start date", min_value=stock_data.index.min(), max_value=pd.Timestamp.today().date(), value=stock_data.index.min())
 
             # Use Streamlit cache to store the filtered data
-            @st.cache
+            @st.cache(allow_output_mutation=True)
             def filter_data(stock_data, start_date):
-                return stock_data.loc[start_date:]
+                return stock_data.loc[start_date:].copy()
 
             # Filter stock data based on the selected start date
             filtered_data = filter_data(stock_data, start_date)
@@ -224,3 +222,4 @@ if st.button("Get Stock Symbol"):
                     st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
+
