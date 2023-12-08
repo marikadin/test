@@ -163,8 +163,19 @@ st.set_page_config(
     layout="wide",
 
 )
-background_image = "background.jpg"
-st.image(background_image, use_container_width=True)
+background_image = r"C:\Users\user\Documents\test\background.jpg"  # Replace with the actual path or URL
+
+# Apply background image using custom CSS
+background_code = f"""
+    <style>
+        body {{
+            background-image: url('{background_image}');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }}
+    </style>
+"""
+st.markdown(background_code, unsafe_allow_html=True)
 
 
 
