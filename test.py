@@ -44,7 +44,7 @@ def get_stock_symbol(company_name):
 
 def get_stock_data(symbol):
     try:
-        stock_data = yf.download(symbol, start="2022-01-01", end="2023-01-01")
+        stock_data = yf.download(symbol, start="2022-01-01", end="2023-12-08")
         return stock_data
     except Exception as e:
         st.error(f"Error retrieving data: {e}")
