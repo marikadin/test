@@ -173,29 +173,33 @@ if st.button("Get Stock Symbol"):
             if company_name.upper() == "APPLE":
                 stock_symbol = "AAPL"
             else:
-                stock_symbol = get_stock_symbol(api_key, company_name)
-            if stock_symbol:
-                st.title("Stock Price Visualization App")
+                try:
+                    stock_symbol = get_stock_symbol(api_key, company_name)
+                
+                    if stock_symbol:
+                        st.title("Stock Price Visualization App")
 
-                if stock_symbol:
-                    st.write(f"Displaying stock data for {stock_symbol}")
+                        if stock_symbol:
+                            st.write(f"Displaying stock data for {stock_symbol}")
 
-                    stock_data = get_stock_data(stock_symbol)
-                    if stock_data is not None:
-                        plot_stock_data(stock_data)
+                            stock_data = get_stock_data(stock_symbol)
+                            if stock_data is not None:
+                                plot_stock_data(stock_data)
 
-                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                                predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
 
-                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                                predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
 
-                        st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                        st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+                                st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                                st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
-                        # Expander for LSTM information
-                        with st.expander("💡 What is LSTM?"):
-                            display_lstm_info()
+                                # Expander for LSTM information
+                                with st.expander("💡 What is LSTM?"):
+                                    display_lstm_info()
 
-                        # Expander for Linear Regression information and graph
-                        with st.expander("💡 What is Linear Regression?"):
-                            st.write("Linear Regression Simulation:")
-                            linear_Regression(stock_data)
+                                # Expander for Linear Regression information and graph
+                                with st.expander("💡 What is Linear Regression?"):
+                                    st.write("Linear Regression Simulation:")
+                                    linear_Regression(stock_data)
+                except:
+                    st.warning("Couldnt fetch...")
