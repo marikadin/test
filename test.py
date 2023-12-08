@@ -36,6 +36,8 @@ def get_stock_symbol(api_key, company_name):
         response = requests.get(base_url, params=params)
         data = response.json()
 
+        st.write(f"API Response: {data}")
+
         if "bestMatches" in data and data["bestMatches"]:
             # Convert the symbol to uppercase before returning
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
@@ -45,6 +47,7 @@ def get_stock_symbol(api_key, company_name):
     except Exception as e:
         st.error(f"Error: {e}")
         return None
+
 
 
 
