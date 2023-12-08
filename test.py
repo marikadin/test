@@ -164,7 +164,7 @@ st.title("Stock Analyzer")
 company_name = st.text_input("Enter company name or item:")
 
 if st.button("Get Stock Symbol"):
-    api_key = 'QJFF49AEUN6NX884'
+    api_key = 'MNI5T6CU7KLSFJA8'
 
     if api_key == 'YOUR_API_KEY':
         st.warning("Please replace 'YOUR_API_KEY' with your actual Alpha Vantage API key.")
