@@ -169,10 +169,13 @@ st.set_page_config(
 
 
 
+# ... (Your existing code)
+
 st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
 
+# Use st.button for the "Get Stock Symbol" action
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
@@ -191,11 +194,16 @@ if st.button("Get Stock Symbol"):
             # Set the date range for the calendar between the minimum date and today
             start_date = st.date_input("Select a start date", min_value=stock_data.index.min(), max_value=pd.Timestamp.today().date(), value=stock_data.index.min())
 
+            # Use Streamlit cache to store the filtered data
+            @st.cache
+            def filter_data(stock_data, start_date):
+                return stock_data.loc[start_date:]
+
+            # Filter stock data based on the selected start date
+            filtered_data = filter_data(stock_data, start_date)
+
             # Only proceed if a date is chosen
             if st.button("Show Graph"):
-                # Filter stock data based on the selected start date
-                filtered_data = stock_data.loc[start_date:]
-
                 plot_stock_data(filtered_data)
                 try:
                     with st.spinner("Performing predictions..."):
