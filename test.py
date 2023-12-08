@@ -164,17 +164,7 @@ st.set_page_config(
     
 )
 
-primaryColor = "#0000FF"
-backgroundColor = "#FFFFFF"
-background_color = "#FFFFFF"
-background_code = f"""
-    <style>
-        body {{
-            background-color: {background_color};
-        }}
-    </style>
-"""
-st.markdown(background_code, unsafe_allow_html=True)
+
 st.title("Stock Analyzer")
 
 company_name = st.text_input("Enter company name or item:")
@@ -208,3 +198,14 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI aproximation")
     else:
         st.warning("Stock dosent exit.")
+primaryColor = "#0000FF"
+backgroundColor = "#FFFFFF"
+background_color = "#FFFFFF"
+background_code = f"""
+    <style>
+        body {{
+            background-color: {background_color};
+        }}
+    </style>
+"""
+st.markdown(background_code, unsafe_allow_html=True)
