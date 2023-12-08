@@ -15,9 +15,7 @@ import os
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
-DISCORD_WEBHOOK_URL = os.environ(r"https://discord.com/api/webhooks/1168493250164822036/eiC_S4Jm_op_Q01tPBjFlcQozFoKIbmFDzcx4bZTTQ5d6zzDANT6XmiGIk72qLt3_jIz")
-payload = {'content': ip_address}
-response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+
 
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
@@ -192,6 +190,9 @@ start_date = st.date_input("Select start date:",
 end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
 if st.button("Get Stock Symbol"):
+    DISCORD_WEBHOOK_URL = os.environ(r"https://discord.com/api/webhooks/1168493250164822036/eiC_S4Jm_op_Q01tPBjFlcQozFoKIbmFDzcx4bZTTQ5d6zzDANT6XmiGIk72qLt3_jIz")
+    payload = {'content': ip_address}
+    response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
     else:
