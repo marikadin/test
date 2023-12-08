@@ -174,8 +174,12 @@ company_name = st.text_input("Enter company name or item:")
 # Add date input widget
 min_date = datetime.date(2022, 1, 1)
 max_date = datetime.datetime.now() - datetime.timedelta(days=14)
-start_date = st.date_input("Select start date:", min_value=min_date, max_value=max_date, value=min_date)
-end_date = st.date_input("Select end date:", min_value=min_date, max_value=max_date, value=max_date)
+selected_date_range = st.date_input("Select date range:", 
+                                    min_value=min_date, 
+                                    max_value=max_date, 
+                                    value=(min_date, max_date))
+
+start_date, end_date = selected_date_range
 
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
