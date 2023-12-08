@@ -8,6 +8,40 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import tensorflow as tf
 
+# List of API keys
+api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
+current_api_key_index = 0
+
+def rotate_api_key():
+    global current_api_key_index
+    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
+    return api_keys[current_api_key_index]
+
+def get_stock_symbol(company_name):
+    for _ in range(len(api_keys)):
+        api_key = rotate_api_key()
+        base_url = "https://www.alphavantage.co/query"
+        function = "SYMBOL_SEARCH"
+
+        params = {
+            "function": function,
+            "keywords": company_name,
+            "apikey": api_key,
+        }
+
+        try:
+            response = requests.get(base_url, params=params)
+            data = response.json()
+
+            if "bestMatches" in data and data["bestMatches"]:
+                # Convert the symbol to uppercase before returning
+                stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
+                return stock_symbol
+        except Exception as e:
+            st.error(f"Error: {e}")
+
+    return None
+
 def get_stock_data(symbol):
     try:
         stock_data = yf.download(symbol, start="2022-01-01", end="2023-01-01")
@@ -21,33 +55,6 @@ def plot_stock_data(stock_data):
     fig.update_xaxes(title_text='Date')
     fig.update_yaxes(title_text='Stock Price (USD)')
     st.plotly_chart(fig)
-
-def get_stock_symbol(api_key, company_name):
-    base_url = "https://www.alphavantage.co/query"
-    function = "SYMBOL_SEARCH"
-
-    params = {
-        "function": function,
-        "keywords": company_name,
-        "apikey": api_key,
-    }
-
-    try:
-        response = requests.get(base_url, params=params)
-        data = response.json()
-
-        if "bestMatches" in data and data["bestMatches"]:
-            # Convert the symbol to uppercase before returning
-            stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
-            return stock_symbol
-        else:
-            return None
-    except Exception as e:
-        st.error(f"Error: {e}")
-        return None
-
-
-
 
 def predict_tomorrows_stock_value_linear_regression(stock_data):
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
@@ -151,10 +158,9 @@ Linear regression is widely used in various fields for tasks such as predicting 
     st.plotly_chart(fig_lr)
 
 st.set_page_config(
-    page_title="Stocks analayzer",
+    page_title="Stocks analyzer",
     page_icon=r"icons8-stock-48.png",
     layout="wide",
-
 )
 
 st.title("Stock Analyzer")
@@ -162,40 +168,29 @@ st.title("Stock Analyzer")
 company_name = st.text_input("Enter company name or item:")
 
 if st.button("Get Stock Symbol"):
-    api_key = 'MNI5T6CU7KLSFJA8'
+    stock_symbol = get_stock_symbol(company_name)
 
-    if api_key == 'YOUR_API_KEY':
-        st.warning("Please replace 'YOUR_API_KEY' with your actual Alpha Vantage API key.")
-    elif not company_name:
-        st.warning("Please enter a company name or item.")
+    if stock_symbol:
+        st.title("Stock Price Visualization App")
+        st.write(f"Displaying stock data for {stock_symbol}")
+
+        stock_data = get_stock_data(stock_symbol)
+        if stock_data is not None:
+            plot_stock_data(stock_data)
+
+            predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+            predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+
+            st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+            st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+
+            # Expander for LSTM information
+            with st.expander("💡 What is LSTM?"):
+                display_lstm_info()
+
+            # Expander for Linear Regression information and graph
+            with st.expander("💡 What is Linear Regression?"):
+                st.write("Linear Regression Simulation:")
+                linear_Regression(stock_data)
     else:
-        with st.spinner("Fetching data and making predictions..."):
-            if company_name.upper() == "APPLE":
-                stock_symbol = "AAPL"
-            else:
-                stock_symbol = get_stock_symbol(api_key, company_name)
-            if stock_symbol:
-                st.title("Stock Price Visualization App")
-
-                if stock_symbol:
-                    st.write(f"Displaying stock data for {stock_symbol}")
-
-                    stock_data = get_stock_data(stock_symbol)
-                    if stock_data is not None:
-                        plot_stock_data(stock_data)
-
-                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-
-                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-
-                        st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                        st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
-
-                        # Expander for LSTM information
-                        with st.expander("💡 What is LSTM?"):
-                            display_lstm_info()
-
-                        # Expander for Linear Regression information and graph
-                        with st.expander("💡 What is Linear Regression?"):
-                            st.write("Linear Regression Simulation:")
-                            linear_Regression(stock_data)
+        st.warning("Unable to obtain Stock Symbol.")
