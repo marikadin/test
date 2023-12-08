@@ -172,8 +172,10 @@ st.title("Stock Analyzer")
 company_name = st.text_input("Enter company name or item:")
 
 # Add date input widget
-start_date = st.date_input("Select start date:", datetime.date(2022, 1, 1))
-end_date = datetime.datetime.now() - datetime.timedelta(days=14)
+min_date = datetime.date(2022, 1, 1)
+max_date = datetime.datetime.now() - datetime.timedelta(days=14)
+start_date = st.date_input("Select start date:", min_value=min_date, max_value=max_date, value=min_date)
+end_date = st.date_input("Select end date:", min_value=min_date, max_value=max_date, value=max_date)
 
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
@@ -210,4 +212,3 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
-
