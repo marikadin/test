@@ -165,7 +165,7 @@ st.set_page_config(
 background_code = """
 <style>
     body {
-        background-image: url('background.jpg');
+        background-image: url('icons8-stock-48.png');
         background-size: cover;
     }
 </style>
