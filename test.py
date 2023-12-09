@@ -230,5 +230,5 @@ if check:
     st.write(f"For {investment_amount}$:")
     percentage_change = ((stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[0]) / stock_data['Close'].iloc[0]) * 100
     potential_return = (investment_amount / stock_data['Close'].iloc[0]) * (1 + percentage_change / 100)
-    st.sidebar.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
-    st.sidebar.write(f"Potential Return on Investment: ${potential_return:.2f}")
+    st.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
+    st.write(f"Potential Return on Investment: ${potential_return:.2f}")
