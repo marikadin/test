@@ -226,7 +226,7 @@ if st.button("Get Stock Symbol"):
         st.warning("Stock doesn't exist.")
 
 if check:
-    investment_amount = st.sidebar.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
+    investment_amount = st.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
     st.write(f"For {investment_amount}$:")
     percentage_change = ((stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[0]) / stock_data['Close'].iloc[0]) * 100
     potential_return = (investment_amount / stock_data['Close'].iloc[0]) * (1 + percentage_change / 100)
