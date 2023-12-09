@@ -227,11 +227,8 @@ if st.button("Get Stock Symbol"):
 if check:
     investment_amount = st.sidebar.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
     st.write(f"For {investment_amount}$:")
-    try:
-        percentage_change = ((stock_data[-1] - stock_data[0]) / stock_data[0]) * 100
-        potential_return = (investment_amount / stock_data[0]) * (1 + percentage_change / 100)
-        st.sidebar.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
-        st.sidebar.write(f"Potential Return on Investment: ${potential_return:.2f}")
-    except:
-        potential_return = (investment_amount / stock_data[0]) * (1 + percentage_change / 100)
-        st.sidebar.write(f"Potential Return on Investment: ${potential_return:.2f}")
+    percentage_change = ((stock_data[-1] - stock_data[0]) / stock_data[0]) * 100
+    potential_return = (investment_amount / stock_data[0]) * (1 + percentage_change / 100)
+    st.sidebar.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
+    st.sidebar.write(f"Potential Return on Investment: ${potential_return:.2f}")
+    
