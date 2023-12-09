@@ -145,7 +145,7 @@ Linear regression is widely used in various fields for tasks such as predicting 
                 """)
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
-    data = stock_data
+    y=X
     model = LinearRegression()
     model.fit(X, y)
 
