@@ -145,7 +145,7 @@ Linear regression is widely used in various fields for tasks such as predicting 
                 """)
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
-    data = X
+    data = y
     model = LinearRegression()
     model.fit(X, y)
 
@@ -215,13 +215,17 @@ if st.button("Get Stock Symbol"):
                 with st.expander("💡 What is Linear Regression?"):
                     st.write("Linear Regression Simulation:")
                     linear_Regression(stock_data)
+                try:
+                    investment_amount = st.slider('Select investment amount ($)', min_value=100, max_value=5000, value=1000)
 
+                    percentage_change = ((stock_data[-1] - stock_data[0]) / stock_data[0]) * 100
+
+                    today_value = investment_amount * (1 + percentage_change / 100)
+
+                    st.write(f'If you invest ${investment_amount} today, you would have ${today_value:.2f} based on the percentage change in the stock.')
+                finally:
+                    pass
             except:
                 st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
-try:
-    st.warning(data)
-    st.warning(type(data))
-finally:
-    pass
