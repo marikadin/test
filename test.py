@@ -10,7 +10,7 @@ import tensorflow as tf
 import time  
 import datetime
 check = False
-check1 = False
+
 data=[]
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
@@ -221,10 +221,10 @@ if st.button("Get Stock Symbol"):
                 
             except:
                 st.warning("Not enough info for an AI approximation")
-            st.write(check, check1)
+            check = True
     else:
         st.warning("Stock doesn't exist.")
-if check1 == True and check1 == True:
+if check:
     investment_amount = st.sidebar.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
     st.write(f"For {investment_amount}$:")
     percentage_change = ((stock_data[-1] - stock_data[0]) / stock_data[0]) * 100
