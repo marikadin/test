@@ -183,7 +183,8 @@ start_date = st.date_input("Select start date:",
                            value=min_date)
 
 end_date = datetime.datetime.now().date()  # Set end date to the current live date
-
+x = st.slider("Number from 1-100",value=50)
+st.write(x)
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
@@ -215,8 +216,7 @@ if st.button("Get Stock Symbol"):
                 with st.expander("💡 What is Linear Regression?"):
                     st.write("Linear Regression Simulation:")
                     linear_Regression(stock_data)
-                x = st.slider('How much investment?')
-                st.write(x) 
+                
 
                 
             except:
