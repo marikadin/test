@@ -204,7 +204,7 @@ if st.button("Get Stock Symbol"):
                 with st.spinner("Performing predictions..."):
                     predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
                     predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-                    time.sleep(1)  
+                    time.sleep(1)
 
                 st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
                 st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
@@ -215,8 +215,23 @@ if st.button("Get Stock Symbol"):
                 with st.expander("💡 What is Linear Regression?"):
                     st.write("Linear Regression Simulation:")
                     linear_Regression(stock_data)
-                
-            except:
-                st.warning("Not enough info for an AI approximation")
+
+                # Add investment amount slider
+                st.sidebar.header("Investment Simulation")
+                investment_amount = st.sidebar.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
+
+                # Calculate potential return based on the percentage change
+                initial_price = stock_data['Close'].iloc[0]
+                final_price = stock_data['Close'].iloc[-1]
+                percentage_change = ((final_price - initial_price) / initial_price) * 100
+                potential_return = (investment_amount / initial_price) * (1 + percentage_change / 100)
+
+                st.sidebar.write(f"Initial Stock Price: ${initial_price:.2f}")
+                st.sidebar.write(f"Final Stock Price: ${final_price:.2f}")
+                st.sidebar.write(f"Percentage Change: {percentage_change:.2f}%")
+                st.sidebar.write(f"Potential Return on Investment: ${potential_return:.2f}")
+
+            except Exception as e:
+                st.warning(f"Not enough info for an AI approximation. Error: {e}")
     else:
         st.warning("Stock doesn't exist.")
