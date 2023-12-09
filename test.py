@@ -159,9 +159,10 @@ Linear regression is widely used in various fields for tasks such as predicting 
     fig_lr.update_yaxes(title_text='Stock Price (USD)')
 
     st.plotly_chart(fig_lr)
-    m = (y[-1]-y[0])/707
+    m = (y.iloc[-1] - y.iloc[0]) / 707
     st.write("The y(x) function if you were to take first value and last:")
-    st.write(f"Y = {float(m)}x + {float(y[0])}")
+    st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
+
 
 st.set_page_config(
     page_title="Stocks analyzer",
