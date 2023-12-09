@@ -185,7 +185,6 @@ start_date = st.date_input("Select start date:",
 end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
 if st.button("Get Stock Symbol"):
-
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
     else:
