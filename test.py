@@ -223,7 +223,7 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
-if check1 is True and check1 is True:
+if check1 == True and check1 == True:
     investment_amount = st.sidebar.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
     st.write(f"For {investment_amount}$:")
     percentage_change = ((stock_data[-1] - stock_data[0]) / stock_data[0]) * 100
