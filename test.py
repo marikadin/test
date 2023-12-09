@@ -193,38 +193,36 @@ if st.button("Get Stock Symbol"):
         with st.spinner("Fetching stock symbol..."):
             stock_symbol = get_stock_symbol(company_name)
 
-    if stock_symbol:
-        st.title("Stock Price Visualization App")
-        st.write(f"Displaying stock data for {stock_symbol}")
+        if stock_symbol:
+            st.title("Stock Price Visualization App")
+            st.write(f"Displaying stock data for {stock_symbol}")
 
-        with st.spinner("Fetching stock data..."):
-            stock_data = get_stock_data(stock_symbol, start_date, end_date)
+            with st.spinner("Fetching stock data..."):
+                stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
-        if stock_data is not None:
-            plot_stock_data(stock_data)
-            try:
-                with st.spinner("Performing predictions..."):
-                    predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-                    time.sleep(1)  
+            if stock_data is not None:
+                plot_stock_data(stock_data)
+                try:
+                    with st.spinner("Performing predictions..."):
+                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                        time.sleep(1)  
 
-                st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+                    st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                    st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
-                with st.expander("💡 What is LSTM?"):
-                    display_lstm_info()
+                    with st.expander("💡 What is LSTM?"):
+                        display_lstm_info()
 
-                with st.expander("💡 What is Linear Regression?"):
-                    st.write("Linear Regression Simulation:")
-                    linear_Regression(stock_data)
-                
+                    with st.expander("💡 What is Linear Regression?"):
+                        st.write("Linear Regression Simulation:")
+                        linear_Regression(stock_data)
+                    if st.button("press"):
+                        st.success("YAY")
+                except:
+                    st.warning("Not enough info for an AI approximation")
 
-                
-            except:
-                st.warning("Not enough info for an AI approximation")
-    else:
-        st.warning("Stock doesn't exist.")
-investment_amount = st.text_input("How much would you like to invest")
-if st.button("Invest"):
-    st.write(investment_amount)
+        else:
+            st.warning("Error, try another stock.")
+    
 
