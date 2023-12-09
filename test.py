@@ -215,13 +215,8 @@ if st.button("Get Stock Symbol"):
                 with st.expander("💡 What is Linear Regression?"):
                     st.write("Linear Regression Simulation:")
                     linear_Regression(stock_data)
-                def get_selected_value():
-                    selected_value = st.slider("Choose a value", min_value=0, max_value=100, value=50)
-                    return selected_value
-
-                selected_value = get_selected_value()
-
-                st.write(f"You selected: {selected_value}")
+                x = st.slider('How much investment?')
+                st.write(x) 
 
                 
             except:
