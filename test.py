@@ -220,11 +220,13 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
+try:
+    investment_amount = st.slider('Select investment amount ($)', min_value=100, max_value=5000, value=1000)
 
-investment_amount = st.slider('Select investment amount ($)', min_value=100, max_value=5000, value=1000)
+    percentage_change = ((data[-1] - data[0]) / data[0]) * 100
 
-percentage_change = ((data[-1] - data[0]) / data[0]) * 100
+    today_value = investment_amount * (1 + percentage_change / 100)
 
-today_value = investment_amount * (1 + percentage_change / 100)
-
-st.write(f'If you invest ${investment_amount} today, you would have ${today_value:.2f} based on the percentage change in the stock.')
+    st.write(f'If you invest ${investment_amount} today, you would have ${today_value:.2f} based on the percentage change in the stock.')
+finally:
+    pass
