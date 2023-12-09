@@ -188,19 +188,20 @@ if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
     else:
-        with st.spinner("Fetching stock symbol..."):
-            stock_symbol = get_stock_symbol(company_name)
+        stock_symbol = get_stock_symbol(company_name)
 
     if stock_symbol:
         st.title("Stock Price Visualization App")
         st.write(f"Displaying stock data for {stock_symbol}")
 
-        with st.spinner("Fetching stock data..."):
-            stock_data = get_stock_data(stock_symbol, start_date, end_date)
+        # Fetch stock data without spinner
+        stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
         if stock_data is not None:
             plot_stock_data(stock_data)
+
             try:
+                # Use spinner for time-consuming operations
                 with st.spinner("Performing predictions..."):
                     predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
                     predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
@@ -235,3 +236,4 @@ if st.button("Get Stock Symbol"):
                 st.warning(f"Not enough info for an AI approximation. Error: {e}")
     else:
         st.warning("Stock doesn't exist.")
+
