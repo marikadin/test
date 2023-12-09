@@ -170,6 +170,15 @@ st.set_page_config(
     page_icon=r"icons8-stock-48.png",
     layout="wide",
 )
+def slide():
+    try:
+        investment_amount = st.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
+    finally:
+        st.write(f"For {investment_amount}$:")
+        percentage_change = ((stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[0]) / stock_data['Close'].iloc[0]) * 100
+        potential_return = (investment_amount / stock_data['Close'].iloc[0]) * (1 + percentage_change / 100)
+        st.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
+        st.write(f"Potential Return on Investment: ${potential_return:.2f}")
 
 st.title("Stock Analyzer")
 
@@ -221,16 +230,7 @@ if st.button("Get Stock Symbol"):
                 
             except:
                 st.warning("Not enough info for an AI approximation")
-            check = True
+            slide()
     else:
         st.warning("Stock doesn't exist.")
 
-if check:
-    try:
-        investment_amount = st.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
-    finally:
-        st.write(f"For {investment_amount}$:")
-        percentage_change = ((stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[0]) / stock_data['Close'].iloc[0]) * 100
-        potential_return = (investment_amount / stock_data['Close'].iloc[0]) * (1 + percentage_change / 100)
-        st.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
-        st.write(f"Potential Return on Investment: ${potential_return:.2f}")
