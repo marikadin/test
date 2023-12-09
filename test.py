@@ -9,7 +9,8 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
-
+check = False
+check1 = False
 data=[]
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
@@ -68,7 +69,7 @@ def predict_tomorrows_stock_value_linear_regression(stock_data):
 
     tomorrow = X.iloc[[-1]]['Days'].values[0] + 1
     predicted_value = model.predict([[tomorrow]])[0]
-
+    check1 = True
     return predicted_value
 
 def predict_tomorrows_stock_value_lstm(stock_data):
@@ -100,7 +101,7 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
     predicted_value = model.predict(last_sequence)
     predicted_value = scaler.inverse_transform(predicted_value.reshape(1, -1))[0, 0]
-
+    check =True
     return predicted_value
 
 # Function to display information about LSTM
@@ -183,8 +184,7 @@ start_date = st.date_input("Select start date:",
                            value=min_date)
 
 end_date = datetime.datetime.now().date()  # Set end date to the current live date
-x = st.slider("Number from 1-100",value=50)
-st.write(f"selected: {x}")
+
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
@@ -223,3 +223,10 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
+if check1 is True and check1 is True:
+    investment_amount = st.sidebar.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
+    st.write(f"For {investment_amount}$:")
+    percentage_change = ((stock_data[-1] - stock_data[0]) / stock_data[0]) * 100
+    potential_return = (investment_amount / stock_data[0]) * (1 + percentage_change / 100)
+    st.sidebar.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
+    st.sidebar.write(f"Potential Return on Investment: ${potential_return:.2f}")
