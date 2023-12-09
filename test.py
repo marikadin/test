@@ -221,6 +221,7 @@ if st.button("Get Stock Symbol"):
                 
             except:
                 st.warning("Not enough info for an AI approximation")
+            st.write(check, check1)
     else:
         st.warning("Stock doesn't exist.")
 if check1 == True and check1 == True:
