@@ -224,6 +224,7 @@ if st.button("Get Stock Symbol"):
             check = True
     else:
         st.warning("Stock doesn't exist.")
+st.write(stock_data)
 if check:
     investment_amount = st.sidebar.slider("Select Investment Amount (USD)", 100, 5000, 100, step=100)
     st.write(f"For {investment_amount}$:")
