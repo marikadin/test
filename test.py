@@ -224,7 +224,7 @@ if st.button("Get Stock Symbol"):
                 st.warning("Not enough info for an AI approximation")
     else:
         st.warning("Stock doesn't exist.")
-    investment_amount = st.text_input("How much would you like to invest")
-    if st.button("Invest"):
-        st.write(investment_amount)
+investment_amount = st.text_input("How much would you like to invest")
+if st.button("Invest"):
+    st.write(investment_amount)
 
