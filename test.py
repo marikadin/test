@@ -171,9 +171,7 @@ st.set_page_config(
     layout="wide",
 )
 def slide():
-    try:
         investment_amount = int(st.text_input("How much would you like to invest"))
-    finally:
         st.write(f"For {investment_amount}$:")
         percentage_change = ((stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[0]) / stock_data['Close'].iloc[0]) * 100
         potential_return = (investment_amount / stock_data['Close'].iloc[0]) * (1 + percentage_change / 100)
