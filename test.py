@@ -222,13 +222,13 @@ if st.button("Get Stock Symbol"):
                 
             except:
                 st.warning("Not enough info for an AI approximation")
-            x = st.text_input("How much would you like to invest")
-            investment_amount = int(x)
-            st.write(f"For {(investment_amount)}$:")
-            percentage_change = ((stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[0]) / stock_data['Close'].iloc[0]) * 100
-            potential_return = (investment_amount / stock_data['Close'].iloc[0]) * (1 + percentage_change / 100)
-            st.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
-            st.write(f"Potential Return on Investment: ${potential_return:.2f}")
+            investment_amount = st.text_input("How much would you like to invest")
+            if st.button("Invest"):
+                st.write(f"For {(investment_amount)}$:")
+                percentage_change = ((stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[0]) / stock_data['Close'].iloc[0]) * 100
+                potential_return = (investment_amount / stock_data['Close'].iloc[0]) * (1 + percentage_change / 100)
+                st.write(f"Percentage Change since 1.1.2021: {percentage_change:.2f}%")
+                st.write(f"Potential Return on Investment: ${potential_return:.2f}")
     else:
         st.warning("Stock doesn't exist.")
 
