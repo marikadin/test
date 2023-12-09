@@ -231,9 +231,6 @@ if st.button("Get Stock Symbol"):
                 percentage_change = ((final_price - initial_price) / initial_price) * 100
                 potential_return = (investment_amount / initial_price) * (1 + percentage_change / 100)
 
-                st.sidebar.write(f"Initial Stock Price: ${initial_price:.2f}")
-                st.sidebar.write(f"Final Stock Price: ${final_price:.2f}")
-                st.sidebar.write(f"Percentage Change: {percentage_change:.2f}%")
                 st.sidebar.write(f"Potential Return on Investment: ${potential_return:.2f}")
 
             except Exception as e:
