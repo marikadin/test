@@ -10,7 +10,7 @@ import tensorflow as tf
 import time  
 import datetime
 
-
+data=[]
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
@@ -145,7 +145,7 @@ Linear regression is widely used in various fields for tasks such as predicting 
                 """)
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
-
+    data = y
     model = LinearRegression()
     model.fit(X, y)
 
@@ -215,6 +215,14 @@ if st.button("Get Stock Symbol"):
                 with st.expander("💡 What is Linear Regression?"):
                     st.write("Linear Regression Simulation:")
                     linear_Regression(stock_data)
+                investment_amount = st.slider('Select investment amount ($)', min_value=100, max_value=5000, value=1000)
+
+                percentage_change = ((data[-1] - data[0]) / data[0]) * 100
+
+                today_value = investment_amount * (1 + percentage_change / 100)
+
+                st.write(f'If you invest ${investment_amount} today, you would have ${today_value:.2f} based on the percentage change in the stock.')
+
             except:
                 st.warning("Not enough info for an AI approximation")
     else:
