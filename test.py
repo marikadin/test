@@ -184,7 +184,6 @@ start_date = st.date_input("Select start date:",
 end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
 if st.button("Get Stock Symbol"):
-
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
     else:
@@ -201,11 +200,16 @@ if st.button("Get Stock Symbol"):
             plot_stock_data(stock_data)
 
             try:
-                # Use spinner for time-consuming operations
-                with st.spinner("Performing predictions..."):
-                    predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-                    time.sleep(1)
+                # Display message for performing predictions
+                st.write("Performing predictions...")
+
+                # Perform predictions without spinner
+                predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                time.sleep(1)
+
+                # Clear the previous message
+                st.empty()
 
                 st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
                 st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
@@ -236,4 +240,3 @@ if st.button("Get Stock Symbol"):
                 st.warning(f"Not enough info for an AI approximation. Error: {e}")
     else:
         st.warning("Stock doesn't exist.")
-
