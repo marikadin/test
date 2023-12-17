@@ -216,6 +216,8 @@ if st.button("Get Stock Symbol"):
                                                 'Highest Point': highest_point
                                         })
                 st.line_chart(chart_data.set_index('Date'))
+                st.success(f"highest point is {highest_point}")
+                st.warning(f"Lowest point is{lowest_point}")
                 try:
                     with st.spinner("Performing predictions..."):
                         predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
