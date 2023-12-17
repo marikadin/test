@@ -174,8 +174,6 @@ st.set_page_config(
 
 st.title("Stock Analyzer")
 
-st.bar_chart()
-
 company_name = st.text_input("Enter company name or item:")
 
 # Add date input widget
@@ -209,7 +207,15 @@ if st.button("Get Stock Symbol"):
 
             if stock_data is not None:
                 plot_stock_data(stock_data)
-                
+                lowest_point = stock_data['Close'].min()
+                highest_point = stock_data['Close'].max()
+                chart_data = pd.DataFrame({
+                                                'Date': stock_data.index,
+                                                'Stock Price': stock_data['Close'],
+                                                'Lowest Point': lowest_point,
+                                                'Highest Point': highest_point
+                                        })
+                st.line_chart(chart_data.set_index('Date'))
                 try:
                     with st.spinner("Performing predictions..."):
                         predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
