@@ -216,8 +216,8 @@ if st.button("Get Stock Symbol"):
                                                 'Highest Point': highest_point
                                         })
                 st.line_chart(chart_data.set_index('Date'))
-                st.success(f"Lowest Stock Price: ${round(lowest_point, 2)}")
-                st.warning(f"Highest Stock Price: ${round(highest_point, 2)}")
+                st.success(f"Lowest Stock Price: ${round(highest_point, 2)}")
+                st.warning(f"Highest Stock Price: ${round(lowest_point, 2)}")
                 try:
                     with st.spinner("Performing predictions..."):
                         predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
