@@ -189,6 +189,8 @@ end_date = datetime.datetime.now().date()  # Set end date to the current live da
 if st.button("Get Stock Symbol"):
     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
         stock_symbol = "AAPL"
+    elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+        stock_symbol = "NVDA"
     else:
         with st.spinner("Fetching stock symbol..."):
             stock_symbol = get_stock_symbol(company_name)
