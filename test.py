@@ -187,44 +187,47 @@ start_date = st.date_input("Select start date:",
 end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
 if st.button("Get Stock Symbol"):
-    if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-        stock_symbol = "AAPL"
-    elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-        stock_symbol = "NVDA"
+    if company_name =="":
+        st.warning("You have to enter a stock or a company name.")
     else:
-        with st.spinner("Fetching stock symbol..."):
-            stock_symbol = get_stock_symbol(company_name)
+        if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+            stock_symbol = "AAPL"
+        elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+            stock_symbol = "NVDA"
+        else:
+            with st.spinner("Fetching stock symbol..."):
+                stock_symbol = get_stock_symbol(company_name)
 
-    if stock_symbol:
-        st.title("Stock Price Visualization App")
-        st.write(f"Displaying stock data for {stock_symbol}")
+        if stock_symbol:
+            st.title("Stock Price Visualization App")
+            st.write(f"Displaying stock data for {stock_symbol}")
 
-        with st.spinner("Fetching stock data..."):
-            stock_data = get_stock_data(stock_symbol, start_date, end_date)
+            with st.spinner("Fetching stock data..."):
+                stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
-        if stock_data is not None:
-            plot_stock_data(stock_data)
-            try:
-                with st.spinner("Performing predictions..."):
-                    predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                    predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-                    time.sleep(1)  
+            if stock_data is not None:
+                plot_stock_data(stock_data)
+                try:
+                    with st.spinner("Performing predictions..."):
+                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                        time.sleep(1)  
 
-                st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+                    st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                    st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
 
-                with st.expander("💡 What is LSTM?"):
-                    display_lstm_info()
+                    with st.expander("💡 What is LSTM?"):
+                        display_lstm_info()
 
-                with st.expander("💡 What is Linear Regression?"):
-                    st.write("Linear Regression Simulation:")
-                    linear_Regression(stock_data)
-                
+                    with st.expander("💡 What is Linear Regression?"):
+                        st.write("Linear Regression Simulation:")
+                        linear_Regression(stock_data)
+                    
 
-                
-            except:
-                st.warning("Not enough info for an AI approximation, please try an earlier date.")
-    else:
-        st.warning("Stock doesn't exist.")
+                    
+                except:
+                    st.warning("Not enough info for an AI approximation, please try an earlier date.")
+        else:
+            st.warning("Stock doesn't exist.")
 
 
