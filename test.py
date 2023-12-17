@@ -174,7 +174,7 @@ st.set_page_config(
 
 st.title("Stock Analyzer")
 
-st.bar_chart("hello","banana")
+st.bar_chart()
 
 company_name = st.text_input("Enter company name or item:")
 
