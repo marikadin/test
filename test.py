@@ -223,7 +223,7 @@ if st.button("Get Stock Symbol"):
 
                 
             except:
-                st.warning("Not enough info for an AI approximation")
+                st.warning("Not enough info for an AI approximation, please try an earlier date.")
     else:
         st.warning("Stock doesn't exist.")
 
