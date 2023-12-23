@@ -51,6 +51,8 @@ def show_real_time_investment_page():
         start_date = st.date_input("Select start date", datetime.date(2022, 1, 1))
         end_date = datetime.datetime.now().date()
 
+        money_invested_value = st.empty()
+
         if st.button("Get Stock Symbol"):
             if company_name == "" or money_invested is None:
                 st.warning("You have to enter a stock and a money amount.")
