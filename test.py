@@ -51,7 +51,7 @@ def show_real_time_investment_page():
         start_date = st.date_input("Select start date", datetime.date(2022, 1, 1))
         end_date = datetime.datetime.now().date()
 
-        money_invested_value = st.empty()
+        money_invested_value = st.empty()  # Added this line
 
         if st.button("Get Stock Symbol"):
             if company_name == "" or money_invested is None:
@@ -73,6 +73,8 @@ def show_real_time_investment_page():
                         Name_list.append(stock_symbol)
                         button_pressed = False
                         all_investments()
+
+        money_invested_value.number_input("How much money did you invest", value=money_invested, step=1, key="money_invested_key")
 
                             
 def all_investments():
