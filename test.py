@@ -254,15 +254,17 @@ def show_real_time_investment_page():
                         st.write(f"invested money today: ${money_invested +(money_invested * (percent_change/100)):.2f}")
 def all_investments():
     button_pressed = False
-    if button and not button_pressed:
-        # Do some action when the button is pressed
-        st.write("Button pressed!")
-        # Set the flag to False to hide the button
+    button_placeholder = st.empty()
+
+    # Check if the button is pressed
+    if button_placeholder.button("Click me!"):
+        show_real_time_investment_page()
         button_pressed = True
-    if not button_pressed:
-         if st.button("Add investment"):
-            show_real_time_investment_page()
-            button_pressed = True       
+
+    # If the button is pressed, hide it
+    if button_pressed:
+        button_placeholder.empty()
+       
 
 
 def get_stock_symbol(company_name):
