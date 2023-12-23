@@ -39,40 +39,7 @@ def show_stock_analysis_page():
         global current_api_key_index
         current_api_key_index = (current_api_key_index + 1) % len(api_keys)
         return api_keys[current_api_key_index]
-    
-    def get_stock_symbol(company_name):
-        for _ in range(len(api_keys)):
-            api_key = rotate_api_key()
-            base_url = "https://www.alphavantage.co/query"
-            function = "SYMBOL_SEARCH"
-    
-            params = {
-                "function": function,
-                "keywords": company_name,
-                "apikey": api_key,
-            }
-    
-            try:
-                response = requests.get(base_url, params=params)
-                data = response.json()
-    
-                if "bestMatches" in data and data["bestMatches"]:
-                    # Convert the symbol to uppercase before returning
-                    stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
-                    return stock_symbol
-            except Exception as e:
-                st.error(f"Error: {e}")
-    
-        return None
-    
-    def get_stock_data(symbol, start_date, end_date):
-        try:
-            stock_data = yf.download(symbol, start=start_date, end=end_date)
-            return stock_data
-        except Exception as e:
-            st.error(f"Error retrieving data: {e}")
-            return None
-    
+        
     def plot_stock_data(stock_data):
         fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
         fig.update_xaxes(title_text='Date')
@@ -279,5 +246,38 @@ def show_real_investment_page():
                 with st.spinner("Fetching stock symbol..."):
                     stock_symbol = get_stock_symbol(company_name)
         st.write(money_invested)
-    
+
+
+
+def get_stock_symbol(company_name):
+    for _ in range(len(api_keys)):
+        api_key = rotate_api_key()
+        base_url = "https://www.alphavantage.co/query"
+        function = "SYMBOL_SEARCH"
+
+        params = {
+            "function": function,
+            "keywords": company_name,
+            "apikey": api_key,
+        }
+
+        try:
+            response = requests.get(base_url, params=params)
+            data = response.json()
+
+            if "bestMatches" in data and data["bestMatches"]:
+                # Convert the symbol to uppercase before returning
+                stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
+                return stock_symbol
+        except Exception as e:
+            st.error(f"Error: {e}")
+
+    return None
+    def get_stock_data(symbol, start_date, end_date):
+        try:
+            stock_data = yf.download(symbol, start=start_date, end=end_date)
+            return stock_data
+        except Exception as e:
+            st.error(f"Error retrieving data: {e}")
+            return None
 main()
