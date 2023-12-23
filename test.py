@@ -17,12 +17,7 @@ api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
 def main():
-    st.title("Stock Analyzer")
-    st.set_page_config(
-            page_title="Stocks analyzer",
-            page_icon=r"icons8-stock-48.png",
-            layout="wide",
-        )
+    
 
     page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 
@@ -34,6 +29,7 @@ def main():
         show_real_investment_page()  
 
 def show_home_page():
+    st.title("Stock Analyzer")
     st.write("Welcome to the Stock Analyzer app!")
     st.write("Choose 'Stock Analysis' from the sidebar to start analyzing stocks.")
 
