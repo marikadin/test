@@ -256,7 +256,7 @@ def show_stock_analysis_page():
 def show_real_investment_page():
     st.title("real time stock profit")
     company_name = st.text_input("Enter company name or item:")
-    
+    money_invested = st.text_input("how much money did you invest")
     # Add date input widget
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
@@ -278,5 +278,6 @@ def show_real_investment_page():
             else:
                 with st.spinner("Fetching stock symbol..."):
                     stock_symbol = get_stock_symbol(company_name)
+        st.write(money_invested)
     
 main()
