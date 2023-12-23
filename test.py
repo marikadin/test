@@ -15,6 +15,8 @@ data=[]
 Money_list = []
 New_Money_list = []
 
+button_pressed = False
+
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
@@ -258,11 +260,12 @@ def show_real_time_investment_page():
                             st.write(f"invested money today: ${changed_money:.2f}")
                             money_invested.append(money_invested)
                             New_Money_list.append(changed_money)
+                            button_pressed = False
+                            all_investments()
 
                             
 def all_investments(): 
     global button_pressed
-    button_pressed = False
     button_placeholder = st.empty()
     if button_placeholder.button("Add investment"):
         show_real_time_investment_page()
