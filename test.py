@@ -280,4 +280,8 @@ def get_stock_data(symbol, start_date, end_date):
     except Exception as e:
         st.error(f"Error retrieving data: {e}")
         return None
+def rotate_api_key():
+    global current_api_key_index
+    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
+    return api_keys[current_api_key_index]
 main()
