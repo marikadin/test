@@ -258,6 +258,8 @@ def all_investments():
         if st.button("Add investment"):
             show_real_time_investment_page()
             button_pressed = True
+    if not button_pressed:
+        st.button("This button is hidden after being pressed.")   
 
 
 def get_stock_symbol(company_name):
