@@ -275,8 +275,14 @@ def get_stock_symbol(company_name):
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
-        start_price = stock_data['Open'].iloc[0]  # Opening price at the start date
-        last_price = stock_data['Close'].iloc[-1]  # Closing price at the last date
+        
+        if stock_data.empty:
+            st.warning("No data available for the specified date range.")
+            return None, None, None
+
+        start_price = stock_data['Open'].iloc[0] if len(stock_data) > 0 else None
+        last_price = stock_data['Close'].iloc[-1] if len(stock_data) > 0 else None
+
         return stock_data, start_price, last_price
     except Exception as e:
         st.error(f"Error retrieving data: {e}")
