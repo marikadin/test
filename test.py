@@ -9,6 +9,7 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
+import threading
 check = False
 
 all_investments_active = False
@@ -220,6 +221,8 @@ def show_stock_analysis_page():
                 st.warning("Stock doesn't exist.")
 
 def show_real_time_investment_page():
+        global stop_flag
+        stop_flag = True
         st.title("Real time stock price change")
         company_name = st.text_input("Enter company name or item:")
         money_invested = st.number_input("how much money did you invest")
@@ -261,19 +264,20 @@ def show_real_time_investment_page():
 
                             
 def all_investments(): 
-    all_investments_active = True
-    button_pressed = False
-    button_placeholder = st.empty()
-    if button_placeholder.button("Add investment"):
-        show_real_time_investment_page()
-        button_pressed = True
-    if button_pressed:
-        button_placeholder.empty()
-    if not Money_list:
-        st.write("You dont have any invesments")
-    else:
-        for i in range(len(Money_list)):
-            st.write(f"invested money: {Money_list[i]}\ninvested money today: {New_Money_list[i]}\nprofit: {New_Money_list[i]-Money_list[i]}")
+    global stop_flag
+    while not stop_flag:
+        button_pressed = False
+        button_placeholder = st.empty()
+        if button_placeholder.button("Add investment"):
+            show_real_time_investment_page()
+            button_pressed = True
+        if button_pressed:
+            button_placeholder.empty()
+        if not Money_list:
+            st.write("You dont have any invesments")
+        else:
+            for i in range(len(Money_list)):
+                st.write(f"invested money: {Money_list[i]}\ninvested money today: {New_Money_list[i]}\nprofit: {New_Money_list[i]-Money_list[i]}")
 
 
 def get_stock_symbol(company_name):
