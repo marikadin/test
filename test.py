@@ -255,7 +255,7 @@ def show_real_time_investment_page():
 def all_investments():
     if st.button("Open Real-time Investment Window"):
         # Add content to the empty space, for example, a blue plus button
-        if st.button(st.image("plus.png"), key="show_real_time_investment_page"):
+       if st.button(st.image("plus.png")):
             show_real_time_investment_page()
 
 
