@@ -221,7 +221,7 @@ def show_real_investment_page():
     money_invested = st.text_input("how much money did you invest")
     # Add date input widget
     min_date = datetime.date(2022, 1, 1)
-    max_date = datetime.datetime.now()-datetime.timedelta(days=16)
+    max_date = datetime.datetime.now()
     start_date = st.date_input("Select start date:", 
                                min_value=min_date, 
                                max_value=max_date, 
