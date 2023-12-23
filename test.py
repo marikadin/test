@@ -35,10 +35,6 @@ def show_home_page():
 
 def show_stock_analysis_page():
     st.title("Stocks analysis")
-    def rotate_api_key():
-        global current_api_key_index
-        current_api_key_index = (current_api_key_index + 1) % len(api_keys)
-        return api_keys[current_api_key_index]
         
     def plot_stock_data(stock_data):
         fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
@@ -221,7 +217,7 @@ def show_stock_analysis_page():
             else:
                 st.warning("stock does not exist")
 def show_real_investment_page():
-    st.title("real time stock profit")
+    st.title("Real time stock price change")
     company_name = st.text_input("Enter company name or item:")
     money_invested = st.text_input("how much money did you invest")
     # Add date input widget
@@ -245,7 +241,7 @@ def show_real_investment_page():
             else:
                 with st.spinner("Fetching stock symbol..."):
                     stock_symbol = get_stock_symbol(company_name)
-        st.write(money_invested)
+        st.write(min_date,max_date)
 
 
 
