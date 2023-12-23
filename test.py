@@ -17,10 +17,12 @@ api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
 def main():
+    st.title("Stock Analyzer")
     st.set_page_config(
-        page_title="Stocks Analyzer",
-        layout="wide",
-    )
+            page_title="Stocks analyzer",
+            page_icon=r"icons8-stock-48.png",
+            layout="wide",
+        )
 
     page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 
@@ -28,13 +30,15 @@ def main():
         show_home_page()
     elif page == "Stock Analysis":
         show_stock_analysis_page()
+    elif page == "real time stock investment":
+        show_real_investment_page()  
 
 def show_home_page():
-    page_title="Stocks",
     st.write("Welcome to the Stock Analyzer app!")
     st.write("Choose 'Stock Analysis' from the sidebar to start analyzing stocks.")
 
 def show_stock_analysis_page():
+    st.title("Stocks analysis")
     def rotate_api_key():
         global current_api_key_index
         current_api_key_index = (current_api_key_index + 1) % len(api_keys)
@@ -184,15 +188,8 @@ def show_stock_analysis_page():
             st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
         
         
-        st.set_page_config(
-            page_title="Stocks analyzer",
-            page_icon=r"icons8-stock-48.png",
-            layout="wide",
-        )
             
-    
-    st.title("Stock Analyzer")
-    
+        
     company_name = st.text_input("Enter company name or item:")
     
     # Add date input widget
@@ -260,5 +257,30 @@ def show_stock_analysis_page():
                     st.button("Try another stock")
             else:
                 st.warning("stock does not exist")
+def show_real_investment_page():
+    st.title("real time stock profit")
+    company_name = st.text_input("Enter company name or item:")
+    
+    # Add date input widget
+    min_date = datetime.date(2022, 1, 1)
+    max_date = datetime.datetime.now() - datetime.timedelta(days=16)
+    start_date = st.date_input("Select start date:", 
+                               min_value=min_date, 
+                               max_value=max_date, 
+                               value=min_date)
+    
+    end_date = datetime.datetime.now().date()  # Set end date to the current live date
+    
+    if st.button("Get Stock Symbol"):
+        if company_name =="":
+            st.warning("You have to enter a stock or a company name.")
+        else:
+            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+                stock_symbol = "AAPL"
+            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+                stock_symbol = "NVDA"
+            else:
+                with st.spinner("Fetching stock symbol..."):
+                    stock_symbol = get_stock_symbol(company_name)
+    
 main()
-
