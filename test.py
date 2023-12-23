@@ -253,8 +253,16 @@ def show_real_time_investment_page():
                         st.write(f"money invested: ${money_invested:.2f}")
                         st.write(f"invested money today: ${money_invested +(money_invested * (percent_change/100)):.2f}")
 def all_investments():
-    if st.button("clickkkk"):
-        st.empty()
+    button_pressed = False
+    button = st.button("Add investment")
+
+    # Check if the button is pressed
+    if button and not button_pressed:
+        show_real_time_investment_page()
+        button_pressed = True
+
+    # If the button is pressed, hide it
+    if not button_pressed:
         show_real_time_investment_page()
 
 
