@@ -13,6 +13,9 @@ check = False
 
 data=[]
 
+Money_list = []
+New_Money_list = []
+
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
@@ -250,21 +253,24 @@ def show_real_time_investment_page():
         
                     if stock_data is not None:
                         percent_change = ((last_price - start_price) / abs(start_price)) * 100
+                        changed_money = money_invested +(money_invested * (percent_change/100))
                         st.write(f"money invested: ${money_invested:.2f}")
-                        st.write(f"invested money today: ${money_invested +(money_invested * (percent_change/100)):.2f}")
+                        st.write(f"invested money today: ${changed_money:.2f}")
+                        money_invested.append(money_invested)
+                        New_Money_list.append(changed_money)
 def all_investments():
     button_pressed = False
     button_placeholder = st.empty()
-
-    # Check if the button is pressed
-    if button_placeholder.button("Click me!"):
+    if button_placeholder.button("Add investment"):
         show_real_time_investment_page()
         button_pressed = True
-
-    # If the button is pressed, hide it
     if button_pressed:
         button_placeholder.empty()
-       
+    if not Money_list:
+        st.write("You dont have any invesments")
+    else:
+        for i in range(len(Money_list)):
+            st.write(f"invested money: {Money_list[i]}\ninvested money today: {New_Money_list[i]}\nprofit: {New_Money_list[i]-Money_list[i]}")
 
 
 def get_stock_symbol(company_name):
