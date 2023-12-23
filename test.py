@@ -76,6 +76,7 @@ def all_investments():
 
     if st.button("Add investment", key="add_investment"):
         button_pressed = True
+        show_real_time_investment_page()
 
     if not Money_list:
         st.write("You don't have any investments")
