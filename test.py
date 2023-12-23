@@ -232,29 +232,27 @@ def show_real_investment_page():
     end_date = datetime.datetime.now().date()  # Set end date to the current live date
     
     if st.button("Get Stock Symbol"):
-        if company_name == "":
-            st.warning("You have to enter a stock or a company name.")
-        else:
-            try:
+            if company_name =="":
+                st.warning("You have to enter a stock or a company name.")
+            else:
                 if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
                     stock_symbol = "AAPL"
                 elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
                     stock_symbol = "NVDA"
                 else:
-                    stock_data, start_price, last_price = get_stock_data(company_name, start_date, end_date)
-
-                if stock_data is not None:
-                    st.write(f"Start Price: ${start_price:.2f}")
-                    st.write(f"Last Price: ${last_price:.2f}")
-                else:
-                    st.warning(f"Error retrieving stock data for {company_name}. Please check the entered stock symbol.")
-    # Provide default values or handle the error as needed
-                    start_price = 0.0
-                    last_price = 0.0
-            except Exception as e:
-                st.error(f"Error retrieving stock data: {e}")
-                return  
-
+                    with st.spinner("Fetching stock symbol..."):
+                        stock_symbol = get_stock_symbol(company_name)
+        
+                if stock_symbol:
+                    st.title("Stock Price Visualization App")
+                    st.write(f"Displaying stock data for {stock_symbol}")
+        
+                    with st.spinner("Fetching stock data..."):
+                        stock_data,start_price,last_price = get_stock_data(stock_symbol, start_date, end_date)
+        
+                    if stock_data is not None:
+                        st.write(f"Start Price: ${start_price:.2f}")
+                        st.write(f"Last Price: ${last_price:.2f}")
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
         api_key = rotate_api_key()
