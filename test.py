@@ -233,8 +233,8 @@ def show_real_time_investment_page():
         end_date = datetime.datetime.now().date()  # Set end date to the current live date
         
         if st.button("Get Stock Symbol"):
-                if company_name =="":
-                    st.warning("You have to enter a stock or a company name.")
+                if company_name =="" or not money_invested:
+                    st.warning("You have to enter a stock and a money amount.")
                 else:
                     if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
                         stock_symbol = "AAPL"
