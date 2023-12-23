@@ -240,18 +240,11 @@ def show_real_investment_page():
                 stock_symbol = "NVDA"
             else:
                 with st.spinner("Fetching stock symbol..."):
-                    stock_symbol = get_stock_symbol(company_name)
+                    stock_data, start_price, last_price = get_stock_data(company_name, start_date, end_date)
     
-            if stock_symbol:
-                st.title("Stock Price Visualization App")
-                st.write(f"Displaying stock data for {stock_symbol}")
-    
-                with st.spinner("Fetching stock data..."):
-                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
-    
-                if stock_data is not None:
-                    
-                    st.write(f"invested number = {money_invested}\nprice change today = {last_price}")
+            if stock_data is not None:
+                st.write(f"Start Price: ${start_price:.2f}")
+                st.write(f"Last Price: ${last_price:.2f}")
 
 
 
