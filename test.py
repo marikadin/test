@@ -34,6 +34,8 @@ def show_home_page():
     st.write("Choose 'Stock Analysis' from the sidebar to start analyzing stocks.")
 
 def show_stock_analysis_page():
+
+
     def plot_stock_data(stock_data):
         fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
         fig.update_xaxes(title_text='Date')
@@ -145,26 +147,17 @@ def show_stock_analysis_page():
         st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
 
 
-    st.set_page_config(
-        page_title="Stocks analyzer",
-        page_icon=r"icons8-stock-48.png",
-        layout="wide",
-    )
-            
-
     st.title("Stock Analyzer")
 
     company_name = st.text_input("Enter company name or item:")
-
-    # Add date input widget
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
     start_date = st.date_input("Select start date:", 
-                            min_value=min_date, 
-                            max_value=max_date, 
-                            value=min_date)
+                               min_value=min_date, 
+                               max_value=max_date, 
+                               value=min_date)
 
-    end_date = datetime.datetime.now().date()  # Set end date to the current live date
+    end_date = datetime.datetime.now().date()
 
     if st.button("Get Stock Symbol"):
         if company_name =="":
