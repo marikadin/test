@@ -266,11 +266,13 @@ def show_real_time_investment_page():
                                 money_invested.append(money_invested)
                                 New_Money_list.append(changed_money)
                                 Name_list.append(stock_symbol)
+                                global button_pressed
                                 button_pressed = False
                                 all_investments()
 
                             
 def all_investments(): 
+    global button_pressed
     button_placeholder = st.empty()
     if button_placeholder.button("Add investment", key="add_investment" + str(time.time())):
         button_pressed = True
