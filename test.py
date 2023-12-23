@@ -264,14 +264,13 @@ def all_investments():
     if button_placeholder.button("Add investment"):
         show_real_time_investment_page()
         button_pressed = True
-    if button_pressed:
-        button_placeholder.empty()
     if not Money_list:
         st.write("You dont have any invesments")
     else:
         for i in range(len(Money_list)):
-            st.write(f"invested money: {Money_list[i]}\ninvested money today: {New_Money_list[i]}\nprofit: {New_Money_list[i]-Money_list[i]}")
-
+            st.write(f"invested money: {Money_list[i]}\ninvested money today: {New_Money_list[i]}\nprofit: {New_Money_list[i]-Money_list[i]}")    
+    if button_pressed:
+        button_placeholder.empty()
 
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
