@@ -40,8 +40,9 @@ def show_home_page():
 
 
 def show_real_time_investment_page():
-    global button_pressed
-    if button_pressed == False:
+    global button_pressed, Money_list, New_Money_list, Name_list
+
+    if not button_pressed:
         all_investments()
     else:
         st.title("Real-time stock price change")
@@ -68,25 +69,19 @@ def show_real_time_investment_page():
                         Money_list.append(money_invested)
                         New_Money_list.append(changed_money)
                         Name_list.append(stock_symbol)
+                        button_pressed = False  # Reset button_pressed after handling its action
 
-                            
 def all_investments():
     global button_pressed, Money_list, New_Money_list, Name_list
 
-    button_placeholder = st.empty()
-
-    if button_placeholder.button("Add investment", key="add_investment"):
+    if st.button("Add investment", key="add_investment"):
         button_pressed = True
-        show_real_time_investment_page()
 
     if not Money_list:
         st.write("You don't have any investments")
     else:
         for i in range(len(Money_list)):
             st.write(f"Invested money: {Money_list[i]}\nInvested money today: {New_Money_list[i]}\nProfit: {New_Money_list[i] - Money_list[i]}")
-
-    if button_pressed:
-        button_placeholder.empty()
 
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
