@@ -16,7 +16,6 @@ data=[]
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
-main()
 def main():
     st.set_page_config(
         page_title="Stocks Analyzer",
@@ -258,5 +257,5 @@ def analyze_stocks():
                     st.button("Try another stock")
             else:
                 st.warning("stock does not exist")
-
+main()
 
