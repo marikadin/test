@@ -219,7 +219,7 @@ def show_stock_analysis_page():
 def show_real_investment_page():
     st.title("Real time stock price change")
     company_name = st.text_input("Enter company name or item:")
-    money_invested = st.text_input("How much money did you invest")
+    money_invested = st.text_input("how much money did you invest")
     # Add date input widget
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now()
@@ -239,8 +239,7 @@ def show_real_investment_page():
             elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
                 stock_symbol = "NVDA"
             else:
-                with st.spinner("Fetching stock symbol..."):
-                    stock_data, start_price, last_price = get_stock_data(company_name, start_date, end_date)
+                stock_data, start_price, last_price = get_stock_data(company_name, start_date, end_date)
 
             if stock_data is not None:
                 st.write(f"Start Price: ${start_price:.2f}")
