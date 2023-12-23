@@ -25,12 +25,12 @@ def main():
 
     st.title("Stock Analyzer")
 
-    st.image("icons8-stock-48.png", use_column_width=True)  # Replace "your_logo.png" with your logo file
+    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
 
-    st.write("Welcome to the Stock Analyzer app!")
-
-    if st.button("Start Analysis"):
-        analyze_stocks()
+    if page == "Home":
+        show_home_page()
+    elif page == "Stock Analysis":
+        show_stock_analysis_page()
 def analyze_stocks():
     def rotate_api_key():
         global current_api_key_index
