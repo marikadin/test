@@ -26,7 +26,7 @@ def main():
     elif page == "Stock Analysis":
         show_stock_analysis_page()
     elif page == "real time stock investment":
-        show_real_investment_page()  
+        all_investments()  
 
 def show_home_page():
     st.title("Stock Analyzer")
@@ -215,7 +215,7 @@ def show_stock_analysis_page():
             else:
                 st.warning("Stock doesn't exist.")
 
-def show_real_investment_page():
+def show_real_time_investment_page():
     st.title("Real time stock price change")
     company_name = st.text_input("Enter company name or item:")
     money_invested = st.number_input("how much money did you invest")
@@ -252,9 +252,13 @@ def show_real_investment_page():
                         percent_change = ((last_price - start_price) / abs(start_price)) * 100
                         st.write(f"money invested: ${money_invested:.2f}")
                         st.write(f"invested money today: ${money_invested +(money_invested * (percent_change/100)):.2f}")
-                        st.write(last_price)
-                        st.write(start_price)
-                        st.write(percent_change)
+def all_investments():
+    if st.button("Open Real-time Investment Window"):
+        real_investment_window = st.empty()
+        # Add content to the empty space, for example, a blue plus button
+        real_investment_window.button("🔵 +", key="show_real_time_investment_page")
+
+
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
         api_key = rotate_api_key()
