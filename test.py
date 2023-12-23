@@ -218,7 +218,7 @@ def show_stock_analysis_page():
 def show_real_investment_page():
     st.title("Real time stock price change")
     company_name = st.text_input("Enter company name or item:")
-    money_invested = st.text_input("how much money did you invest")
+    money_invested = int(st.text_input("how much money did you invest"))
     # Add date input widget
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now()-datetime.timedelta(days=16)
