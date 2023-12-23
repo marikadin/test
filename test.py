@@ -251,7 +251,7 @@ def show_real_investment_page():
                     if stock_data is not None:
                         percent_change = ((last_price - start_price) / abs(start_price)) * 100
                         st.write(f"money invested: ${money_invested:.2f}")
-                        st.write(f"ivested money today: ${money_invested * (percent_change/100):.2f}")
+                        st.write(f"invested money today: ${money_invested +(money_invested * (percent_change/100)):.2f}")
                         st.write(last_price)
                         st.write(start_price)
                         st.write(percent_change)
