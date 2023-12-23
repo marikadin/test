@@ -31,7 +31,7 @@ def main():
         show_home_page()
     elif page == "Stock Analysis":
         show_stock_analysis_page()
-def analyze_stocks():
+def show_stock_analysis_page():
     def rotate_api_key():
         global current_api_key_index
         current_api_key_index = (current_api_key_index + 1) % len(api_keys)
