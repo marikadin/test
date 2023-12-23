@@ -226,7 +226,8 @@ def show_real_time_investment_page():
         else:
             st.title("Real time stock price change")
             company_name = st.text_input("Enter company name or item:")
-            money_invested = st.number_input("how much money did you invest", value=0, step=1)
+            money_invested = st.number_input("how much money did you invest", value=0, step=1, key="money_invested")
+
             min_date = datetime.date(2022, 1, 1)
             max_date = datetime.datetime.now()-datetime.timedelta(days=16)
             start_date = st.date_input("Select start date:", 
@@ -269,7 +270,8 @@ def show_real_time_investment_page():
 def all_investments(): 
     global button_pressed
     button_placeholder = st.empty()
-    if button_placeholder.button("Add investment"):
+    if button_placeholder.button("Add investment", key="add_investment"):
+
         show_real_time_investment_page()
         button_pressed = True
     if not Money_list:
