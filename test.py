@@ -277,7 +277,7 @@ def get_stock_data(symbol, start_date, end_date):
         stock_data = yf.download(symbol, start=start_date, end=end_date)
         
         if stock_data.empty:
-            st.warning("No data available for the specified date range.")
+            st.warning(f"No data available for symbol {symbol} in the specified date range.")
             return None, None, None
 
         start_price = stock_data['Open'].iloc[0] if len(stock_data) > 0 else None
