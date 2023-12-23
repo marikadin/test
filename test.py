@@ -218,9 +218,18 @@ def show_stock_analysis_page():
                 st.warning("Stock doesn't exist.")
 
 def show_real_time_investment_page():
+        is_money = False
         st.title("Real time stock price change")
         company_name = st.text_input("Enter company name or item:")
-        money_invested = st.number_input("how much money did you invest", value=0, step=1, key="unique_key")
+        while is_money == False:
+            money_invested_string = st.text_input("how much money did you invest")
+            try:
+                money_invested = float(money_invested_string)
+                is_money = True
+            except:
+                st.warning("you need to put a number")
+            money_invested_string = ""
+
         min_date = datetime.date(2022, 1, 1)
         max_date = datetime.datetime.now()-datetime.timedelta(days=16)
         start_date = st.date_input("Select start date:", 
