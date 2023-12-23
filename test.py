@@ -221,7 +221,7 @@ def show_real_investment_page():
     money_invested = st.text_input("how much money did you invest")
     # Add date input widget
     min_date = datetime.date(2022, 1, 1)
-    max_date = datetime.datetime.now()
+    max_date = datetime.datetime.now()-datetime.timedelta(days=16)
     start_date = st.date_input("Select start date:", 
                                min_value=min_date, 
                                max_value=max_date, 
@@ -249,8 +249,9 @@ def show_real_investment_page():
                         stock_data,start_price,last_price = get_stock_data(stock_symbol, start_date, end_date)
         
                     if stock_data is not None:
-                        st.write(f"Start Price: ${start_price:.2f}")
-                        st.write(f"Last Price: ${last_price:.2f}")
+                        percent_change = (last_price - start_price/abs(start_price))*100
+                        st.write(f"money invested: ${money_invested:.2f}")
+                        st.write(f"ivested money today: ${money_invested * percent_change:.2f}")
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
         api_key = rotate_api_key()
