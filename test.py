@@ -253,10 +253,8 @@ def show_real_time_investment_page():
                         st.write(f"money invested: ${money_invested:.2f}")
                         st.write(f"invested money today: ${money_invested +(money_invested * (percent_change/100)):.2f}")
 def all_investments():
-    if st.button("Open Real-time Investment Window"):
-        # Add content to the empty space, for example, a blue plus button
-       if st.button(st.image("plus.png")):
-            show_real_time_investment_page()
+    if st.button(st.image("plus.png")):
+        show_real_time_investment_page()
 
 
 def get_stock_symbol(company_name):
