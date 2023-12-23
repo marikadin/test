@@ -40,30 +40,34 @@ def show_home_page():
 
 
 def show_real_time_investment_page():
-    st.title("Real-time stock price change")
-    company_name = st.text_input("Enter company name or item:")
-    money_invested = st.number_input("How much money did you invest", value=0, step=1, key="money_invested_key")
-    start_date = st.date_input("Select start date", datetime.date(2022, 1, 1))
-    end_date = datetime.datetime.now().date()
+    global button_pressed
+    if button_pressed == False:
+        all_investments()
+    else:
+        st.title("Real-time stock price change")
+        company_name = st.text_input("Enter company name or item:")
+        money_invested = st.number_input("How much money did you invest", value=0, step=1, key="money_invested_key")
+        start_date = st.date_input("Select start date", datetime.date(2022, 1, 1))
+        end_date = datetime.datetime.now().date()
 
-    if st.button("Get Stock Symbol"):
-        if company_name == "" or money_invested is None:
-            st.warning("You have to enter a stock and a money amount.")
-        else:
-            stock_symbol = get_stock_symbol(company_name)
-            if stock_symbol:
-                st.title("Stock Price Visualization App")
-                st.write(f"Displaying stock data for {stock_symbol}")
+        if st.button("Get Stock Symbol"):
+            if company_name == "" or money_invested is None:
+                st.warning("You have to enter a stock and a money amount.")
+            else:
+                stock_symbol = get_stock_symbol(company_name)
+                if stock_symbol:
+                    st.title("Stock Price Visualization App")
+                    st.write(f"Displaying stock data for {stock_symbol}")
 
-                stock_data, start_price, last_price = get_stock_data(stock_symbol, start_date, end_date)
-                if stock_data is not None:
-                    percent_change = ((last_price - start_price) / abs(start_price)) * 100
-                    changed_money = money_invested + (money_invested * (percent_change / 100))
-                    st.write(f"Money invested: ${money_invested:.2f}")
-                    st.write(f"Invested money today: ${changed_money:.2f}")
-                    Money_list.append(money_invested)
-                    New_Money_list.append(changed_money)
-                    Name_list.append(stock_symbol)
+                    stock_data, start_price, last_price = get_stock_data(stock_symbol, start_date, end_date)
+                    if stock_data is not None:
+                        percent_change = ((last_price - start_price) / abs(start_price)) * 100
+                        changed_money = money_invested + (money_invested * (percent_change / 100))
+                        st.write(f"Money invested: ${money_invested:.2f}")
+                        st.write(f"Invested money today: ${changed_money:.2f}")
+                        Money_list.append(money_invested)
+                        New_Money_list.append(changed_money)
+                        Name_list.append(stock_symbol)
 
                             
 def all_investments():
