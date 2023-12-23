@@ -269,7 +269,7 @@ def show_real_time_investment_page():
 def all_investments(): 
     global button_pressed
     button_placeholder = st.empty()
-    if button_placeholder.button("Add investment", key=hash(f"add_investment_{time.time()}")):
+    if button_placeholder.button("Add investment"):
         show_real_time_investment_page()
         button_pressed = True
     if not Money_list:
