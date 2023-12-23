@@ -32,7 +32,7 @@ def main():
         show_stock_analysis_page()
     elif page == "real time stock investment":
         if (all_investments_active == False):
-            all_investments()  
+            show_real_time_investment_page()  
 
 def show_home_page():
     st.title("Stock Analyzer")
