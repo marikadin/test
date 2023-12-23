@@ -218,7 +218,7 @@ def show_stock_analysis_page():
                 st.warning("Stock doesn't exist.")
 
 def show_real_time_investment_page():
-        st.title("Real time stock price change")
+        st.title("Real time stock price change", key="unique_key")
         company_name = st.text_input("Enter company name or item:")
         money_invested = st.number_input("how much money did you invest", value=0, step=1, key="unique_key")
         min_date = datetime.date(2022, 1, 1)
