@@ -28,7 +28,7 @@ def main():
     elif page == "Stock Analysis":
         show_stock_analysis_page()
     elif page == "real time stock investment":
-            all_investments() 
+            show_real_time_investment_page()
 
 def show_home_page():
     st.title("Stock Analyzer")
@@ -218,6 +218,8 @@ def show_stock_analysis_page():
                 st.warning("Stock doesn't exist.")
 
 def show_real_time_investment_page():
+        if button_pressed == False:
+            all_investments()
         st.title("Real time stock price change")
         company_name = st.text_input("Enter company name or item:")
         money_invested = st.number_input("how much money did you invest", value=0, step=1, key="unique_key")
@@ -259,6 +261,7 @@ def show_real_time_investment_page():
 
                             
 def all_investments(): 
+    global button_pressed
     button_pressed = False
     button_placeholder = st.empty()
     if button_placeholder.button("Add investment"):
