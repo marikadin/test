@@ -254,7 +254,7 @@ def show_real_time_investment_page():
                         st.write(f"invested money today: ${money_invested +(money_invested * (percent_change/100)):.2f}")
 def all_investments():
     button_pressed = False
-    if button_pressed == false:
+    if button_pressed == False:
         if st.button("Add investment"):
             show_real_time_investment_page()
             button_pressed = True
