@@ -41,6 +41,7 @@ def show_stock_analysis_page():
         fig.update_xaxes(title_text='Date')
         fig.update_yaxes(title_text='Stock Price (USD)')
         st.plotly_chart(fig)
+
     
     def predict_tomorrows_stock_value_linear_regression(stock_data):
         X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
