@@ -223,46 +223,47 @@ def show_real_time_investment_page():
         global button_pressed
         if button_pressed == False:
             all_investments()
-        st.title("Real time stock price change")
-        company_name = st.text_input("Enter company name or item:")
-        money_invested = st.number_input("how much money did you invest", value=0, step=1, key="unique_key")
-        min_date = datetime.date(2022, 1, 1)
-        max_date = datetime.datetime.now()-datetime.timedelta(days=16)
-        start_date = st.date_input("Select start date:", 
-                                min_value=min_date, 
-                                max_value=max_date, 
-                                value=min_date)
-        
-        end_date = datetime.datetime.now().date()  # Set end date to the current live date
-        
-        if st.button("Get Stock Symbol"):
-                if company_name =="" or money_invested is None:
-                    st.warning("You have to enter a stock and a money amount.")
-                else:
-                    if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                        stock_symbol = "AAPL"
-                    elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                        stock_symbol = "NVDA"
+        else:
+            st.title("Real time stock price change")
+            company_name = st.text_input("Enter company name or item:")
+            money_invested = st.number_input("how much money did you invest", value=0, step=1, key="unique_key")
+            min_date = datetime.date(2022, 1, 1)
+            max_date = datetime.datetime.now()-datetime.timedelta(days=16)
+            start_date = st.date_input("Select start date:", 
+                                    min_value=min_date, 
+                                    max_value=max_date, 
+                                    value=min_date)
+            
+            end_date = datetime.datetime.now().date()  # Set end date to the current live date
+            
+            if st.button("Get Stock Symbol"):
+                    if company_name =="" or money_invested is None:
+                        st.warning("You have to enter a stock and a money amount.")
                     else:
-                        with st.spinner("Fetching stock symbol..."):
-                            stock_symbol = get_stock_symbol(company_name)
-            
-                    if stock_symbol:
-                        st.title("Stock Price Visualization App")
-                        st.write(f"Displaying stock data for {stock_symbol}")
-            
-                        with st.spinner("Fetching stock data..."):
-                            stock_data,start_price,last_price = get_stock_data(stock_symbol, start_date, end_date)
-            
-                        if stock_data is not None:
-                            percent_change = ((last_price - start_price) / abs(start_price)) * 100
-                            changed_money = money_invested +(money_invested * (percent_change/100))
-                            st.write(f"money invested: ${money_invested:.2f}")
-                            st.write(f"invested money today: ${changed_money:.2f}")
-                            money_invested.append(money_invested)
-                            New_Money_list.append(changed_money)
-                            button_pressed = False
-                            all_investments()
+                        if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+                            stock_symbol = "AAPL"
+                        elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+                            stock_symbol = "NVDA"
+                        else:
+                            with st.spinner("Fetching stock symbol..."):
+                                stock_symbol = get_stock_symbol(company_name)
+                
+                        if stock_symbol:
+                            st.title("Stock Price Visualization App")
+                            st.write(f"Displaying stock data for {stock_symbol}")
+                
+                            with st.spinner("Fetching stock data..."):
+                                stock_data,start_price,last_price = get_stock_data(stock_symbol, start_date, end_date)
+                
+                            if stock_data is not None:
+                                percent_change = ((last_price - start_price) / abs(start_price)) * 100
+                                changed_money = money_invested +(money_invested * (percent_change/100))
+                                st.write(f"money invested: ${money_invested:.2f}")
+                                st.write(f"invested money today: ${changed_money:.2f}")
+                                money_invested.append(money_invested)
+                                New_Money_list.append(changed_money)
+                                button_pressed = False
+                                all_investments()
 
                             
 def all_investments(): 
