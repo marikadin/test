@@ -25,7 +25,7 @@ def main():
 
     st.title("Stock Analyzer")
 
-    st.image("your_logo.png", use_column_width=True)  # Replace "your_logo.png" with your logo file
+    st.image("icons8-stock-48.png", use_column_width=True)  # Replace "your_logo.png" with your logo file
 
     st.write("Welcome to the Stock Analyzer app!")
 
