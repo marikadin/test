@@ -47,6 +47,7 @@ def show_real_time_investment_page():
     else:
         st.title("Real time stock price change")
         company_name = st.text_input("Enter company name or item:")
+        money_invested = st.number_input("How much money did you invest", value=0, step=1, key="money_invested_key")
         start_date = st.date_input("Select start date", datetime.date(2022, 1, 1))
         end_date = datetime.datetime.now().date()
 
