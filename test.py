@@ -19,7 +19,6 @@ current_api_key_index = 0
 def main():
     st.set_page_config(
         page_title="Stocks Analyzer",
-        page_icon=r"icons8-stock-48.png",
         layout="wide",
     )
 
