@@ -37,10 +37,12 @@ def show_stock_analysis_page():
     st.title("Stocks analysis")
         
     def plot_stock_data(stock_data):
+        print(stock_data)  # Add this line to print the structure of stock_data
         fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
         fig.update_xaxes(title_text='Date')
         fig.update_yaxes(title_text='Stock Price (USD)')
         st.plotly_chart(fig)
+
 
     
     def predict_tomorrows_stock_value_linear_regression(stock_data):
