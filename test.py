@@ -220,6 +220,7 @@ def show_stock_analysis_page():
                 st.warning("Stock doesn't exist.")
 
 def show_real_time_investment_page():
+        global button_pressed
         if button_pressed == False:
             all_investments()
         st.title("Real time stock price change")
