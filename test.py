@@ -23,7 +23,7 @@ def main():
 
     st.title("Stock Analyzer")
 
-    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis",real time stock investment])
+    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 
     if page == "Home":
         show_home_page()
