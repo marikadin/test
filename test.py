@@ -18,7 +18,8 @@ current_api_key_index = 0
 
 def main():
     st.set_page_config(
-        page_title="Stocks Analyzerrrrr",
+        page_title="Stocks Analyzer",
+        layout="wide",
     )
 
     st.title("Stock Analyzer")
