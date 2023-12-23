@@ -42,7 +42,7 @@ def show_home_page():
 def show_real_time_investment_page():
     global button_pressed, Money_list, New_Money_list, Name_list
 
-    if not button_pressed:
+    if  button_pressed == False:
         all_investments()
     else:
         st.title("Real-time stock price change")
@@ -127,4 +127,5 @@ def rotate_api_key():
     global current_api_key_index
     current_api_key_index = (current_api_key_index + 1) % len(api_keys)
     return api_keys[current_api_key_index]
-main()
+if __name__ == "__main__":
+    main()
