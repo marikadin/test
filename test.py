@@ -12,6 +12,7 @@ import datetime
 import threading
 check = False
 
+stop_flag = False
 all_investments_active = False
 data=[]
 Money_list = []
