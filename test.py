@@ -12,7 +12,7 @@ import datetime
 import threading
 
 check = False
-data=[]
+data = []
 Money_list = []
 New_Money_list = []
 Name_list = []
@@ -21,28 +21,74 @@ button_pressed = False
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
 current_api_key_index = 0
 
-def main():
-    
+@st.cache
+def get_stock_symbol(company_name):
+    for _ in range(len(api_keys)):
+        api_key = rotate_api_key()
+        base_url = "https://www.alphavantage.co/query"
+        function = "SYMBOL_SEARCH"
 
-    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+        params = {
+            "function": function,
+            "keywords": company_name,
+            "apikey": api_key,
+        }
+
+        try:
+            response = requests.get(base_url, params=params)
+            data = response.json()
+
+            if "bestMatches" in data and data["bestMatches"]:
+                # Convert the symbol to uppercase before returning
+                stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
+                return stock_symbol
+        except Exception as e:
+            st.error(f"Error: {e}")
+
+    return None
+
+@st.cache
+def get_stock_data(symbol, start_date, end_date):
+    try:
+        stock_data = yf.download(symbol, start=start_date, end=end_date)
+
+        if stock_data.empty:
+            st.warning(f"No data available for symbol {symbol} in the specified date range.")
+            return None, None, None
+
+        start_price = stock_data['Open'].iloc[0] if len(stock_data) > 0 else None
+        last_price = stock_data['Close'].iloc[-1] if len(stock_data) > 0 else None
+
+        return stock_data, start_price, last_price
+    except Exception as e:
+        st.error(f"Error retrieving data: {e}")
+        return None, None, None
+
+@st.cache
+def rotate_api_key():
+    global current_api_key_index
+    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
+    return api_keys[current_api_key_index]
+
+def main():
+    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment"])
 
     if page == "Home":
         show_home_page()
     elif page == "Stock Analysis":
         show_stock_analysis_page()
     elif page == "real time stock investment":
-            show_real_time_investment_page()
+        show_real_time_investment_page()
 
 def show_home_page():
     st.title("Stock Analyzer")
     st.write("Welcome to the Stock Analyzer app!")
     st.write("Choose 'Stock Analysis' from the sidebar to start analyzing stocks.")
 
-
 def show_real_time_investment_page():
     global button_pressed, Money_list, New_Money_list, Name_list
 
-    if  button_pressed == False:
+    if not button_pressed:
         all_investments()
     else:
         st.title("Real-time stock price change")
@@ -84,48 +130,5 @@ def all_investments():
         for i in range(len(Money_list)):
             st.write(f"Invested money: {Money_list[i]}\nInvested money today: {New_Money_list[i]}\nProfit: {New_Money_list[i] - Money_list[i]}")
 
-def get_stock_symbol(company_name):
-    for _ in range(len(api_keys)):
-        api_key = rotate_api_key()
-        base_url = "https://www.alphavantage.co/query"
-        function = "SYMBOL_SEARCH"
-
-        params = {
-            "function": function,
-            "keywords": company_name,
-            "apikey": api_key,
-        }
-
-        try:
-            response = requests.get(base_url, params=params)
-            data = response.json()
-
-            if "bestMatches" in data and data["bestMatches"]:
-                # Convert the symbol to uppercase before returning
-                stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
-                return stock_symbol
-        except Exception as e:
-            st.error(f"Error: {e}")
-
-    return None
-def get_stock_data(symbol, start_date, end_date):
-    try:
-        stock_data = yf.download(symbol, start=start_date, end=end_date)
-        
-        if stock_data.empty:
-            st.warning(f"No data available for symbol {symbol} in the specified date range.")
-            return None, None, None
-
-        start_price = stock_data['Open'].iloc[0] if len(stock_data) > 0 else None
-        last_price = stock_data['Close'].iloc[-1] if len(stock_data) > 0 else None
-
-        return stock_data, start_price, last_price
-    except Exception as e:
-        st.error(f"Error retrieving data: {e}")
-        return None, None, None
-def rotate_api_key():
-    global current_api_key_index
-    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
-    return api_keys[current_api_key_index]
 if __name__ == "__main__":
     main()
