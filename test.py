@@ -242,7 +242,7 @@ def show_real_investment_page():
                 else:
                     stock_data, start_price, last_price = get_stock_data(company_name, start_date, end_date)
 
-                if stock_data is not None:
+                
                     st.write(f"Start Price: ${start_price:.2f}")
                     st.write(f"Last Price: ${last_price:.2f}")
             except Exception as e:
