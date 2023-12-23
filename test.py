@@ -245,6 +245,11 @@ def show_real_investment_page():
                 if stock_data is not None:
                     st.write(f"Start Price: ${start_price:.2f}")
                     st.write(f"Last Price: ${last_price:.2f}")
+                else:
+                    st.warning(f"Error retrieving stock data for {company_name}. Please check the entered stock symbol.")
+    # Provide default values or handle the error as needed
+                    start_price = 0.0
+                    last_price = 0.0
             except Exception as e:
                 st.error(f"Error retrieving stock data: {e}")
                 return  
@@ -274,7 +279,6 @@ def get_stock_symbol(company_name):
 
     return None
 def get_stock_data(symbol, start_date, end_date):
-    st.write("fuck you")
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
         
