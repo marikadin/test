@@ -258,7 +258,7 @@ def show_real_time_investment_page():
                             st.write(f"invested money today: ${changed_money:.2f}")
                             money_invested.append(money_invested)
                             New_Money_list.append(changed_money)
-                            all_investments_active = False
+
                             
 def all_investments(): 
     all_investments_active = True
