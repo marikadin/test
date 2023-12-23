@@ -251,7 +251,7 @@ def show_real_investment_page():
                     if stock_data is not None:
                         percent_change = (last_price - start_price/abs(start_price))*100
                         st.write(f"money invested: ${money_invested:.2f}")
-                        st.write(f"ivested money today: ${money_invested * percent_change:.2f}")
+                        st.write(f"ivested money today: ${money_invested * (percent_change/100):.2f}")
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
         api_key = rotate_api_key()
