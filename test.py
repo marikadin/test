@@ -15,6 +15,7 @@ check = False
 data=[]
 Money_list = []
 New_Money_list = []
+Name_list = []
 
 button_pressed = False
 
@@ -221,7 +222,6 @@ def show_stock_analysis_page():
                 st.warning("Stock doesn't exist.")
 
 def show_real_time_investment_page():
-        global button_pressed
         if button_pressed == False:
             all_investments()
         else:
@@ -265,12 +265,12 @@ def show_real_time_investment_page():
                                 st.write(f"invested money today: ${changed_money:.2f}")
                                 money_invested.append(money_invested)
                                 New_Money_list.append(changed_money)
+                                Name_list.append(stock_symbol)
                                 button_pressed = False
                                 all_investments()
 
                             
 def all_investments(): 
-    global button_pressed
     button_placeholder = st.empty()
     if button_placeholder.button("Add investment", key="add_investment" + str(time.time())):
         button_pressed = True
