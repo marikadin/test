@@ -234,17 +234,20 @@ def show_real_investment_page():
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:
-            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                stock_symbol = "AAPL"
-            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                stock_symbol = "NVDA"
-            else:
-                stock_data, start_price, last_price = get_stock_data(company_name, start_date, end_date)
+            try:
+                if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+                    stock_symbol = "AAPL"
+                elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+                    stock_symbol = "NVDA"
+                else:
+                    stock_data, start_price, last_price = get_stock_data(company_name, start_date, end_date)
 
-            if stock_data is not None:
-                st.write(f"Start Price: ${start_price:.2f}")
-                st.write(f"Last Price: ${last_price:.2f}")
-
+                if stock_data is not None:
+                    st.write(f"Start Price: ${start_price:.2f}")
+                    st.write(f"Last Price: ${last_price:.2f}")
+            except Exception as e:
+                st.error(f"Error retrieving stock data: {e}")
+                return  
 
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
