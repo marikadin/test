@@ -241,7 +241,17 @@ def show_real_investment_page():
             else:
                 with st.spinner("Fetching stock symbol..."):
                     stock_symbol = get_stock_symbol(company_name)
-        st.write(min_date,max_date)
+    
+            if stock_symbol:
+                st.title("Stock Price Visualization App")
+                st.write(f"Displaying stock data for {stock_symbol}")
+    
+                with st.spinner("Fetching stock data..."):
+                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+    
+                if stock_data is not None:
+                    
+                    st.write(f"invested number = {money_invested}\nprice change today = {last_price}")
 
 
 
@@ -272,10 +282,12 @@ def get_stock_symbol(company_name):
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
-        return stock_data
+        start_price = stock_data['Open'].iloc[0]  # Opening price at the start date
+        last_price = stock_data['Close'].iloc[-1]  # Closing price at the last date
+        return stock_data, start_price, last_price
     except Exception as e:
         st.error(f"Error retrieving data: {e}")
-        return None
+        return None, None, None
 def rotate_api_key():
     global current_api_key_index
     current_api_key_index = (current_api_key_index + 1) % len(api_keys)
