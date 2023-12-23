@@ -258,6 +258,7 @@ def show_real_time_investment_page():
                         st.write(f"invested money today: ${changed_money:.2f}")
                         money_invested.append(money_invested)
                         New_Money_list.append(changed_money)
+                        all_investments()
 def all_investments():
     button_pressed = False
     button_placeholder = st.empty()
