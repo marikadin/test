@@ -16,7 +16,6 @@ data=[]
 Money_list = []
 New_Money_list = []
 Name_list = []
-
 button_pressed = False
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK']
@@ -222,12 +221,14 @@ def show_stock_analysis_page():
                 st.warning("Stock doesn't exist.")
 
 def show_real_time_investment_page():
+        global button_pressed
         if button_pressed == False:
             all_investments()
         else:
             st.title("Real time stock price change")
             company_name = st.text_input("Enter company name or item:")
-            money_invested = st.number_input("how much money did you invest", value=0, step=1, key="money_invested" + str(time.time()))
+            money_invested = st.number_input("how much money did you invest", value=0, step=1, key="money_invested_key")
+
 
 
             min_date = datetime.date(2022, 1, 1)
@@ -266,7 +267,6 @@ def show_real_time_investment_page():
                                 money_invested.append(money_invested)
                                 New_Money_list.append(changed_money)
                                 Name_list.append(stock_symbol)
-                                global button_pressed
                                 button_pressed = False
                                 all_investments()
 
