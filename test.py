@@ -74,6 +74,7 @@ def show_real_time_investment_page():
                         New_Money_list.append(changed_money)
                         Name_list.append(stock_symbol)
                         button_pressed = False
+                        all_investments()
 
         # Check if the value of the number input has changed before executing all_investments
         if money_invested != Money_list[-1]:
@@ -81,18 +82,18 @@ def show_real_time_investment_page():
                                              key="money_invested_key_button")  # Modified key
 
 
-def all_investments():
-    global button_pressed, Money_list, New_Money_list, Name_list
+    def all_investments():
+        global button_pressed
 
-    if st.button("Add investment", key="add_investment_button"):
-        button_pressed = True
-        show_real_time_investment_page()
+        if st.button("Add investment", key="add_investment_button"):
+            button_pressed = True
+            show_real_time_investment_page()
 
-    if not Money_list:
-        st.write("You don't have any investments")
-    else:
-        for i in range(len(Money_list)):
-            st.write(f"Invested money: {Money_list[i]}\nInvested money today: {New_Money_list[i]}\nProfit: {New_Money_list[i] - Money_list[i]}")
+        if not Money_list:
+            st.write("You don't have any investments")
+        else:
+            for i in range(len(Money_list)):
+                st.write(f"Invested money: {Money_list[i]}\nInvested money today: {New_Money_list[i]}\nProfit: {New_Money_list[i] - Money_list[i]}")
 
 
 def get_stock_symbol(company_name):
