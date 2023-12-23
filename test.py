@@ -11,8 +11,8 @@ import time
 import datetime
 check = False
 
+all_investments_active = False
 data=[]
-
 Money_list = []
 New_Money_list = []
 
@@ -29,7 +29,8 @@ def main():
     elif page == "Stock Analysis":
         show_stock_analysis_page()
     elif page == "real time stock investment":
-        all_investments()  
+        if (all_investments_active == False):
+            all_investments()  
 
 def show_home_page():
     st.title("Stock Analyzer")
@@ -222,7 +223,6 @@ def show_real_time_investment_page():
         st.title("Real time stock price change")
         company_name = st.text_input("Enter company name or item:")
         money_invested = st.number_input("how much money did you invest")
-        # Add date input widget
         min_date = datetime.date(2022, 1, 1)
         max_date = datetime.datetime.now()-datetime.timedelta(days=16)
         start_date = st.date_input("Select start date:", 
@@ -258,8 +258,10 @@ def show_real_time_investment_page():
                             st.write(f"invested money today: ${changed_money:.2f}")
                             money_invested.append(money_invested)
                             New_Money_list.append(changed_money)
+                            all_investments_active = False
                             all_investments()
-def all_investments():
+def all_investments(): 
+    all_investments_active = True
     button_pressed = False
     button_placeholder = st.empty()
     if button_placeholder.button("Add investment"):
