@@ -259,7 +259,7 @@ def show_real_time_investment_page():
                             money_invested.append(money_invested)
                             New_Money_list.append(changed_money)
                             all_investments_active = False
-                            all_investments()
+                            
 def all_investments(): 
     all_investments_active = True
     button_pressed = False
