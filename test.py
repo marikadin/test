@@ -74,7 +74,6 @@ def show_real_time_investment_page():
                         New_Money_list.append(changed_money)
                         Name_list.append(stock_symbol)
                         button_pressed = False
-                        all_investments()
 
         # Check if the value of the number input has changed before executing all_investments
         if money_invested != Money_list[-1]:
@@ -83,7 +82,7 @@ def show_real_time_investment_page():
 
 
 def all_investments():
-    global button_pressed
+    global button_pressed, Money_list, New_Money_list, Name_list
 
     if st.button("Add investment", key="add_investment_button"):
         button_pressed = True
