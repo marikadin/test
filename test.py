@@ -256,7 +256,7 @@ def all_investments():
     if st.button("Open Real-time Investment Window"):
         real_investment_window = st.empty()
         # Add content to the empty space, for example, a blue plus button
-        real_investment_window.button("🔵 +", key="show_real_time_investment_page")
+        real_investment_window.button(st.image("plus.png"), key="show_real_time_investment_page")
 
 
 def get_stock_symbol(company_name):
