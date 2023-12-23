@@ -39,6 +39,7 @@ def show_home_page():
     st.write("Choose 'Stock Analysis' from the sidebar to start analyzing stocks.")
 
 
+
 def show_real_time_investment_page():
     global button_pressed, Money_list, New_Money_list, Name_list
 
@@ -84,9 +85,7 @@ def show_real_time_investment_page():
 def all_investments():
     global button_pressed
 
-    button_placeholder = st.empty()
-
-    if button_placeholder.button("Add investment", key="add_investment" + str(time.time())):
+    if st.button("Add investment", key="add_investment_button"):
         button_pressed = True
         show_real_time_investment_page()
 
@@ -96,8 +95,6 @@ def all_investments():
         for i in range(len(Money_list)):
             st.write(f"Invested money: {Money_list[i]}\nInvested money today: {New_Money_list[i]}\nProfit: {New_Money_list[i] - Money_list[i]}")
 
-    if button_pressed:
-        button_placeholder.empty()
 
 def get_stock_symbol(company_name):
     for _ in range(len(api_keys)):
