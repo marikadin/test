@@ -47,11 +47,12 @@ def show_real_time_investment_page():
     else:
         st.title("Real time stock price change")
         company_name = st.text_input("Enter company name or item:")
-        money_invested = st.number_input("How much money did you invest", value=0, step=1, key="money_invested_key")
+        money_invested = st.number_input("How much money did you invest", value=0, step=1,
+                                         key="money_invested_key_button")  # Modified key
         start_date = st.date_input("Select start date", datetime.date(2022, 1, 1))
         end_date = datetime.datetime.now().date()
 
-        money_invested_value = st.empty()  # Added this line
+        money_invested_value = st.empty()
 
         if st.button("Get Stock Symbol"):
             if company_name == "" or money_invested is None:
@@ -74,15 +75,18 @@ def show_real_time_investment_page():
                         button_pressed = False
                         all_investments()
 
-        money_invested_value.number_input("How much money did you invest", value=money_invested, step=1, key="money_invested_key_button")
+        # Check if the value of the number input has changed before executing all_investments
+        if money_invested != Money_list[-1]:
+            money_invested_value.number_input("How much money did you invest", value=money_invested, step=1,
+                                             key="money_invested_key_button")  # Modified key
 
-                            
+
 def all_investments():
-    global button_pressed, Money_list, New_Money_list, Name_list
+    global button_pressed
 
     button_placeholder = st.empty()
 
-    if button_placeholder.button("Add investment", key="add_investment"):
+    if button_placeholder.button("Add investment", key="add_investment" + str(time.time())):
         button_pressed = True
         show_real_time_investment_page()
 
