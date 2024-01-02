@@ -372,7 +372,7 @@ def sign_up(username, password, additional_info="default_value"):
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
     else:
-        user_data = {"password": password}
+        user_data = {"password": password,"LoggedIn": False}
         users[username] = user_data
         with open(json_file_path, "w") as file:
             json.dump(users, file)
@@ -387,7 +387,9 @@ def sign_in(username, password):
             user_data = users.get(username)
             if user_data and user_data.get("password") == password:
                 additional_info = user_data.get("additional_info")
-                st.success(f"Welcome, {username}! Additional info: {additional_info}")
+                st.success(f"Welcome, {username}! Additional info: stocks - {''.join(additional_info["StockName"])}, investments - {''.join(additional_info["Investment"])}")
+                with open(json_file_path, "w") as file:
+                    data[username]["additional_info"]["LoggedIn"] = True
                 return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
@@ -415,6 +417,14 @@ def homepage():
         if st.button("Sign In"):
             if sign_in(username, password):
                 pass
+
+
+def StockList():
+    with open('users.json','r') as f:
+        data = json.load(f)
+    if data[username]["additional_info"]["LoggedIn"] == True
+        st.write("PPPPPPPPPPPPPPPPPPPPPPPPP")
+
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment"])

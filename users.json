@@ -16,8 +16,10 @@
   "user3": {
     "password": "password3",
     "additional_info": {
-      "age": 28,
-      "location": "City3"
+      "loggedIn": false,
+      "StockName": [],
+      "Investment": []
+
     }
   }
 }
