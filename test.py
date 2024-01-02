@@ -10,23 +10,50 @@ import tensorflow as tf
 import time
 import datetime
 import random
-
+import json
+import os
 check = False
 
-data = []
+data=[]
 
-symbol_list = []
+api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83","9XZBYP0RSJFMOT4L"
+            ,"L485NGI7NK2M6VFT","PS74H4D0OXVW2M22","X7RFFB0EHKNTH25O","EEINBBF6PX2GAO02","FLTAY1Z6W73ZVRQB","JDZLDTK95XWAYVEP"
+            ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
+api_key = api_keys[random.randint(0,len(api_keys)-1)]
 
-api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83",
-            "9XZBYP0RSJFMOT4L"
-    , "L485NGI7NK2M6VFT", "PS74H4D0OXVW2M22", "X7RFFB0EHKNTH25O", "EEINBBF6PX2GAO02", "FLTAY1Z6W73ZVRQB",
-            "JDZLDTK95XWAYVEP"
-    , "QOHMIEDH92482YHC", "ZL7O0XZCYX1QQAIB"]
-api_key = api_keys[random.randint(0, len(api_keys))]
+def get_stock_symbol_from_json(company_name):
+    try:
+        with open("stocks.json", "r") as json_file:
+            data = json.load(json_file)
+            if company_name in data:
+                return data[company_name]
+    except FileNotFoundError:
+        pass  # File not found, proceed to API call
+    except json.JSONDecodeError:
+        pass  # JSON decoding error, proceed to API call
 
+    return None
+
+def update_stock_symbol_in_json(company_name, stock_symbol):
+    try:
+        with open("stocks.json", "r") as json_file:
+            data = json.load(json_file)
+    except FileNotFoundError:
+        data = {}
+
+    data[company_name] = stock_symbol
+
+    with open("stocks.json", "w") as json_file:
+        json.dump(data, json_file)
 
 def get_stock_symbol(company_name):
     global api_key
+
+    stock_symbol = get_stock_symbol_from_json(company_name)
+
+    if stock_symbol:
+        return stock_symbol
+
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 
@@ -41,13 +68,17 @@ def get_stock_symbol(company_name):
         data = response.json()
 
         if "bestMatches" in data and data["bestMatches"]:
-            # Convert the symbol to uppercase before returning
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
+
+            # Update JSON file with the new entry
+            update_stock_symbol_in_json(company_name, stock_symbol)
+
             return stock_symbol
     except Exception as e:
         st.error(f"Error: {e}")
 
     return None
+
 
 
 def get_stock_data(symbol, start_date, end_date):
@@ -81,7 +112,6 @@ def plot_stock_data(stock_data):
     fig.update_yaxes(title_text='Stock Price (USD)')
     st.plotly_chart(fig)
 
-
 def predict_tomorrows_stock_value_linear_regression(stock_data):
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
@@ -93,7 +123,6 @@ def predict_tomorrows_stock_value_linear_regression(stock_data):
     predicted_value = model.predict([[tomorrow]])[0]
     check1 = True
     return predicted_value
-
 
 def predict_tomorrows_stock_value_lstm(stock_data):
     scaler = MinMaxScaler()
@@ -124,9 +153,8 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
     predicted_value = model.predict(last_sequence)
     predicted_value = scaler.inverse_transform(predicted_value.reshape(1, -1))[0, 0]
-    check = True
+    check =True
     return predicted_value
-
 
 # Function to display information about LSTM
 def display_lstm_info():
@@ -149,7 +177,6 @@ LSTM's ability to selectively learn, forget, and store information makes it part
 In the context of time series prediction, like predicting stock prices, LSTM models are well-suited to capture patterns and dependencies in historical data and make predictions for future values based on that learned context.
     """)
 
-
 def linear_Regression(stock_data):
     st.markdown("""
 Linear regression is a statistical method used for modeling the relationship between a dependent variable and one or more independent variables by fitting a linear equation to the observed data. The most common form is simple linear regression, which deals with the relationship between two variables, while multiple linear regression deals with two or more predictors.
@@ -167,7 +194,7 @@ Here:
 
 The goal of linear regression is to find the values of the coefficients that minimize the sum of the squared differences between the observed and predicted values. Once the model is trained, it can be used to make predictions for new data.
 
-Linear regression is widely used in various fields for tasks such as predicting stock prices, housing prices, sales forecasting, and many other applications where understanding the relationship between variables is crucial.  
+Linear regression is widely used in various fields for tasks such as predicting stock prices, housing prices, sales forecasting, and many other applications where understanding the relationship between variables is crucial.
                 """)
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
@@ -193,17 +220,16 @@ Linear regression is widely used in various fields for tasks such as predicting 
 st.set_page_config(
     page_title="Stocks analyzer",
     page_icon=r"icons8-stock-48.png",
-    layout="wide",
+
 )
+
+
 
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
-
 def click_button():
     st.session_state.clicked = True
-
-
 def stockanalyzer():
     st.title("Stock Analyzer")
     company_name = st.text_input("Enter company name or item:")
@@ -211,15 +237,15 @@ def stockanalyzer():
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
     start_date = st.date_input("Select start date:",
-                               min_value=min_date,
-                               max_value=max_date,
-                               value=min_date)
+                            min_value=min_date,
+                            max_value=max_date,
+                            value=min_date)
 
     end_date = datetime.datetime.now().date()
 
     st.button('Analyze', on_click=click_button)
     if st.session_state.clicked:
-        if company_name == "":
+        if company_name =="":
             st.warning("You have to enter a stock or a company name.")
         else:
             if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
@@ -241,11 +267,11 @@ def stockanalyzer():
                     lowest_point = stock_data['Close'].min()
                     highest_point = stock_data['Close'].max()
                     chart_data = pd.DataFrame({
-                        'Date': stock_data.index,
-                        'Stock Price': stock_data['Close'],
-                        'Lowest Point': lowest_point,
-                        'Highest Point': highest_point
-                    })
+                                                    'Date': stock_data.index,
+                                                    'Stock Price': stock_data['Close'],
+                                                    'Lowest Point': lowest_point,
+                                                    'Highest Point': highest_point
+                                            })
                     st.line_chart(chart_data.set_index('Date'))
                     st.success(f"Highest Stock Price: ${round(highest_point, 2)}")
                     st.warning(f"Lowest Stock Price: ${round(lowest_point, 2)}")
@@ -272,15 +298,14 @@ def stockanalyzer():
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
-
 def investment():
     st.title("Investment")
     start_date = "2022-1-1"
     end_date = datetime.datetime.now().date()
-    company_name = st.text_input("Enter company name or item:")
+    company_name = st.text_input("Enter company name or item:").upper()
     st.button('launch', on_click=click_button)
     if st.session_state.clicked:
-        if company_name == "":
+        if company_name =="":
             st.warning("You have to enter a stock or a company name.")
         else:
             if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
@@ -302,14 +327,100 @@ def investment():
                     percent_change = ((end_price - start_price) / start_price) * 100
                     potential_returns = value * (1 + percent_change / 100)
                     st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
-                    st.success(
-                        f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+                    st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
 
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
+json_file_path = "users.json"
+main_script_path = "test.py"
+
+def user_exists(username):
+    if os.path.exists(json_file_path):
+        with open(json_file_path, "r") as file:
+            file_contents = file.read()
+            if file_contents:
+                try:
+                    users = json.loads(file_contents)
+                except json.JSONDecodeError:
+                    st.error("Error decoding JSON. Please check the file format.")
+                    return False
+            else:
+                users = {}
+                with open(json_file_path, "w") as empty_file:
+                    json.dump(users, empty_file)
+    else:
+        users = {}
+    return username in users
+
+
+def sign_up(username, password, additional_info="default_value"):
+    if os.path.exists(json_file_path):
+        with open(json_file_path, "r") as file:
+            file_contents = file.read()
+            if file_contents:
+                try:
+                    users = json.loads(file_contents)
+                except json.JSONDecodeError:
+                    st.error("Error decoding JSON. Please check the file format.")
+                    return
+            else:
+                users = {}
+    else:
+        users = {}
+
+    if username in users:
+        st.warning("Username is already taken. Please choose another one.")
+    else:
+        user_data = {"password": password}
+        users[username] = user_data
+        with open(json_file_path, "w") as file:
+            json.dump(users, file)
+        st.success("You have successfully signed up!")
+
+
+# Function to sign in a user
+def sign_in(username, password):
+    if user_exists(username):
+        with open(json_file_path, "r") as file:
+            users = json.load(file)
+            user_data = users.get(username)
+            if user_data and user_data.get("password") == password:
+                additional_info = user_data.get("additional_info")
+                st.success(f"Welcome, {username}! Additional info: {additional_info}")
+                return True
+            else:
+                st.warning("Incorrect password. Please check for spelling and try again.")
+    else:
+        st.warning("User does not exist. Please sign up or check the username.")
+
+
+def homepage():
+    st.title("User Authentication System")
+
+    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
+
+    if page == "Sign Up":
+        st.header("Sign Up")
+        username = st.text_input("Enter your username:")
+        password = st.text_input("Enter your password:", type="password")
+        additional_info = "default_value"  # Provide a default value
+        if st.button("Sign Up"):
+            sign_up(username, password)
+
+    elif page == "Sign In":
+        st.header("Sign In")
+        username = st.text_input("Enter your username:")
+        password = st.text_input("Enter your password:", type="password")
+        if st.button("Sign In"):
+            if sign_in(username, password):
+                pass
+
+
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment"])
-if page == "Stock Analysis":
+if page == "Home":
+    homepage()
+elif page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
     investment()
