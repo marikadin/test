@@ -411,7 +411,8 @@ def sign_in(username, password):
 
 
 def homepage():
-    st.title("User Authentication System")
+    translator("User Authentication System")
+    st.title(translator())
 
     page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
 
@@ -434,13 +435,23 @@ def homepage():
 
 def language_chooser():
     global chosen_language
+    if 'chosen_language' not in st.session_state:
+        st.session_state.chosen_language = 'en'  # Default language is English
     translator = Translator()
     st.header("Choose a language")
     language_options = ['Russian', 'English', 'Hebrew']
-    chosen_language = st.selectbox("Choose a language", language_options)
-    abbreviated_language = chosen_language[:2]
-    st.write(f"Abbreviated Language: {abbreviated_language}")
+    st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
+    st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
+def translator(word):
+    global chosen_language
+    translator = Translator()
+    word = translator.translate(word, dest=chosen_language)
+    return word
+
+
+
+chosen_language = 'en'
 
 
 
