@@ -440,18 +440,11 @@ def language_chooser():
     language = list(language)
     chosen_language = str(language[:1])
     st.write(language)
-    try:
-        translation = translator.translate("test", dest=language)
-        with open("language.json","w") as file:
-            data = {"language": language}
 
-
-    except:
-        st.warning("choose a valid language")
 def translator(word):
         translator = Translator()
         with open("language.json","r") as file:
-            language =
+            language = "dsa"
             translation = translator.translate(word, dest=language)
 chosen_language = ''
 
