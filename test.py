@@ -438,7 +438,8 @@ def language_chooser():
     st.header("Choose a language")
     language_options = ['Russian', 'English', 'Hebrew']
     chosen_language = st.selectbox("Choose a language", language_options)
-    st.write(chosen_language)
+    abbreviated_language = chosen_language[:2] # Take the first two letters and convert to uppercase
+    st.write(f"Abbreviated Language: {abbreviated_language}")
 
 
 
