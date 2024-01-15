@@ -436,15 +436,17 @@ def language_chooser():
     st.header("Choose a language")
     language = st.text_input("Enter your username:")
     try:
-        translate_word("test", language)
+        st.write(translate_word("test", language))
     except:
         st.warning("choose a valid language")
 
 
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment"])
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment","change language"])
 if page == "Home":
     homepage()
 elif page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
     investment()
+elif page == "choose language":
+    language_chooser()
