@@ -436,9 +436,8 @@ def language_chooser():
     global chosen_language
     translator = Translator()
     st.header("Choose a language")
-    language = st.selectbox("choose a lenguage",'russian','english','hebrew')
-    language = list(language)
-    chosen_language = "".join(language[:1])
+    language_options = ['Russian', 'English', 'Hebrew']
+    chosen_language = st.selectbox("Choose a language", language_options)
     st.write(chosen_language)
 
 
