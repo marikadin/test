@@ -439,14 +439,9 @@ def language_chooser():
     language = st.selectbox("choose a lenguage",'russian','english','hebrew')
     language = list(language)
     chosen_language = "".join(language[:1])
-    st.write(language)
+    st.write(chosen_language)
 
-def translator(word):
-        translator = Translator()
-        with open("language.json","r") as file:
-            language = "dsa"
-            translation = translator.translate(word, dest=language)
-chosen_language = ''
+
 
 
 
