@@ -445,7 +445,8 @@ chosen_language = 'en'
 def translator(word):
     global chosen_language
     translator = Translator()
-    word = translator.translate(word, dest=chosen_language)
+    translate_word = translator.translate(word, dest=chosen_language)
+    word = translate_word(word, chosen_language)
     return word
 
 
