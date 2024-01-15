@@ -411,8 +411,7 @@ def sign_in(username, password):
 
 
 def homepage():
-    translator("User Authentication System")
-    st.title(translator())
+    st.title(translator("User Authentication System"))
 
     page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
 
