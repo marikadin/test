@@ -441,7 +441,7 @@ def language_chooser():
     language_options = ['Russian', 'English', 'Hebrew']
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
-
+chosen_language = 'en'
 def translator(word):
     global chosen_language
     translator = Translator()
@@ -450,7 +450,6 @@ def translator(word):
 
 
 
-chosen_language = 'en'
 
 
 
