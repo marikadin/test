@@ -433,13 +433,28 @@ def homepage():
 
 
 def language_chooser():
+    global chosen_language
     translator = Translator()
     st.header("Choose a language")
-    language = st.text_input("Enter your username:")
+    language = st.selectbox("choose a lenguage",'russian','english','hebrew')
+    language = list(language)
+    chosen_language = str(language[:1])
+    st.write(language)
     try:
         translation = translator.translate("test", dest=language)
+        with open("language.json","w") as file:
+            data = {"language": language}
+
+
     except:
         st.warning("choose a valid language")
+def translator(word):
+        translator = Translator()
+        with open("language.json","r") as file:
+            language =
+            translation = translator.translate(word, dest=language)
+chosen_language = ''
+
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment","change language"])
