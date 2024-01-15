@@ -433,10 +433,11 @@ def homepage():
 
 
 def language_chooser():
+    translator = Translator()
     st.header("Choose a language")
     language = st.text_input("Enter your username:")
     try:
-        st.write(translate_word("test", language))
+        translation = translator.translate("test", dest=language)
     except:
         st.warning("choose a valid language")
 
