@@ -449,5 +449,5 @@ elif page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
     investment()
-elif page == "choose language":
+elif page == "change language":
     language_chooser()
