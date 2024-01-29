@@ -449,7 +449,7 @@ def translate_word(word):
     return translated_word
 
 
-
+chosen_lenguage = 'en'
 
 
 
@@ -463,5 +463,5 @@ elif page == "Stock Analysis":
 elif page == "real time stock investment":
     investment()
 elif page == "change language":
-    chosen_lenguage = 'en'
+
     language_chooser()
