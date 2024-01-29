@@ -446,6 +446,8 @@ def language_chooser():
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
 def translate_word(word, chosen_language):
+    if chosen_language == null:
+        st.session_state.chosen_language = 'en'
     translator = Translator()
     translated_word = translator.translate(word, dest=chosen_language).text
     return translated_word
