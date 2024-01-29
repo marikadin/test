@@ -445,12 +445,14 @@ def language_chooser():
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
+
 def translate_word(word, chosen_language):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  # Default language is English
     translator = Translator()
-    translated_word = translator.translate(word, dest=chosen_language).text
+    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
     return translated_word
+
 
 
 
