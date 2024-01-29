@@ -443,13 +443,13 @@ def language_chooser():
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
 def translate_word(word):
-    global chosen_lenguage
+
     translator = Translator()
-    translated_word = translator.translate(word, dest=chosen_lenguage).text
+    translated_word = translator.translate(word, dest='ru').text
     return translated_word
 
 
-chosen_lenguage = 'en'
+
 
 
 
