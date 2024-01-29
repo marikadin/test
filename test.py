@@ -365,6 +365,8 @@ def homepage():
 
 
 
+
+
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  # Default language is English
@@ -391,9 +393,11 @@ def print_word(word):
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","language chooser"])
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
 if page == "Home":
     homepage()
 elif page == "Stock Analysis":
     stockanalyzer()
 elif page == "language chooser":
     language_chooser()
+
