@@ -445,7 +445,7 @@ def language_chooser():
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
 # Call language_chooser before any other function that uses st.session_state.chosen_language
-language_chooser()
+
 
 def translate_word(word, chosen_language):
     if 'chosen_language' not in st.session_state:
