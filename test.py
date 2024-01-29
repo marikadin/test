@@ -93,29 +93,29 @@ def get_stock_data(symbol, start_date, end_date):
 
         # Check if the retrieved data is empty
         if stock_data.empty:
-            st.warning("No data available for the specified date range.")
+            st.warning(print_word("No data available for the specified date range."))
             return None
 
         # Check if there are missing values in the data
         if stock_data.isnull().values.any():
-            st.warning("Data contains missing values. Please check the data for completeness.")
+            st.warning(print_word("Data contains missing values. Please check the data for completeness."))
             return None
 
         return stock_data
     except yf.YFinanceError as yf_error:
         # Handle the specific exception related to the failed download
         if "No timezone found, symbol may be delisted" in str(yf_error):
-            st.warning(f"Error retrieving data: {yf_error}. The symbol may be delisted.")
+            st.warning(print_word(f"Error retrieving data: {yf_error}. The symbol may be delisted."))
         else:
-            st.error(f"Error retrieving data: {yf_error}")
+            st.error(print_word(f"Error retrieving data: {yf_error}"))
 
         return None
 
 
 def plot_stock_data(stock_data):
-    fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
-    fig.update_xaxes(title_text='Date')
-    fig.update_yaxes(title_text='Stock Price (USD)')
+    fig = px.line(stock_data, x=stock_data.index, y=print_word('Close'), title=print_word('Stock Prices Over the Last Year'))
+    fig.update_xaxes(title_text=print_word('Date'))
+    fig.update_yaxes(title_text=print_word('Stock Price (USD)'))
     st.plotly_chart(fig)
 
 
@@ -167,7 +167,7 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
 # Function to display information about LSTM
 def display_lstm_info():
-    st.markdown("""
+    st.markdown(print_word("""
         Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture that is designed to overcome the limitations of traditional RNNs in capturing long-term dependencies in sequential data. RNNs, in theory, can learn from past information to make predictions on future data points, but in practice, they often struggle to learn and remember information from distant past time steps due to the vanishing gradient problem.
 
 LSTM was introduced to address the vanishing gradient problem by incorporating memory cells and gating mechanisms. The key components of an LSTM cell include:
@@ -184,11 +184,11 @@ LSTM was introduced to address the vanishing gradient problem by incorporating m
 LSTM's ability to selectively learn, forget, and store information makes it particularly effective for tasks involving sequences, such as time series forecasting, natural language processing, and speech recognition.
 
 In the context of time series prediction, like predicting stock prices, LSTM models are well-suited to capture patterns and dependencies in historical data and make predictions for future values based on that learned context.
-    """)
+    """))
 
 
 def linear_Regression(stock_data):
-    st.markdown("""
+    st.markdown(print_word("""
 Linear regression is a statistical method used for modeling the relationship between a dependent variable and one or more independent variables by fitting a linear equation to the observed data. The most common form is simple linear regression, which deals with the relationship between two variables, while multiple linear regression deals with two or more predictors.
 
 The linear regression equation has the form:
@@ -205,7 +205,7 @@ Here:
 The goal of linear regression is to find the values of the coefficients that minimize the sum of the squared differences between the observed and predicted values. Once the model is trained, it can be used to make predictions for new data.
 
 Linear regression is widely used in various fields for tasks such as predicting stock prices, housing prices, sales forecasting, and many other applications where understanding the relationship between variables is crucial.  
-                """)
+                """))
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
     data = y
@@ -216,14 +216,14 @@ Linear regression is widely used in various fields for tasks such as predicting 
     predictions = model.predict(X)
 
     # Plot the actual and predicted values
-    fig_lr = px.line(X, x='Days', y=y, title='Actual vs Predicted (Linear Regression)')
-    fig_lr.add_scatter(x=X['Days'], y=predictions, mode='lines', name='Predicted')
-    fig_lr.update_xaxes(title_text='Days')
-    fig_lr.update_yaxes(title_text='Stock Price (USD)')
+    fig_lr = px.line(X, x='Days', y=y, title=print_word('Actual vs Predicted (Linear Regression)'))
+    fig_lr.add_scatter(x=X['Days'], y=predictions, mode='lines', name=print_word('Predicted'))
+    fig_lr.update_xaxes(title_text=print_word('Days'))
+    fig_lr.update_yaxes(title_text=print_word('Stock Price (USD)'))
 
     st.plotly_chart(fig_lr)
     m = (y.iloc[-1] - y.iloc[0]) / 707
-    st.write("The y(x) linear function:")
+    st.write(print_word("The y(x) linear function:"))
     st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
 
 
@@ -242,33 +242,33 @@ def click_button():
 
 
 def stockanalyzer():
-    st.title("Stock Analyzer")
-    company_name = st.text_input("Enter company name or item:")
+    st.title(print_word("Stock Analyzer"))
+    company_name = st.text_input(print_word("Enter company name or item:"))
 
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
-    start_date = st.date_input("Select start date:",
+    start_date = st.date_input(print_word("Select start date:"),
                                min_value=min_date,
                                max_value=max_date,
                                value=min_date)
 
     end_date = datetime.datetime.now().date()
 
-    st.button('Analyze', on_click=click_button)
+    st.button(print_word('Analyze'), on_click=click_button)
     if st.session_state.clicked:
         if company_name == "":
-            st.warning("You have to enter a stock or a company name.")
+            st.warning(print_word("You have to enter a stock or a company name."))
         else:
             if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
                 stock_symbol = "AAPL"
             elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
                 stock_symbol = "NVDA"
             else:
-                with st.spinner("Fetching stock symbol..."):
+                with st.spinner(print_word("Fetching stock symbol...")):
                     stock_symbol = get_stock_symbol(company_name)
             if stock_symbol:
-                st.title("Stock Price Visualization App")
-                st.write(f"Displaying stock data for {stock_symbol}")
+                st.title(print_word("Stock Price Visualization App"))
+                st.write(print_word(f"Displaying stock data for ")+"{stock_symbol}")
 
                 with st.spinner("Fetching stock data..."):
                     stock_data = get_stock_data(stock_symbol, start_date, end_date)
