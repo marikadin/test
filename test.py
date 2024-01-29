@@ -364,11 +364,7 @@ def homepage():
                 pass
 
 
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
-if page == "Home":
-    homepage()
-elif page == "Stock Analysis":
-    stockanalyzer()
+
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  # Default language is English
@@ -392,3 +388,12 @@ def print_word(word):
     if st.session_state.chosen_language:
         translated_word = translate_word(word, st.session_state.chosen_language)
         return  translated_word
+
+
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","language chooser"])
+if page == "Home":
+    homepage()
+elif page == "Stock Analysis":
+    stockanalyzer()
+elif page == "language chooser":
+    language_chooser()
