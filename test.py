@@ -413,7 +413,7 @@ def sign_in(username, password):
 def homepage():
     st.title(print_word("User Authentication System"))
 
-    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
+    page = st.sidebar.radio(print_word("Navigation"), [print_word("Sign Up"), print_word("Sign in")])
 
     if page == "Sign Up":
         st.header("Sign Up")
