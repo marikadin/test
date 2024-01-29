@@ -12,7 +12,7 @@ import datetime
 import random
 import json
 import os
-from googletrans import Translator
+from login import sign_in, sign_up, user_exists
 
 check = False
 
@@ -93,29 +93,29 @@ def get_stock_data(symbol, start_date, end_date):
 
         # Check if the retrieved data is empty
         if stock_data.empty:
-            st.warning(print_word("No data available for the specified date range."))
+            st.warning("No data available for the specified date range.")
             return None
 
         # Check if there are missing values in the data
         if stock_data.isnull().values.any():
-            st.warning(print_word("Data contains missing values. Please check the data for completeness."))
+            st.warning("Data contains missing values. Please check the data for completeness.")
             return None
 
         return stock_data
     except yf.YFinanceError as yf_error:
         # Handle the specific exception related to the failed download
         if "No timezone found, symbol may be delisted" in str(yf_error):
-            st.warning(print_word(f"Error retrieving data: {yf_error}. The symbol may be delisted."))
+            st.warning(f"Error retrieving data: {yf_error}. The symbol may be delisted.")
         else:
-            st.error(print_word(f"Error retrieving data: {yf_error}"))
+            st.error(f"Error retrieving data: {yf_error}")
 
         return None
 
 
 def plot_stock_data(stock_data):
-    fig = px.line(stock_data, x=stock_data.index, y=print_word('Close'), title=print_word('Stock Prices Over the Last Year'))
-    fig.update_xaxes(title_text=print_word('Date'))
-    fig.update_yaxes(title_text=print_word('Stock Price (USD)'))
+    fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
+    fig.update_xaxes(title_text='Date')
+    fig.update_yaxes(title_text='Stock Price (USD)')
     st.plotly_chart(fig)
 
 
@@ -167,7 +167,7 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
 # Function to display information about LSTM
 def display_lstm_info():
-    st.markdown(print_word("""
+    st.markdown("""
         Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture that is designed to overcome the limitations of traditional RNNs in capturing long-term dependencies in sequential data. RNNs, in theory, can learn from past information to make predictions on future data points, but in practice, they often struggle to learn and remember information from distant past time steps due to the vanishing gradient problem.
 
 LSTM was introduced to address the vanishing gradient problem by incorporating memory cells and gating mechanisms. The key components of an LSTM cell include:
@@ -184,11 +184,11 @@ LSTM was introduced to address the vanishing gradient problem by incorporating m
 LSTM's ability to selectively learn, forget, and store information makes it particularly effective for tasks involving sequences, such as time series forecasting, natural language processing, and speech recognition.
 
 In the context of time series prediction, like predicting stock prices, LSTM models are well-suited to capture patterns and dependencies in historical data and make predictions for future values based on that learned context.
-    """))
+    """)
 
 
 def linear_Regression(stock_data):
-    st.markdown(print_word("""
+    st.markdown("""
 Linear regression is a statistical method used for modeling the relationship between a dependent variable and one or more independent variables by fitting a linear equation to the observed data. The most common form is simple linear regression, which deals with the relationship between two variables, while multiple linear regression deals with two or more predictors.
 
 The linear regression equation has the form:
@@ -205,7 +205,7 @@ Here:
 The goal of linear regression is to find the values of the coefficients that minimize the sum of the squared differences between the observed and predicted values. Once the model is trained, it can be used to make predictions for new data.
 
 Linear regression is widely used in various fields for tasks such as predicting stock prices, housing prices, sales forecasting, and many other applications where understanding the relationship between variables is crucial.  
-                """))
+                """)
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
     data = y
@@ -216,14 +216,14 @@ Linear regression is widely used in various fields for tasks such as predicting 
     predictions = model.predict(X)
 
     # Plot the actual and predicted values
-    fig_lr = px.line(X, x='Days', y=y, title=print_word('Actual vs Predicted (Linear Regression)'))
-    fig_lr.add_scatter(x=X['Days'], y=predictions, mode='lines', name=print_word('Predicted'))
-    fig_lr.update_xaxes(title_text=print_word('Days'))
-    fig_lr.update_yaxes(title_text=print_word('Stock Price (USD)'))
+    fig_lr = px.line(X, x='Days', y=y, title='Actual vs Predicted (Linear Regression)')
+    fig_lr.add_scatter(x=X['Days'], y=predictions, mode='lines', name='Predicted')
+    fig_lr.update_xaxes(title_text='Days')
+    fig_lr.update_yaxes(title_text='Stock Price (USD)')
 
     st.plotly_chart(fig_lr)
     m = (y.iloc[-1] - y.iloc[0]) / 707
-    st.write(print_word("The y(x) linear function:"))
+    st.write("The y(x) linear function:")
     st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
 
 
@@ -241,34 +241,46 @@ def click_button():
     st.session_state.clicked = True
 
 
+def load_company_dict():
+    try:
+        with open("stocks.json", "r") as json_file:
+            return json.load(json_file)
+    except FileNotFoundError:
+        return {}
+
+
+company_dict = load_company_dict()
+
+
 def stockanalyzer():
-    st.title(print_word("Stock Analyzer"))
-    company_name = st.text_input(print_word("Enter company name or item:"))
+    st.title("Stock Analyzer")
+
+    company_name = st.selectbox("Select or enter company name:", list(company_dict.keys()), index=0).upper()
 
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
-    start_date = st.date_input(print_word("Select start date:"),
+    start_date = st.date_input("Select start date:",
                                min_value=min_date,
                                max_value=max_date,
                                value=min_date)
 
     end_date = datetime.datetime.now().date()
 
-    st.button(print_word('Analyze'), on_click=click_button)
+    st.button('Analyze', on_click=click_button)
     if st.session_state.clicked:
         if company_name == "":
-            st.warning(print_word("You have to enter a stock or a company name."))
+            st.warning("You have to enter a stock or a company name.")
         else:
             if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
                 stock_symbol = "AAPL"
             elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
                 stock_symbol = "NVDA"
             else:
-                with st.spinner(print_word("Fetching stock symbol...")):
+                with st.spinner("Fetching stock symbol..."):
                     stock_symbol = get_stock_symbol(company_name)
             if stock_symbol:
-                st.title(print_word("Stock Price Visualization App"))
-                st.write(print_word("Displaying stock data for ")+f"{stock_symbol}")
+                st.title("Stock Price Visualization App")
+                st.write(f"Displaying stock data for {stock_symbol}")
 
                 with st.spinner("Fetching stock data..."):
                     stock_data = get_stock_data(stock_symbol, start_date, end_date)
@@ -306,132 +318,57 @@ def stockanalyzer():
 
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
+                    investment(stock_symbol, stock_data)
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 
-def investment():
+def investment(stock_symbol, stock_data):
     st.title("Investment")
-    start_date = "2022-1-1"
-    end_date = datetime.datetime.now().date()
-    company_name = st.text_input("Enter company name or item:").upper()
-    st.button('launch', on_click=click_button)
-    if st.session_state.clicked:
-        if company_name == "":
-            st.warning("You have to enter a stock or a company name.")
-        else:
-            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                stock_symbol = "AAPL"
-            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                stock_symbol = "NVDA"
-            else:
-                with st.spinner("Fetching stock symbol..."):
-                    stock_symbol = get_stock_symbol(company_name)
-            st.write(stock_symbol)
-            if stock_symbol:
-                st.write(f"Stock symbol for {company_name}: {stock_symbol}")
-                st.write("Fetching stock data...")
-                stock_data = get_stock_data(stock_symbol, start_date, end_date)
-                if stock_data is not None:
-                    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
-                    start_price = stock_data['Close'].iloc[0]
-                    end_price = stock_data['Close'].iloc[-1]
-                    percent_change = ((end_price - start_price) / start_price) * 100
-                    potential_returns = value * (1 + percent_change / 100)
-                    st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
-                    st.success(
-                        f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+    if stock_data is not None:
+        value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50, key="level1")
+        start_price = stock_data['Close'].iloc[0]
+        end_price = stock_data['Close'].iloc[-1]
+        percent_change = ((end_price - start_price) / start_price) * 100
+        potential_returns = value * (1 + percent_change / 100)
+        st.write(f"If you invest {value:.2f}$ in {stock_symbol} from the start of 2022 until today:")
+        st.success(
+            f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%.")
 
-            else:
-                st.warning(f"Stock doesn't exist.\ntry again or check your input.")
-
-
-json_file_path = "users.json"
-main_script_path = "test.py"
-
-
-def user_exists(username):
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return False
-            else:
-                users = {}
-                with open(json_file_path, "w") as empty_file:
-                    json.dump(users, empty_file)
     else:
-        users = {}
-    return username in users
-
-
-def sign_up(username, password, additional_info="default_value"):
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return
-            else:
-                users = {}
-    else:
-        users = {}
-
-    if username in users:
-        st.warning("Username is already taken. Please choose another one.")
-    else:
-        user_data = {"password": password}
-        users[username] = user_data
-        with open(json_file_path, "w") as file:
-            json.dump(users, file)
-        st.success("You have successfully signed up!")
-
-
-# Function to sign in a user
-def sign_in(username, password):
-    if user_exists(username):
-        with open(json_file_path, "r") as file:
-            users = json.load(file)
-            user_data = users.get(username)
-            if user_data and user_data.get("password") == password:
-                additional_info = user_data.get("additional_info")
-                st.success(f"Welcome, {username}! Additional info: {additional_info}")
-                return True
-            else:
-                st.warning("Incorrect password. Please check for spelling and try again.")
-    else:
-        st.warning("User does not exist. Please sign up or check the username.")
+        st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 
 def homepage():
-    st.title(print_word("User Authentication System"))
+    from israelcities import israeli_cities
+    st.title("User Authentication System")
 
-    page = st.sidebar.radio(print_word("Navigation"), [print_word("Sign Up"), print_word("Sign in")])
+    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
 
     if page == "Sign Up":
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        additional_info = "default_value"  # Provide a default value
-        if st.button("Sign Up"):
+
+        st.button('Sign up', on_click=click_button)
+        if st.session_state.clicked:
             sign_up(username, password)
 
     elif page == "Sign In":
         st.header("Sign In")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        if st.button("Sign In"):
+        st.button('Sign in', on_click=click_button)
+        if st.session_state.clicked:
             if sign_in(username, password):
                 pass
 
 
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
+if page == "Home":
+    homepage()
+elif page == "Stock Analysis":
+    stockanalyzer()
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  # Default language is English
@@ -455,23 +392,3 @@ def print_word(word):
     if st.session_state.chosen_language:
         translated_word = translate_word(word, st.session_state.chosen_language)
         return  translated_word
-
-
-
-
-
-
-
-
-
-
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment","change language"])
-if page == "Home":
-    homepage()
-elif page == "Stock Analysis":
-    stockanalyzer()
-elif page == "real time stock investment":
-    investment()
-elif page == "change language":
-
-    language_chooser()
