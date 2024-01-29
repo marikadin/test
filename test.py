@@ -268,7 +268,7 @@ def stockanalyzer():
                     stock_symbol = get_stock_symbol(company_name)
             if stock_symbol:
                 st.title(print_word("Stock Price Visualization App"))
-                st.write(print_word(f"Displaying stock data for ")+"{stock_symbol}")
+                st.write(print_word("Displaying stock data for ")+f"{stock_symbol}")
 
                 with st.spinner("Fetching stock data..."):
                     stock_data = get_stock_data(stock_symbol, start_date, end_date)
