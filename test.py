@@ -411,7 +411,7 @@ def sign_in(username, password):
 
 
 def homepage():
-    st.title(translate_word("User Authentication System",chosen_lenguage))
+    st.title(translate_word("User Authentication System"))
 
     page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
 
@@ -442,10 +442,10 @@ def language_chooser():
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
-def translate_word(word,language):
+def translate_word(word):
     global chosen_lenguage
     translator = Translator()
-    translated_word = translator.translate(word, dest=language).text
+    translated_word = translator.translate(word, dest=chosen_lenguage).text
     return translated_word
 
 
