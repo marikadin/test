@@ -411,7 +411,6 @@ def sign_in(username, password):
 
 
 def homepage():
-
     if st.session_state.chosen_language:
         translated_word = translate_word("User Authentication System", st.session_state.chosen_language)
         st.title(translated_word)
@@ -445,6 +444,8 @@ def language_chooser():
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
+# Call language_chooser before any other function that uses st.session_state.chosen_language
+language_chooser()
 
 def translate_word(word, chosen_language):
     if 'chosen_language' not in st.session_state:
