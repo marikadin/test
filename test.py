@@ -411,7 +411,7 @@ def sign_in(username, password):
 
 
 def homepage():
-    print_word("User Authentication System")
+    st.title(print_word("User Authentication System"))
 
     page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
 
@@ -453,11 +453,11 @@ def translate_word(word, chosen_language):
 
 def print_word(word):
     if st.session_state.chosen_language:
-        translated_word = translate_word("User Authentication System", st.session_state.chosen_language)
-        st.title(translated_word)
-    st.title(translate_word("User Authentication System"))
+        translated_word = translate_word(word, st.session_state.chosen_language)
+        return  translated_word
 
-    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
+
+
 
 
 
