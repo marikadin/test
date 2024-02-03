@@ -395,11 +395,11 @@ def print_word(word):
         return word
 
 
-page = st.sidebar.radio(translate_word("Select Page",st.session_state.chosen_language), [print_word("Home"), print_word("Stock Analysis"), print_word("language chooser")])
-if page == print_word("Home"):
+page = st.sidebar.radio(translate_word("Select Page",st.session_state.chosen_language), [translate_word("Home",st.session_state.chosen_language), translate_word("Stock Analysis",st.session_state.chosen_language), translate_word("language chooser",st.session_state.chosen_language)])
+if page == translate_word("Home",st.session_state.chosen_language):
     homepage()
-elif page == print_word("Stock Analysis"):
+elif page == translate_word("Stock Analysis",st.session_state.chosen_language):
     stockanalyzer()
-elif page == print_word("language chooser"):
+elif page == translate_word("language chooser",st.session_state.chosen_language):
     language_chooser()
 
