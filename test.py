@@ -387,9 +387,9 @@ def translate_word(word, chosen_language):
     return translated_word
 
 def print_word(word):
-    if st.session_state.chosen_language:
-        translated_word = translate_word(word, st.session_state.chosen_language)
-        return  translated_word
+    if 'chosen_language' in st.session:
+        translated_word = translate_word(word, st.session['chosen_language'])
+        return translated_word
 
 
 page = st.sidebar.radio(print_word("Select Page"), [print_word("Home"), print_word("Stock Analysis"),print_word("language chooser")])
