@@ -392,12 +392,12 @@ def print_word(word):
         translated_word = translate_word(word, st.session_state.chosen_language)
         return translated_word
 
-page_labels = ["Home", "Stock Analysis", "language chooser"]
+page_labels = [print_word("Home"), print_word("Stock Analysis"), print_word("language chooser")]
 page = st.sidebar.radio("Select Page", page_labels)
-if page == "Home":
+if page == print_word("Home"):
     homepage()
-elif page == "Stock Analysis":
+elif page == print_word("Stock Analysis"):
     stockanalyzer()
-elif page == "language chooser":
+elif page == print_word("language chooser"):
     language_chooser()
 
