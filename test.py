@@ -392,8 +392,8 @@ def print_word(word):
         translated_word = translate_word(word, st.session_state.chosen_language)
         return translated_word
 
-page_labels = [print_word("Home"), print_word("Stock Analysis"), print_word("language chooser")]
-page = st.sidebar.radio("Select Page", page_labels)
+
+page = st.sidebar.radio("Select Page", [print_word("Home"), print_word("Stock Analysis"), print_word("language chooser")])
 if page == print_word("Home"):
     homepage()
 elif page == print_word("Stock Analysis"):
