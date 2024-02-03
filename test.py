@@ -341,27 +341,29 @@ def investment(stock_symbol, stock_data):
 
 def homepage():
     from israelcities import israeli_cities
-    st.title("User Authentication System")
+    st.title(print_word("User Authentication System"))
 
-    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
+    page = st.sidebar.radio(print_word("Navigation"), ["Sign Up", "Sign In","language chooser"])
 
     if page == "Sign Up":
-        st.header("Sign Up")
-        username = st.text_input("Enter your username:")
-        password = st.text_input("Enter your password:", type="password")
+        st.header(print_word("Sign Up"))
+        username = st.text_input(print_word("Enter your username:"))
+        password = st.text_input(print_word("Enter your password:"), type="password")
 
-        st.button('Sign up', on_click=click_button)
+        st.button(print_word('Sign up'), on_click=click_button)
         if st.session_state.clicked:
             sign_up(username, password)
 
     elif page == "Sign In":
-        st.header("Sign In")
-        username = st.text_input("Enter your username:")
-        password = st.text_input("Enter your password:", type="password")
-        st.button('Sign in', on_click=click_button)
+        st.header(print_word("Sign In"))
+        username = st.text_input(print_word("Enter your username:"))
+        password = st.text_input(print_word("Enter your password:"), type="password")
+        st.button(print_word('Sign in'), on_click=click_button)
         if st.session_state.clicked:
             if sign_in(username, password):
                 pass
+    elif page == "language chooser":
+        language_chooser()
 
 
 
@@ -370,7 +372,6 @@ def homepage():
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  # Default language is English
-
     st.header("Choose a language")
     language_options = ['Russian', 'English', 'Hebrew']
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
@@ -398,6 +399,5 @@ if page == "Home":
     homepage()
 elif page == "Stock Analysis":
     stockanalyzer()
-elif page == "language chooser":
-    language_chooser()
+
 
