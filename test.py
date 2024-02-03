@@ -379,7 +379,7 @@ def language_chooser():
 
 
 
-
+@st.cache
 def translate_word(word):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  
