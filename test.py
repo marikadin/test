@@ -391,7 +391,11 @@ def translate_word(word, chosen_language):
 
 
 
-page = st.sidebar.radio("Select Page", [translate_word("Home"), translate_word("Stock Analysis"), translate_word("language chooser")])
+page = st.sidebar.radio("Select Page", [
+    translate_word("Home", st.session_state.chosen_language),
+    translate_word("Stock Analysis", st.session_state.chosen_language),
+    translate_word("language chooser", st.session_state.chosen_language)
+])
 if page == translate_word("Home"):
     homepage()
 elif page == translate_word("Stock Analysis"):
