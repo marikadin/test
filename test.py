@@ -13,6 +13,7 @@ import random
 import json
 import os
 from login import sign_in, sign_up, user_exists
+import googletrans
 
 check = False
 
