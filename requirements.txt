@@ -7,3 +7,4 @@ scikit-learn
 numpy
 tensorflow
 datetime
+googletrans==4.0.0-rc1
