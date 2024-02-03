@@ -226,7 +226,29 @@ Linear regression is widely used in various fields for tasks such as predicting 
     m = (y.iloc[-1] - y.iloc[0]) / 707
     st.write("The y(x) linear function:")
     st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
+def language_chooser():
+    if 'chosen_language' not in st.session_state:
+        st.session_state.chosen_language = 'en'  # Default language is English
+    st.header("Choose a language")
+    language_options = ['Russian', 'English', 'Hebrew']
+    st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
+    st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
+# Call language_chooser before any other function that uses st.session_state.chosen_language
+
+
+def translate_word(word, chosen_language):
+    if 'chosen_language' not in st.session_state:
+        st.session_state.chosen_language = 'en'  # Default language is English
+    translator = Translator()
+    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
+    return translated_word
+
+def print_word(word):
+    if st.session_state.chosen_language:
+        translated_word = translate_word(word, st.session_state.chosen_language)
+        return  translated_word
+language_chooser()
 
 st.set_page_config(
     page_title="Stocks analyzer",
@@ -370,28 +392,7 @@ def homepage():
 
 
 
-def language_chooser():
-    if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'  # Default language is English
-    st.header("Choose a language")
-    language_options = ['Russian', 'English', 'Hebrew']
-    st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
-    st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
-# Call language_chooser before any other function that uses st.session_state.chosen_language
-
-
-def translate_word(word, chosen_language):
-    if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'  # Default language is English
-    translator = Translator()
-    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
-    return translated_word
-
-def print_word(word):
-    if st.session_state.chosen_language:
-        translated_word = translate_word(word, st.session_state.chosen_language)
-        return  translated_word
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
