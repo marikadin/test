@@ -368,28 +368,24 @@ def homepage():
 
 
 
+@st.cache_data
+def translate_word(word, chosen_language):
+    translator = Translator()
+    translated_word = translator.translate(word, dest=chosen_language).text
+    return translated_word
+
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
 
-    st.header(translate_word("Choose a language"))
+    st.header("Choose a language")
     language_options = ['English', 'Russian', 'Hebrew']
-    new_language = st.selectbox("Choose a language", language_options)
+    new_language = st.selectbox("Choose a language", language_options, index=language_options.index(st.session_state.chosen_language[:2].lower()))
 
     if new_language != st.session_state.chosen_language:
         st.session_state.chosen_language = new_language
+        st.cache_data.clear()  # Clear the cache when the language changes
         st.experimental_rerun()
-
-
-
-
-@st.cache_data
-def translate_word(word):
-    if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'  
-    translator = Translator()
-    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
-    return translated_word
 
 
 
