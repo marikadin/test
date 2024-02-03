@@ -16,7 +16,7 @@ from googletrans import Translator
 from login import sign_in, sign_up, user_exists
 
 check = False
-
+chosen_language = 'en'
 data = []
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83",
