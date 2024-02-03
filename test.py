@@ -12,7 +12,7 @@ import datetime
 import random
 import json
 import os
-from googletrans import Translator
+from translate import Translator
 from login import sign_in, sign_up, user_exists
 
 check = False
@@ -383,8 +383,10 @@ def language_chooser():
 def translate_word(word, chosen_language):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  
-    translator = Translator()
-    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
+
+    translator = Translator(to_lang=st.session_state.chosen_language)
+    translated_word = translator.translate(word)
+    
     return translated_word
 
 def print_word(word):
