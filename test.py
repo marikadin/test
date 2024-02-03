@@ -393,7 +393,7 @@ def print_word(word):
         return  translated_word
 
 
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","language chooser"])
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
 if page == "Home":
     homepage()
