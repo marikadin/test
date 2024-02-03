@@ -362,8 +362,6 @@ def language_chooser():
     st.session_state.chosen_language = st.selectbox(print_word("Choose a language"), language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
-# Call language_chooser before any other function that uses st.session_state.chosen_language
-language_chooser()
 
 page = st.sidebar.radio(print_word("Select Page"), ["Home", "Stock Analysis"])
 if page == "Home":
