@@ -12,7 +12,7 @@ import datetime
 import random
 import json
 import os
-from translate import Translator
+from googletrans import Translator
 from login import sign_in, sign_up, user_exists
 
 check = False
@@ -383,23 +383,23 @@ def language_chooser():
 def translate_word(word, chosen_language):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  
-
-    translator = Translator(to_lang=st.session_state.chosen_language)
-    translated_word = translator.translate(word)
-    
+    translator = Translator()
+    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
     return translated_word
 
+def print_word(word):
+    if 'chosen_language' in st.session_state:
+        translated_word = translate_word(word, st.session_state.chosen_language)
+        return translated_word
+    else:
+        return word
 
 
-page = st.sidebar.radio("Select Page", [
-    translate_word("Home", st.session_state.chosen_language),
-    translate_word("Stock Analysis", st.session_state.chosen_language),
-    translate_word("language chooser", st.session_state.chosen_language)
-])
-if  translate_word("Home", st.session_state.chosen_language):
+page = st.sidebar.radio("Select Page", [print_word("Home"), print_word("Stock Analysis"), print_word("language chooser")])
+if page == print_word("Home"):
     homepage()
-elif  translate_word("Stock Analysis", st.session_state.chosen_language):
+elif page == print_word("Stock Analysis"):
     stockanalyzer()
-elif  translate_word("language chooser", st.session_state.chosen_language):
+elif page == print_word("language chooser"):
     language_chooser()
 
