@@ -13,6 +13,7 @@ import random
 import json
 import os
 from googletrans import Translator
+from login import sign_in, sign_up, user_exists
 
 check = False
 
@@ -241,9 +242,21 @@ def click_button():
     st.session_state.clicked = True
 
 
+def load_company_dict():
+    try:
+        with open("stocks.json", "r") as json_file:
+            return json.load(json_file)
+    except FileNotFoundError:
+        return {}
+
+
+company_dict = load_company_dict()
+
+
 def stockanalyzer():
     st.title("Stock Analyzer")
-    company_name = st.text_input("Enter company name or item:")
+
+    company_name = st.selectbox("Select or enter company name:", list(company_dict.keys()), index=0).upper()
 
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
@@ -306,138 +319,60 @@ def stockanalyzer():
 
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
+                    investment(stock_symbol, stock_data)
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 
-def investment():
+def investment(stock_symbol, stock_data):
     st.title("Investment")
-    start_date = "2022-1-1"
-    end_date = datetime.datetime.now().date()
-    company_name = st.text_input("Enter company name or item:").upper()
-    st.button('launch', on_click=click_button)
-    if st.session_state.clicked:
-        if company_name == "":
-            st.warning("You have to enter a stock or a company name.")
-        else:
-            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                stock_symbol = "AAPL"
-            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                stock_symbol = "NVDA"
-            else:
-                with st.spinner("Fetching stock symbol..."):
-                    stock_symbol = get_stock_symbol(company_name)
-            st.write(stock_symbol)
-            if stock_symbol:
-                st.write(f"Stock symbol for {company_name}: {stock_symbol}")
-                st.write("Fetching stock data...")
-                stock_data = get_stock_data(stock_symbol, start_date, end_date)
-                if stock_data is not None:
-                    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
-                    start_price = stock_data['Close'].iloc[0]
-                    end_price = stock_data['Close'].iloc[-1]
-                    percent_change = ((end_price - start_price) / start_price) * 100
-                    potential_returns = value * (1 + percent_change / 100)
-                    st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
-                    st.success(
-                        f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+    if stock_data is not None:
+        value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50, key="level1")
+        start_price = stock_data['Close'].iloc[0]
+        end_price = stock_data['Close'].iloc[-1]
+        percent_change = ((end_price - start_price) / start_price) * 100
+        potential_returns = value * (1 + percent_change / 100)
+        st.write(f"If you invest {value:.2f}$ in {stock_symbol} from the start of 2022 until today:")
+        st.success(
+            f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%.")
 
-            else:
-                st.warning(f"Stock doesn't exist.\ntry again or check your input.")
-
-
-json_file_path = "users.json"
-main_script_path = "test.py"
-
-
-def user_exists(username):
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return False
-            else:
-                users = {}
-                with open(json_file_path, "w") as empty_file:
-                    json.dump(users, empty_file)
     else:
-        users = {}
-    return username in users
-
-
-def sign_up(username, password, additional_info="default_value"):
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return
-            else:
-                users = {}
-    else:
-        users = {}
-
-    if username in users:
-        st.warning("Username is already taken. Please choose another one.")
-    else:
-        user_data = {"password": password}
-        users[username] = user_data
-        with open(json_file_path, "w") as file:
-            json.dump(users, file)
-        st.success("You have successfully signed up!")
-
-
-# Function to sign in a user
-def sign_in(username, password):
-    if user_exists(username):
-        with open(json_file_path, "r") as file:
-            users = json.load(file)
-            user_data = users.get(username)
-            if user_data and user_data.get("password") == password:
-                additional_info = user_data.get("additional_info")
-                st.success(f"Welcome, {username}! Additional info: {additional_info}")
-                return True
-            else:
-                st.warning("Incorrect password. Please check for spelling and try again.")
-    else:
-        st.warning("User does not exist. Please sign up or check the username.")
+        st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 
 def homepage():
-    st.title(print_word("User Authentication System"))
+    from israelcities import israeli_cities
+    st.title("User Authentication System")
 
     page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
-    page = st.sidebar.radio(print_word("Navigation"), [print_word("Sign Up"), print_word("Sign in")])
 
     if page == "Sign Up":
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        additional_info = "default_value"  # Provide a default value
-        if st.button("Sign Up"):
+
+        st.button('Sign up', on_click=click_button)
+        if st.session_state.clicked:
             sign_up(username, password)
 
     elif page == "Sign In":
         st.header("Sign In")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        if st.button("Sign In"):
+        st.button('Sign in', on_click=click_button)
+        if st.session_state.clicked:
             if sign_in(username, password):
                 pass
+
+
+
 
 
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  # Default language is English
 
-    st.header("Choose a language")
+    st.header(print_word("Choose a language"))
     language_options = ['Russian', 'English', 'Hebrew']
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
@@ -458,21 +393,11 @@ def print_word(word):
         return  translated_word
 
 
-
-
-
-
-
-
-
-
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment","change language"])
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","language chooser"])
 if page == "Home":
     homepage()
 elif page == "Stock Analysis":
     stockanalyzer()
-elif page == "real time stock investment":
-    investment()
-elif page == "change language":
-
+elif page == "language chooser":
     language_chooser()
+
