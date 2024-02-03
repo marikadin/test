@@ -248,7 +248,7 @@ def print_word(word):
     if st.session_state.chosen_language:
         translated_word = translate_word(word, st.session_state.chosen_language)
         return  translated_word
-language_chooser()
+
 
 st.set_page_config(
     page_title="Stocks analyzer",
