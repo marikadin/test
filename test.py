@@ -380,19 +380,13 @@ def language_chooser():
 
 
 
-def translate_word(word, chosen_language = st.session_state.chosen_language):
+def translate_word(word):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  
     translator = Translator()
     translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
     return translated_word
 
-def print_word(word):
-    if 'chosen_language' in st.session_state:
-        translated_word = translate_word(word, st.session_state.chosen_language)
-        return translated_word
-    else:
-        return word
 
 
 page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Home"), translate_word("Stock Analysis"), translate_word("language chooser")])
