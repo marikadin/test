@@ -387,8 +387,8 @@ def translate_word(word, chosen_language):
     return translated_word
 
 def print_word(word):
-    if 'chosen_language' in st.session:
-        translated_word = translate_word(word, st.session['chosen_language'])
+    if 'chosen_language' in st.session_state:
+        translated_word = translate_word(word, st.session_state['chosen_language'])
         return translated_word
 
 
