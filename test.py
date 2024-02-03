@@ -370,19 +370,18 @@ def homepage():
 
 def language_chooser():
     if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'  # Default language is English
+        st.session_state.chosen_language = 'en'
 
     st.header(print_word("Choose a language"))
     language_options = ['Russian', 'English', 'Hebrew']
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
-# Call language_chooser before any other function that uses st.session_state.chosen_language
 
 
 def translate_word(word, chosen_language):
     if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'  # Default language is English
+        st.session_state.chosen_language = 'en'  
     translator = Translator()
     translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
     return translated_word
