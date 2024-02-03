@@ -373,8 +373,8 @@ def language_chooser():
         st.session_state.chosen_language = 'en'
 
     st.header(print_word("Choose a language"))
-    language_options = ['russian', 'english', 'hebrew']
-    st.session_state.chosen_language = st.selectbox("Choose a language", language_options, index=language_options.index(st.session_state.chosen_language))
+    language_options = ['Russian', 'English', 'Hebrew']
+    st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
 
 
