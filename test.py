@@ -369,9 +369,9 @@ def homepage():
 
 
 @st.cache_data
-def translate_word(word, chosen_language):
+def translate_word(word):
     translator = Translator()
-    translated_word = translator.translate(word, dest=chosen_language).text
+    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
     return translated_word
 
 def language_chooser():
