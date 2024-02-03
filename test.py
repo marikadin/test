@@ -370,12 +370,13 @@ def homepage():
 
 def language_chooser():
     if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'  
+        st.session_state.chosen_language = 'en'
 
     st.header(print_word("Choose a language"))
     language_options = ['Russian', 'English', 'Hebrew']
-    st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
+    st.session_state.chosen_language = st.selectbox("Choose a language", language_options, index=language_options.index(st.session_state.chosen_language))
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
+
 
 
 
@@ -392,7 +393,7 @@ def print_word(word):
         return translated_word
 
 
-page = st.sidebar.radio(print_word("Select Page"), [print_word("Home"), print_word("Stock Analysis"),print_word("language chooser")])
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","language chooser"])
 if page == print_word("Home"):
     homepage()
 elif page == print_word("Stock Analysis"):
