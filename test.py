@@ -380,8 +380,9 @@ def language_chooser():
 
     if new_language != st.session_state.chosen_language:
         st.session_state.chosen_language = new_language
-        st.cache_data.clear()  # Clear the cache when the language changes
+        st.cache_data.clear()  
         st.experimental_rerun()
+
 @st.cache_data
 def translate_word(word):
     translator = Translator()
@@ -396,4 +397,3 @@ elif page == translate_word("Stock Analysis"):
     stockanalyzer()
 elif page == translate_word("language chooser"):
     language_chooser()
-
