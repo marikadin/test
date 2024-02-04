@@ -370,6 +370,12 @@ def homepage():
 
 
 
+@st.cache_data
+def translate_word(word):
+    translator = Translator()
+    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
+    return translated_word
+
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
@@ -383,11 +389,6 @@ def language_chooser():
         st.cache_data.clear()  
         st.experimental_rerun()
 
-@st.cache_data
-def translate_word(word):
-    translator = Translator()
-    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
-    return translated_word
 
 
 page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Home"), translate_word("Stock Analysis"), translate_word("language chooser")])
