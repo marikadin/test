@@ -376,11 +376,10 @@ def language_chooser():
 
     st.header("Choose a language")
     language_options = ['English', 'Russian', 'Hebrew']
-    new_language = st.selectbox("Choose a language", language_options)
+    new_language = st.selectbox("Choose a language", language_options, index=language_options.index(st.session_state.chosen_language))
 
     if new_language != st.session_state.chosen_language:
         st.session_state.chosen_language = new_language
-        # Only clear the cache after the language has been chosen
         st.cache_data.clear()  
         st.experimental_rerun()
 
